@@ -4,7 +4,7 @@
 
 This module includes a collection of PowerShell functions that help to get some of an admin's real life tasks done.
 
-Project page: <https://gitea.sadadiko.de/dieter/ALH>
+Project page: <https://github.com/admins-little-helper/ALH>
 
 ## Included functions
 
