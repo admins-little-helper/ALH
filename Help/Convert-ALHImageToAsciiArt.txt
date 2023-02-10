@@ -1,0 +1,77 @@
+
+NAME
+    Convert-ALHImageToAsciiArt
+    
+SYNOPSIS
+    Contains function to convert an image file to ASCII Art
+    
+    
+SYNTAX
+    Convert-ALHImageToAsciiArt [-Path] <String> [[-MaxWidth] <Int32>] [[-Ratio] <Single>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Contains function to convert an image file to ASCII Art
+    
+
+PARAMETERS
+    -Path <String>
+        Mandatory. Path to a picture file. Supported file formats are bmp, jpg, png.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -MaxWidth <Int32>
+        Optional. Max width of output string
+        
+        Required?                    false
+        Position?                    2
+        Default value                80
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Ratio <Single>
+        Optional. Character height:width ratio
+        
+        Required?                    false
+        Position?                    3
+        Default value                1.5
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    String
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > # Show an image as ASCII art
+    Convert-ALHImageToAsciiArt -Path C:\temp\picture.bmp
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

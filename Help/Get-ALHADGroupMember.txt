@@ -1,0 +1,99 @@
+
+NAME
+    Get-ALHADGroupMember
+    
+SYNOPSIS
+    Queries all members of an AD group of a given objectClass.
+    
+    
+SYNTAX
+    Get-ALHADGroupMember [-Identity] <String> [-Recurse] [[-ObjectClass] <String[]>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Queries all members of an AD group of a given objectClass.
+    
+
+PARAMETERS
+    -Identity <String>
+        The samAccountName of the group to query.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        If specified, the query runs recursivly if the given group has any other groups as member.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ObjectClass <String[]>
+        The name of the objectClass to query. Defaults to 'User'.
+        
+        Required?                    false
+        Position?                    2
+        Default value                User
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > $members = Get-ALHADGroupMember -Identity "myGroup"
+    $members
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse
+    $members
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse -ObjectClass User, Group, Compuer
+    $members
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADGroupMember.txt
+
+

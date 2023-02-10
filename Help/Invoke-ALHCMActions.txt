@@ -1,0 +1,72 @@
+
+NAME
+    Invoke-ALHCMActions
+    
+SYNOPSIS
+    Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
+    
+    
+SYNTAX
+    Invoke-ALHCMActions [[-ComputerName] <String[]>] [-Credential] <PSCredential> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        Name of a remote computer. If no name is sepcified, the command runs agains the local computer.
+        Multiple Names can be specified as comma separated strings.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        Credentials that will be used for remote system.
+        
+        Required?                    true
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Invoke Hardware Inventory and Machine Policy Evaluation tasks on computer Computer1 and Computer2
+    $Result = Invoke-ALHCMActions -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
+    $Result
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMActions.txt
+
+

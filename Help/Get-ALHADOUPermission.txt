@@ -1,0 +1,68 @@
+
+NAME
+    Get-ALHADOUPermission
+    
+SYNOPSIS
+    Function to query AD OU permissions.
+    
+    
+SYNTAX
+    Get-ALHADOUPermission [[-OrganizationalUnit] <String[]>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to query permissions on an Active Directory (AD) Organizational Unit (OU).
+    
+
+PARAMETERS
+    -OrganizationalUnit <String[]>
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADOUPermission
+    
+    Get permissions for all OUs in current domain.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADOUPermission -OrganizationalUnit "OU=DepartmentX;DC=company,DC=tld"
+    
+    Get permissions for a specific OU in current domain.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADOUPermission.txt
+
+

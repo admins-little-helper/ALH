@@ -1,0 +1,97 @@
+
+NAME
+    Test-ALHADGroupmembership
+    
+SYNOPSIS
+    A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
+    
+    
+SYNTAX
+    Test-ALHADGroupmembership [[-Identity] <String[]>] [-Group] <String> [[-SearchBase] <String>] [-Recurse] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
+    The function returns a PSCustomObject showing some information about the object found in AD and true or false about memberhsip of the
+    given group, in case it was found.
+    
+
+PARAMETERS
+    -Identity <String[]>
+        The samAccountName of the AD object, for which group membership should be checked.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Group <String>
+        The samAccountName of the AD group, whose members will be checked.
+        
+        Required?                    true
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -SearchBase <String>
+        AD SearchBase. If omitted, the base DN will be set from current AD domain.
+        
+        Required?                    false
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Test-GroupMembership -Identity $env:USERNAME -Group "GroupA"
+    
+    Check, if the currently logged on user is member of a group named GroupA.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Test-GroupMembership -Identity mike,john -Group "Group1"
+    
+    Check, if the users named mike and john are member of a group named Group1.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADGroupmembership.txt
+
+

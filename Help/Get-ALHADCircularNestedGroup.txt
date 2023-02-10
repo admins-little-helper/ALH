@@ -1,0 +1,74 @@
+
+NAME
+    Get-ALHADCircularNestedGroup
+    
+SYNOPSIS
+    Find circular nested groups in Active Directory.
+    
+    
+SYNTAX
+    Get-ALHADCircularNestedGroup [[-SearchBase] <String[]>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The 'Get-ALHADCircularNestedGroup' function searches for instances of circular nested groups in Active Directory.
+    
+    Sometimes it happens that circular nested groups get created accidentally.
+    For example GroupA has GroupB as member. GroupB has GroupC as member. And GroupC has GroupA as member.
+    This function helps to identify these conflicts.
+    
+
+PARAMETERS
+    -SearchBase <String[]>
+        One ore more names of organizational unites to search in recursively for nested groups.
+        If not specified, the entire domain will be searched.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'SearchBase'
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADCircularNestedGroup -SearchBase 'OU=Groups,DC=contoso,DC=com' -Verbose
+    
+    Find all circular groups in two different organizational units and show verbose messages.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADCircularNestedGroup
+    
+    Find all circular groups in the domain.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADCircularNestedGroup.txt
+
+

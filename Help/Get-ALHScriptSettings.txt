@@ -1,0 +1,64 @@
+
+NAME
+    Get-ALHScriptSettings
+    
+SYNOPSIS
+    A PowerShell function for reading settings used in a script from json files.
+    
+    
+SYNTAX
+    Get-ALHScriptSettings [[-Path] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This PowerShell function reads settings for a script from one or more .json files.
+    If no filename is specified, the function tries to read the script's main settings from a
+    file named "settings.json" in the $PSScriptRoot directory. This settings file can contain
+    a path to additional settings files. The function will then try to read all .json files
+    from the specified path (non-recursive).
+    
+
+PARAMETERS
+    -Path <String>
+        The path to the .json file to be read. If omitted, the script assumes '$PSScriptRoot\settings.json'
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHScriptSettings -Path 'C:\MyScript\Settings.json' -Verbose
+    
+    Get-ALHScriptSettings
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScriptSettings.txt
+
+

@@ -1,0 +1,86 @@
+
+NAME
+    Invoke-ALHCMBaselineEvaluation
+    
+SYNOPSIS
+    Triggers the baseline evaluation on a Configuration Manger client.
+    
+    
+SYNTAX
+    Invoke-ALHCMBaselineEvaluation [[-ComputerName] <String[]>] [[-BaselineName] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The function 'Invoke-ALHCMBaselineEvaluation' triggers the baseline evaluation on a Configuration Manger client.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        Computer to check. Default is the local computer.
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:COMPUTERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -BaselineName <String>
+        
+        Required?                    false
+        Position?                    2
+        Default value                *
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'ComputerName'
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Invoke-CMBaselineEvaluation -BaselineName "MyBaseline1"
+    
+    Triggers the evaluation of baseline with name "MyBaseline1" on the local computer.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Invoke-CMBaselineEvaluation
+    
+    Triggers the evaluation of all baselines on the local computer.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Invoke-CMBaselineEvaluation -ComputerName CLIENT01 -BaselineName "Baseline XYZ"
+    
+    Triggers the evaluation of baseline with name "Baseline XYZ" on the remote computer named "CLIENT01".
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMBaselineEvaluation.txt
+
+

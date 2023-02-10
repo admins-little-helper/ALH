@@ -1,0 +1,99 @@
+
+NAME
+    Get-ALHScheduledTaskInfo
+    
+SYNOPSIS
+    Function to retrieve information about scheduled tasks on local or remote systems.
+    
+    
+SYNTAX
+    Get-ALHScheduledTaskInfo [[-Computer] <String[]>] [[-TaskName] <String[]>] [[-TaskPath] <String[]>] [-Recurse] [[-Credential] <PSCredential>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to retrieve information about scheduled tasks on local or remote systems.
+    
+
+PARAMETERS
+    -Computer <String[]>
+        One or more names of remote computers to query scheduled task information from.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -TaskName <String[]>
+        Specifies an array of one or more names of a scheduled task. You can use "*" for a wildcard character query.
+        
+        Required?                    false
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -TaskPath <String[]>
+        Specifies an array of one or more paths for scheduled tasks in Task Scheduler namespace.
+        You can use "*" for a wildcard character query. You can use \* for the root folder.
+        To specify a full TaskPath you need to include the leading and trailing \.
+        If you do not specify a path, the cmdlet uses the root folder.
+        
+        Required?                    false
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        Will make sure that scheduled task information is queried for all specifed task names including subfolders.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        Credentials to get scheduled task info.
+        
+        Required?                    false
+        Position?                    4
+        Default value                [System.Management.Automation.PSCredential]::Empty
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    String
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHScheduledTaskInfo -Computer "MyComputer1" -TaskPath "\" -Credential (Get-Credential) -Verbose
+    
+    Get a list of all scheduled tasks in root folder on computer named 'MyComputer1' using credentials entered during execution.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScheduledTaskInfo.txt
+
+

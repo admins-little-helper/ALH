@@ -1,0 +1,113 @@
+
+NAME
+    Invoke-ALHWakeOnLan
+    
+SYNOPSIS
+    Function to send wake on lan magic packet.
+    
+    
+SYNTAX
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [<CommonParameters>]
+    
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [-WolProxy <String>] [<CommonParameters>]
+    
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [-Wait] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This function sends a magic packet (WoL / Wake-On-Lan) to wake up one ore multiple systems specified
+    by their MAC address.
+    
+
+PARAMETERS
+    -MacAddress <String[]>
+        String. One or more strings specifying the target MAC address to wake up.
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -WolProxy <String>
+        String. IP address or hostname of a system that acts as Wake-On-Lan proxy and forwards the
+        magic packet. Used in scenarios where you want to wake a host in a different subnet.
+        Can not be combined with parameter Wait.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Wait [<SwitchParameter>]
+        Switch. If specified, the function checks if the system comes up and waits for about 40 seconds per system.
+        Can not be combined with parameter WolProxy.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    String
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55"
+    
+    Send magic packet to wake up host with MAC address '00:11:22:33:44:55'
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -Wait -Verbose
+    
+    Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and wait until it is up or timeout is reached.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -WolProxy 10.255.255.255
+    
+    Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and use WolProxy 10.255.255.255.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB'
+    
+    Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB'
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHWakeOnLan.txt
+
+

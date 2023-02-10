@@ -1,0 +1,134 @@
+
+NAME
+    ConvertTo-ALHSnippet
+    
+SYNOPSIS
+    A PowerShell function to create snippets from any text for VSCode or other tools.
+    
+    
+SYNTAX
+    ConvertTo-ALHSnippet [-Name] <String> [-Body] <String> [[-Prefix] <String>] [[-Scope] <String[]>] [[-Description] <String>] [[-Indent] <String>] [-CopyToClipboard] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    A PowerShell function to create snippets from any text for VSCode or other tools. For more information about snippets, please see: https://code.visualstudio.com/docs/editor/userdefinedsnippets
+    
+
+PARAMETERS
+    -Name <String>
+        Mandatory. The name of the snippet.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Body <String>
+        Mandatory. The body is one or more lines of content, which will be joined as multiple lines upon insertion.
+        
+        Required?                    true
+        Position?                    2
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Prefix <String>
+        Optional. The prefix defines one or more trigger words that display the snippet in IntelliSense.
+        
+        Required?                    false
+        Position?                    3
+        Default value                $Name
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Scope <String[]>
+        Optional. Snippets are scoped so that only relevant snippets are suggested. Snippets can be scoped by either the language(s) to which snippets are scoped (possibly all) or the project(s) to which snippets are scoped (probably all)
+        
+        Required?                    false
+        Position?                    4
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Description <String>
+        Optional. The snippet description is displayed by IntelliSense.
+        
+        Required?                    false
+        Position?                    5
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Indent <String>
+        Optional. The indent you want to use. Options are: Tabs, 2blanks, 4blanks. 4Spaces is the default.
+        
+        Required?                    false
+        Position?                    6
+        Default value                4blanks
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -CopyToClipboard [<SwitchParameter>]
+        Optional. If specified, copies the resulting snippet text to the clipboard.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      dieter.koch@sadadiko.net
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > # Take a string and turn it into a snippet
+    ConvertTo-ALHSnippet -Name Example1 -Body 'I want this text as snippet' -Description 'My first snippet'
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > # Body is also accepted from the pipeline
+    $SomeContentAsString | ConvertTo-ALHSnippet -Name Example2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > # Full invocation
+    ConvertTo-ALHSnippet -Name Example3 -Body $SomeContent -Scope 'powershell','javascript' -Prefix ex3 -Description 'Shortcuts are great!' -Indent '4blanks' -CopyToClipboard $true
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

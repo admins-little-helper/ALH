@@ -1,0 +1,92 @@
+
+NAME
+    Test-ALHGroupPolicyStatus
+    
+SYNOPSIS
+    Function to test if there have been events logged in the last 24 hours which indicate issues in applying computer group policy.
+    
+    
+SYNTAX
+    Test-ALHGroupPolicyStatus [[-ComputerName] <String>] [-ReturnDetails] [[-Credential] <PSCredential>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function queries event log for certain events indicating issues in applying computer group policy settings. The function
+    by default returns either true or false, but it can also return the events found in the eventlog (use parameter ReturnDetail).
+    
+
+PARAMETERS
+    -ComputerName <String>
+        Allows to specify remote computer name. By default it will run against the local computer.
+        
+        Required?                    false
+        Position?                    1
+        Default value                "$env:COMPUTERNAME"
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ReturnDetails [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        Specify credentials with necessary permissions to query the system event log on the given computer.
+        
+        Required?                    false
+        Position?                    2
+        Default value                [System.Management.Automation.PSCredential]::Empty
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Test-ALHGroupPolicyStatus
+    
+    Run check for computer group policy.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
+    
+    Run check for computer group policy on remote computer named "MyOtherSystem".
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
+    
+    Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHGroupPolicyStatus.txt
+
+

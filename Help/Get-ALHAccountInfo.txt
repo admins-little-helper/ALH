@@ -1,0 +1,87 @@
+
+NAME
+    Get-ALHAccountInfo
+    
+SYNOPSIS
+    Get an account's SID by account name and domain name, or get an account's domain and name by it's SID.
+    
+    
+SYNTAX
+    Get-ALHAccountInfo [-Identity] <String[]> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The 'Get-ALHAccountInfo' function gets an account's SID by account name and domain name, or get an account's domain and name by it's SID.
+    
+
+PARAMETERS
+    -Identity <String[]>
+        An accounts SID or username in the format '<domain>\<username>' or '<user@domain.tld>'.
+        To get the SID for a computer account, remember to add the '$' trailing character to the account name.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHAccountInfo -Identity "Domain\Computer1$"
+    
+    AccountName DomainName SIDValue
+    ----------- ---------- --------
+    Computer1   DOMAIN     S-1-5-21-3332716652-4045636879-1442444979-2117
+    
+    Get SID for computer account 'Computer1' in domain 'Domain'.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHAccountInfo -Identity "S-1-5-32-544"
+    
+    AccountName     DomainName   SIDValue    
+    -----------     ----------   --------    
+    administrators  BUILT-IN     S-1-5-32-544
+    
+    Get account information for a SID value.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get-Content -Path "C:\Temp\Accountnames.txt" | Get-ALHAccountInfo
+    
+    Get SID for a multiple accounts retrieved from a text file via pipeline input.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHAccountInfo.txt
+
+

@@ -1,0 +1,145 @@
+
+NAME
+    Out-ALHHtml
+    
+SYNTAX
+    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    
+    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-MainBackgroundColor {alhBlue | Red | DarkRed | LightRed | Yellow | DarkYellow | LightYellow | Blue | DarkBlue | LightBlue | Green | DarkGreen | LightGreen | Purple | DarkPurple | LightPurple | Orange | DarkOrange | LighOrange}] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    
+    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-MainBackgroundColorHexcode <string>] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    
+    
+PARAMETERS
+    -CellFormat <psobject[]>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -Data <Object>
+        
+        Required?                    true
+        Position?                    Named
+        Accept pipeline input?       true (ByValue)
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -Font <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -FooterDisclaimerText <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -LogoText <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MainBackgroundColor <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           ColorName
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MainBackgroundColorHexcode <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           ColorCode
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MainTitle <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MakeFilterable
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MakeSortable
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -ReportTitle <string>
+        
+        Required?                    false
+        Position?                    Named
+        Accept pipeline input?       false
+        Parameter set name           (All)
+        Aliases                      None
+        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    
+INPUTS
+    System.Object
+    
+    
+OUTPUTS
+    System.Object
+    
+ALIASES
+    None
+    
+
+REMARKS
+    None
+
+

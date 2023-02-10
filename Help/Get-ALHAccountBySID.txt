@@ -1,0 +1,70 @@
+
+NAME
+    Get-ALHAccountBySID
+    
+SYNOPSIS
+    Function to get an account's name and domain by SID
+    
+    
+SYNTAX
+    Get-ALHAccountBySID [-SID] <String[]> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to get an account's name and domain by SID
+    
+
+PARAMETERS
+    -SID <String[]>
+        Mandatory. One or more valid SID values.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get account information for a SID value
+    Get-ALHAccountBySID -SID "S-1-5-32-544"
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get account information for two SIDs values from Pipeline
+    "S-1-5-32-544","S-1-5-32-545" | Get-ALHAccountBySID
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get account information for SIDs stored in a text file
+    Get-Content -Path "C:\Temp\SIDList.txt" | Get-ALHAccountBySID
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

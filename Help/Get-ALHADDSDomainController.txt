@@ -1,0 +1,68 @@
+
+NAME
+    Get-ALHADDSDomainController
+    
+SYNOPSIS
+    Returns information about AD Domain Controller.
+    
+    
+SYNTAX
+    Get-ALHADDSDomainController [-All] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Returns information about AD Domain Controller.
+    
+
+PARAMETERS
+    -All [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    System.DirectoryServices.ActiveDirectory.DirectoryServer
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADDSDomainController
+    
+    Get the current domain controller used by the operating system
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADDSDomainController -All
+    
+    Get the all domain controllers in the current domain
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDSDomainController.txt
+
+

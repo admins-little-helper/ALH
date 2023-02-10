@@ -1,0 +1,137 @@
+
+NAME
+    Invoke-ALHFileRotate
+    
+SYNOPSIS
+    A PowerShell function to rotate file names by appending a number or date.
+    
+    
+SYNTAX
+    Invoke-ALHFileRotate [-Path] <String[]> -FileName <String> [-Threshold <Int32>] [-NamingSchema <String>] [-Recurse] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This function can be used for log rotation. It searches for a given filename (exact match!) in a given path or multiple paths.
+    Path recursion is also supported. If the file is found, it will be renamed based on a given naming schema.
+    This can be either appending a number up to a given threshold. Or the file creation date, file creation date and time or the
+    file last write date or file last write date and time.
+    
+
+PARAMETERS
+    -Path <String[]>
+        One or multiple valid file paths. Each path will be searched for the file specified for 'FileName' parameter.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -FileName <String>
+        A filename to serach for in the given paths.
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Threshold <Int32>
+        Default value is 3. The number of files to keep in case the 'Number' naming schema was selected with the 'NamingSchema' parameter.
+        
+        Required?                    false
+        Position?                    named
+        Default value                9
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -NamingSchema <String>
+        Default value is 'Number'. One of the following values is possible: 
+        'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'
+        
+        Required?                    false
+        Position?                    named
+        Default value                Number
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -WhatIf [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Confirm [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Threshold 9 -Verbose
+    
+    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_x.log'
+    where 'x' is the number. At maximum 9 versions of the file will be kept. If more exist alreay, the file with the highest number will be deleted.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Recurse -Verbose
+    
+    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC' and all subfolders ('Recurse'). If found, files will be renamed to 'logfile_x.log'
+    where 'x' is the number. At maximum 3 versions (default value for 'Threshold') of the file will be kept.
+    If more exist alreay, the file with the highest number will be deleted.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema LastWriteDateTime -Verbose
+    
+    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_yyyyMMdd-HHmmss.log'
+    where 'yyyyMMdd-HHmmss' is the file's last modified date. If a file with that name already exists, it will be deleted.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHFileRotate.txt
+
+

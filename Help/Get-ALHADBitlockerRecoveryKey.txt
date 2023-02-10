@@ -1,0 +1,71 @@
+
+NAME
+    Get-ALHADBitlockerRecoveryKey
+    
+SYNOPSIS
+    Retrieves the Bitlocker recovery key for a computer account stored in Active Directory.
+    
+    
+SYNTAX
+    Get-ALHADBitlockerRecoveryKey [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Queries the Bitlocker recovery key for a computer account stored in Active Directory.
+    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the 
+    'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADBitlockerRecoveryKey -Identity MyComputer
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADBitlockerRecoveryKey -Identity MyComputer1, MyComputer2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > MyComputer1, MyComputer2 | Get-ALHADBitlockerRecoveryKey
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADBitlockerRecoveryKey.txt
+
+

@@ -1,0 +1,51 @@
+
+NAME
+    Get-ALHADSiteInfo
+    
+SYNOPSIS
+    Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
+    
+    
+SYNTAX
+    Get-ALHADSiteInfo [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADDSSiteInfo
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADSiteInfo.txt
+
+

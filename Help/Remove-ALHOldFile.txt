@@ -1,0 +1,138 @@
+
+NAME
+    Remove-ALHOldFile
+    
+SYNOPSIS
+    
+    
+SYNTAX
+    Remove-ALHOldFile [[-Path] <String[]>] -FileNamePattern <String[]> [-NumOfFilesToKeep <Int16>] [-Recurse] [-KeepOldest] [-IncludeHiddenAndSystemFiles] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    Remove-ALHOldFile [[-Path] <String[]>] -FileNamePattern <String[]> [-NumOfFilesToKeep <Int16>] [-Recurse] [-KeepOldest] [-IncludeHiddenAndSystemFiles] -TimeSpan <TimeSpan> [-RemoveAllOlderThanStart] [-RemoveAllNewerThanEnd] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    Remove-ALHOldFile [[-Path] <String[]>] -FileNamePattern <String[]> [-NumOfFilesToKeep <Int16>] [-Recurse] [-KeepOldest] [-IncludeHiddenAndSystemFiles] [-Start <DateTime>] [-End <DateTime>] [-RemoveAllOlderThanStart] [-RemoveAllNewerThanEnd] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Contains function to clean up old files of a given filename pattern.
+    
+
+PARAMETERS
+    -Path <String[]>
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -FileNamePattern <String[]>
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -NumOfFilesToKeep <Int16>
+        
+        Required?                    false
+        Position?                    named
+        Default value                -1
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -KeepOldest [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -IncludeHiddenAndSystemFiles [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -TimeSpan <TimeSpan>
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Start <DateTime>
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -End <DateTime>
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -RemoveAllOlderThanStart [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -RemoveAllNewerThanEnd [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -WhatIf [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Confirm [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+    
+RELATED LINKS
+
+

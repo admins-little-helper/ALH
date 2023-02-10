@@ -1,0 +1,51 @@
+
+NAME
+    Test-ALHIsAdmin
+    
+SYNOPSIS
+    Check if PowerShell runs with elevated permissions.
+    
+    
+SYNTAX
+    Test-ALHIsAdmin [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Check if PowerShell runs with elevated permissions. Also supports .NET CORE on Linux/macOS.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    System.Boolean
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Test-ALHIsAdmin
+    
+    Returns $true or $false.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsAdmin.txt
+
+

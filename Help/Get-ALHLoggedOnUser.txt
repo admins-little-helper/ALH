@@ -1,0 +1,92 @@
+
+NAME
+    Get-ALHLoggedOnUser
+    
+SYNOPSIS
+    Returns all users currently logged on to local or or remote computer
+    
+    
+SYNTAX
+    Get-ALHLoggedOnUser [[-ComputerName] <String[]>] [-SkipConnectionTest] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Returns all users currently logged on to local or or remote computer
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        One or more computernames
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:COMPUTERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -SkipConnectionTest [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'ComputerName'
+    
+    
+OUTPUTS
+    System.Boolean
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHLoggedOnUser
+    
+    ComputerName   : MYCOMPUTER
+    ComputerStatus : Online
+    Username       : user1
+    SessionName    : rdp-tcp#17
+    ID             : 2
+    State          : Active
+    IdleTime       : .
+    LogonTime      : 02.12.2022 07:26:00
+    
+    Shows the users logged into the local system
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHLoggedOnUser -Computer server1,server2,server3 | Format-Table -AutoSize
+    
+    ComputerName   ComputerStatus Username SessionName ID State  IdleTime LogonTime
+    ------------   -------------- -------- ----------- -- -----  -------- ---------
+    SERVER1        Online         userA    rdp-tcp#17  2  Active .        02.12.2022 07:26:00
+    SERVER2        Online         userB    console     2  Active .        02.12.2022 07:28:00
+    SERVER3        Online         userC    rdp-tcp#18  2  Active .        02.12.2022 08:42:00
+    
+    Shows the users logged into server1, server2, and server3
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHLoggedOnUser.txt
+
+

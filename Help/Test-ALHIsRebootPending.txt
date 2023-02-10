@@ -1,0 +1,85 @@
+
+NAME
+    Test-ALHIsRebootPending
+    
+SYNOPSIS
+    Check if a computer has a reboot pending.
+    
+    
+SYNTAX
+    Test-ALHIsRebootPending [[-ComputerName] <String[]>] [-ShowDetails] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Check if a computer has a reboot pending.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:COMPUTERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -ShowDetails [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    System.Boolean
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Test-ALHHasPendingReboot
+    
+    Check if there is a reboot pending. Returns $true or $false
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Test-ALHIsRebootPending-ShowDetails
+    
+    Check if there is a reboot pending. Return details about checks and why there is a pending reboot
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Test-ALHIsRebootPending-Verbose
+    
+    Check if there is a reboot pending. Show verbose output.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsRebootPending.txt
+
+

@@ -1,0 +1,106 @@
+
+NAME
+    Get-ALHADObject
+    
+SYNOPSIS
+    Function to query Active Directory using ADSI DirectorySearcher object.
+    
+    
+SYNTAX
+    Get-ALHADObject [-LDAPFilter <String>] [-Server <String>] [-Credential <PSCredential>] [<CommonParameters>]
+    
+    Get-ALHADObject [-LDAPFilter <String>] [-SearchBase <String>] [-Server <String>] [-Credential <PSCredential>] [<CommonParameters>]
+    
+    Get-ALHADObject [-LDAPFilter <String>] [-DomainName <String>] [-Server <String>] [-Credential <PSCredential>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to query Active Directory using ADSI DirectorySearcher object.
+    https://docs.microsoft.com/en-us/dotnet/api/system.directoryservices.directorysearcher?view=dotnet-plat-ext-6.0
+    
+
+PARAMETERS
+    -LDAPFilter <String>
+        Optional. String. LDAP filter syntax to use for the query.
+        If omitted the default filter of '(&(objectClass=*))' is used.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -SearchBase <String>
+        Optional. String. Specifies an Active Directory path to search.
+        If omitted the Active Directory root will be used. Can not be used together with parameter -DomainName.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DomainName <String>
+        Optional. String. FQDN of the value to query.
+        If omitted the domain of the machine is used. Cannot be used togethe with parameter -SearchBase.
+        
+        Required?                    false
+        Position?                    named
+        Default value                (Get-CimInstance -ClassName "Win32_ComputerSystem").Domain
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Server <String>
+        Optional. String. Specify the name or fqdn of a server (Domain Controller) to run the query against.
+        If omitted a Domain Controller will be automatically detected based on OS default mechanism.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        Optional. PSCredential. Credential object used to connect to Active Directory.
+        If omitted the connection atempt is made in the current user's context.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      dieter.koch@sadadiko.net
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > $Result = Get-ALHADObject -Server "dc.domain.tld" -SearchBase "DC=domain,DC=tld" -Verbose
+    $Result | Select-Object -Property Name, Parent, objectClass, objectCategory | Format-Table -AutoSize
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

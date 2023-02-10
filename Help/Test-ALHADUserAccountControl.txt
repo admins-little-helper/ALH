@@ -1,0 +1,91 @@
+
+NAME
+    Test-ALHADUserAccountControl
+    
+SYNOPSIS
+    Tests if a given UserAccountControl value matches a specific UAC flag.
+    
+    
+SYNTAX
+    Test-ALHADUserAccountControl [-UacFlagToCheck] <String> [[-UacValue] <Int32>] [-ReturnInt] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Tests if a given UserAccountControl value matches a specific UAC flag.
+    
+
+PARAMETERS
+    -UacFlagToCheck <String>
+        Optional. UAC Flag to test for.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -UacValue <Int32>
+        Optional. The value of the UserAccountControl attribute of an AD object.
+        
+        Required?                    false
+        Position?                    2
+        Default value                0
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ReturnInt [<SwitchParameter>]
+        Optional. If specified, the function returns the integer value of the UAC flag.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Integer
+    
+    
+OUTPUTS
+    Boolean or Integer
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Check if a given UserAccountControl value means that the account is disabled. Returns $true or $false
+    Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue (Get-ADUser -Identity User1 -Property UserAccountControl).UserAccountControl
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Check if a given UserAccountControl value means that the account is disabled. Returns the integer value of the UserAccountControl flag
+    Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue 514 -ReturnInt
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADUserAccountControl.txt
+    http://woshub.com/decoding-ad-useraccountcontrol-value/
+    https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+
+

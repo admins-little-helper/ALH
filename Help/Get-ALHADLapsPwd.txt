@@ -1,0 +1,71 @@
+
+NAME
+    Get-ALHADLapsPwd
+    
+SYNOPSIS
+    Retrieves the LAPS Password for a computer account from Active Directory.
+    
+    
+SYNTAX
+    Get-ALHADLapsPwd [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The function 'Get-ALHADLapsPwd' retrieves the LAPS Password for a computer account from Active Directory.
+    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the 
+    'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADLapsPwd -Identity MyComputer
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADLapsPwd -Identity MyComputer1, MyComputer2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > MyComputer1, MyComputer2 | Get-ALHADLapsPwd
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLapsPwd.txt
+
+

@@ -1,0 +1,78 @@
+
+NAME
+    Test-ALHIsOnBattery
+    
+SYNOPSIS
+    Checks if a computer is running on battery.
+    
+    
+SYNTAX
+    Test-ALHIsOnBattery [[-ComputerName] <String[]>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Checks if a computer is running on battery.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        The name of the computer to check. Defaults to local computer.
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:COMPUTERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'ComputerName'
+    
+    
+OUTPUTS
+    System.Boolean
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Test-ALHIsOnBattery
+    
+    ComputerName   IsOnBattery ComputerOnline TestStatus          Error
+    ------------   ----------- -------------- ----------          -----
+    MYCOMPUTER                           True NO_BATTERY_DETECTED None
+    
+    Check if local computer is running on battery.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Test-ALHIsOnBattery -ComputerName "Computer1","Computer2"
+    
+    ComputerName   IsOnBattery ComputerOnline TestStatus Error
+    ------------   ----------- -------------- ---------- -----
+    COMPUTER1             True           True SUCCESS    None
+    COMPUTER2            False           True SUCCESS    None
+    
+    Check if computer1 and computer2 is running on battery.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsOnBattery.txt
+
+

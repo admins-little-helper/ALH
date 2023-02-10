@@ -1,0 +1,126 @@
+
+NAME
+    Out-ALHHtmlReport
+    
+SYNOPSIS
+    A PowerShell function to create a html table fragment.
+    
+    
+SYNTAX
+    Out-ALHHtmlReport [-Data] <Object> [[-Title] <String>] [[-SubTitle] <String>] [[-InfoText] <String>] [[-Footer] <String>] [[-CellFormat] <PSObject[]>] [-AddSort] [-AddFilter] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This functions takes an object or an array of objects and creates a html table fragment out of it.
+    Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
+    The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
+    
+
+PARAMETERS
+    -Data <Object>
+        An objet or an array of objects which will be displayed in the html table.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Title <String>
+        A title for the report (html table).
+        
+        Required?                    false
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -SubTitle <String>
+        A subtitle for the report (html table).
+        
+        Required?                    false
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -InfoText <String>
+        This text will be shown above the table.
+        
+        Required?                    false
+        Position?                    4
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Footer <String>
+        This text will be shown below the table.
+        
+        Required?                    false
+        Position?                    5
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -CellFormat <PSObject[]>
+        A hashtable specifying the parameters and values for the function Set-CelLColor to format
+           the html table cells based on filter expressions.
+        
+        Required?                    false
+        Position?                    6
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -AddSort [<SwitchParameter>]
+        If specified, the table will be made sortable.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -AddFilter [<SwitchParameter>]
+        If specified, the table will be filterable.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Object
+    
+    
+OUTPUTS
+    ALHHtmlReport
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlReport.txt
+
+

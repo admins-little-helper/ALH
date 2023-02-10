@@ -1,0 +1,58 @@
+
+NAME
+    Get-ALHOffice365SkuIds
+    
+SYNOPSIS
+    
+    
+SYNTAX
+    Get-ALHOffice365SkuIds [<CommonParameters>]
+    
+    Get-ALHOffice365SkuIds [-OutFile <String>] [-Force] [-PassThru] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Contains a function to download and export the current list of Office 365 SKU Ids from the official Microsoft Download page.
+    
+
+PARAMETERS
+    -OutFile <String>
+        Check if the given path is valid.
+        Check if the extension of the given file matches the supported file extensions.
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Force [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -PassThru [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+    
+RELATED LINKS
+
+

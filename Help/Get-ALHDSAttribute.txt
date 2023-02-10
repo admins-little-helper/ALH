@@ -1,0 +1,72 @@
+
+NAME
+    Get-ALHDSAttribute
+    
+SYNOPSIS
+    
+    
+SYNTAX
+    Get-ALHDSAttribute [-DomainName <String>] [-Server <String>] [-Credential <PSCredential>] [-BaseClassOnly] [<CommonParameters>]
+    
+    Get-ALHDSAttribute -ClassName <String[]> [-DomainName <String>] [-Server <String>] [-Credential <PSCredential>] [-BaseClassOnly] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Contains a function to query Active Directory for all attributes of a given class.
+    
+
+PARAMETERS
+    -ClassName <String[]>
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DomainName <String>
+        
+        Required?                    false
+        Position?                    named
+        Default value                (Get-CimInstance -ClassName "Win32_ComputerSystem").Domain
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Server <String>
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -BaseClassOnly [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+    
+RELATED LINKS
+
+

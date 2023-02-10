@@ -1,0 +1,96 @@
+
+NAME
+    Get-ALHDirectoryFileSize
+    
+SYNOPSIS
+    Function to get total size of a directory, but also the average file size and total file count
+    
+    
+SYNTAX
+    Get-ALHDirectoryFileSize [-Directory] <String[]> [[-DecimalPlaces] <Int32>] [-Recurse] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to get total size of a directory, but also the average file size and total file count
+    
+
+PARAMETERS
+    -Directory <String[]>
+        Mandatory. One or more directory paths.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -DecimalPlaces <Int32>
+        
+        Required?                    false
+        Position?                    2
+        Default value                3
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get directory size for C:\Temp
+    Get-ALHDirectoryFileSize -Directory "C:\Temp"
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get directory size for C:\Temp including all subfolders, show filesize with 2 decimal places
+    Get-ALHDirectoryFileSize -Directory "C:\Temp" -Recurse -DecimalPlaces 2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get directory size for multiple directories including all subfolders
+    Get-ALHDirectoryFileSize -Directory "C:\Temp", "C:\Windows" -Recurse
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Pipe multiple directory names to function to retrieve directory size including subfolders
+    Get-Content -Path "C:\ListOfDirectories.txt" | Get-ALHDirectoryFileSize -Recurse
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

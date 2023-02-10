@@ -1,0 +1,98 @@
+
+NAME
+    Get-ALHADUserLogonTime
+    
+SYNOPSIS
+    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
+    
+    
+SYNTAX
+    Get-ALHADUserLogonTime [[-Identity] <String[]>] [[-DomainController] <String[]>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
+    
+
+PARAMETERS
+    -Identity <String[]>
+        One ore more user names (SamAccountName) to query information for. Separate list with commas.
+        If no value is provied, the $env:USERNAME will be used.
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:USERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -DomainController <String[]>
+        One ore more Domain Controller names to query information for. Separate list with commas.
+        If no value is provied, all DCs in the current domain are queried.
+        
+        Required?                    false
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADUserLogonTime -Identity User1
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADUserLogonTime -Identity User1, User2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get-ALHADUserLogonTime -Identity User2, User2 -DomainController adds1,adds2
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > (Get-ADUser -Filter {name -like "a*"}).Name | Get-ALHADUserLogonTime -DomainController $(Get-ALHADDSDomainController -All)
+    
+    Get lastlogontime for all users in AD where name starts with 'a', from all domain controllers in the current domain.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADUserLogonTime.txt
+
+

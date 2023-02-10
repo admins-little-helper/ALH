@@ -1,0 +1,171 @@
+
+NAME
+    Get-ALHOffice365IPsAndUrls
+    
+SYNOPSIS
+    Retrieves IPs and URLs used by Microsoft 365 services.
+    
+    
+SYNTAX
+    Get-ALHOffice365IPsAndUrls [[-Instance] <String[]>] [[-ServiceArea] <String[]>] [[-Category] <String[]>] [[-Required] <Boolean>] [[-ExpressRoute] <Boolean>] [[-TenantName] <String>] [[-OutputType] <String[]>] [[-OutputPath] <String>] [-Force] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The 'Get-ALHOffice365IPsAndUrls' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
+    It allows to filter the output for example to only URLs, not IPs or only for certain services like Exchange. The data retrieved is stored
+    in a local cache file to limit the number of queries against the webservice.
+    
+
+PARAMETERS
+    -Instance <String[]>
+        Specifies the Office 365 Instance name. Choose from one of the valid values: 'Worldwide', 'USGovDoD', 'USGovGCCHigh', 'China', 'Germany'.
+        Defaults to 'Worldwide'
+        
+        Required?                    false
+        Position?                    1
+        Default value                Worldwide
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ServiceArea <String[]>
+        Specifies the Office 365 service area. Choose from one of the valid values: 'All', 'Common', 'Exchange', 'SharePoint', 'Skype'.
+        Defaults to 'All'
+        
+        Required?                    false
+        Position?                    2
+        Default value                All
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Category <String[]>
+        Specifies the Office 365 connectivity category for a service endpoint set. Choose from one of the valid values: 'All', 'Optimize', 'Allow', 'Default'.
+        Defaults to 'All'
+        
+        Required?                    false
+        Position?                    3
+        Default value                All
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Required <Boolean>
+        Specify $true to retrieve only endpoint sets marked required. Specify $false for optional endpoint sets.
+        If ommited, all endpoint sets are retrieved.
+        
+        Required?                    false
+        Position?                    4
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ExpressRoute <Boolean>
+        Specify $true to retrieve only endpoint sets routed over ExpressRoute.
+        Specify $false to retrieve only endpoint sets NOT routed over ExpressRoute
+        If ommited, all endpoint sets are retrieved.
+        
+        Required?                    false
+        Position?                    5
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -TenantName <String>
+        A Office 365 tenant name. The web service takes the provided name and inserts it in parts of URLs that include the tenant name.
+        If no tenant name is provided, those parts of URLs have the wildcard character (*).
+        
+        Required?                    false
+        Position?                    6
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -OutputType <String[]>
+        Specifies which endpoint sets should be returned by the function. Valid values are 'All', 'IPv4', 'IPv6', 'URLs'.
+        
+        Required?                    false
+        Position?                    7
+        Default value                All
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -OutputPath <String>
+        Specifies the folder path to the local cache file. The function will create at least two files.
+        One file contains the client id required for the webservice and the version number of the last retrieved IP and URL list.
+        This allows to take data from the offlien file instead of querying the webservice, in case no update is available there.
+        If ommited, these files are stored in user's temp directory ($env:TEMP).
+        
+        Required?                    false
+        Position?                    8
+        Default value                "$env:TEMP"
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Force [<SwitchParameter>]
+        If specified, data is always retrieved from the web service instead of a local cache file.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHOffice365IPsAndUrls
+    
+    Retrieve all endpoint sets for all service areas and all categories in the 'Worldwide' Instance
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHOffice365IPsAndUrls -ServiceArea Exchange
+    
+    Retrieve all endpoint sets for Exchange and all categories in the 'Worldwide' Instance
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required
+    
+    Retrieve only required endpoint sets for SharePoint and all categories in the 'Worldwide' Instance
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required -OutputType IPv4 -Force
+    
+    Retrieve only IPv4 endpoint sets for Skype and all categories in the 'USGovDoD' Instance and ignore any local cache file (if exist)
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPsAndUrls.txt
+
+

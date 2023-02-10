@@ -1,0 +1,135 @@
+
+NAME
+    Update-ALHSysinternalsSuite
+    
+SYNOPSIS
+    Installs or updates SysinternalsSuite.
+    
+    
+SYNTAX
+    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> -CleanAll [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> -Clean [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Installs or updates SysinternalsSuite tools either from any given source path or from https://live.sysinternals.com.
+    The function compares the last modified date of the files in the source and destination path and only copies newer files from the source path.
+    
+
+PARAMETERS
+    -SourcePath <String>
+        The source path from where to copy SysinternalsSuite tools. Defaults to https://live.sysinternals.com.
+        
+        Required?                    false
+        Position?                    named
+        Default value                \\live.sysinternals.com\DavWWWRoot\tools
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DestinationPath <String[]>
+        The destination path to which the files should be copied. The folder will be created in case the it does not yet exist.
+        
+        Required?                    true
+        Position?                    named
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -CleanAll [<SwitchParameter>]
+        If specified, all files in the destination folder will be deleted before copying files from the source.
+        
+        Required?                    true
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Clean [<SwitchParameter>]
+        If specified, any files in the destination folder that do not exist in the source folder will be deleted before the update.
+        
+        Required?                    true
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -WhatIf [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Confirm [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite
+    
+    # Install Sysinternals tools from https://live.sysinternals.com to the local path C:\Admin\SysinternalsSuite.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Update-ALHSysinternalsSuite -SourcePath \\server\share\SysinternalsSuiteFolder -DestinationPath C:\Admin\SysinternalsSuite
+    
+    # Update Sysinternals tools from a local network share.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite -Clean -Verbose
+    
+    # Update Sysinternals tools and delete any existing files in the destionation path, that do not exist in the source path. Show verbose output.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite -CleanAll -Verbose
+    
+    # Update Sysinternals tools and delete all existing files in the destination path first. Show verbose output.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Update-ALHSysinternalsSuite.txt
+
+

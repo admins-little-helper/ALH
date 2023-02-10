@@ -1,0 +1,40 @@
+
+NAME
+    Test-ALHIsUpn
+    
+SYNOPSIS
+    
+    
+SYNTAX
+    Test-ALHIsUpn [-UPN] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Contains a function to check if a given string is a valid UPN.
+    
+
+PARAMETERS
+    -UPN <String>
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    System.Boolean
+    
+    
+    
+RELATED LINKS
+
+

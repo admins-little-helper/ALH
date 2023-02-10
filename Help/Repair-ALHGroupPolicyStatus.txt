@@ -1,0 +1,87 @@
+
+NAME
+    Repair-ALHGroupPolicyStatus
+    
+SYNOPSIS
+    Function to repair corrupt group policy local store.
+    
+    
+SYNTAX
+    Repair-ALHGroupPolicyStatus [-ReportOnly] [[-ComputerName] <String>] [[-Credential] <PSCredential>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Function to repair corrupt group policy local store.
+    
+
+PARAMETERS
+    -ReportOnly [<SwitchParameter>]
+        Only report problems. If ommitted and problems are found, the script attemtps to repair it.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ComputerName <String>
+        Allows to specify remote computer name. By default it will run against the local computer.
+        
+        Required?                    false
+        Position?                    1
+        Default value                "$env:COMPUTERNAME"
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Credential <PSCredential>
+        Specify credentials with necessary permissions to query the system event log on the given computer.
+        
+        Required?                    false
+        Position?                    2
+        Default value                [System.Management.Automation.PSCredential]::Empty
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Repair-ALHGroupPolicyStatus
+    
+    Run check for machine group policy and repair if issues are detected.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Repair-ALHGroupPolicyStatus -Computer -ReportOnly -Verbose
+    
+    Run check for group policy and report only if issues are detected.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Repair-ALHGroupPolicyStatus.txt
+
+

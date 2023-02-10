@@ -1,0 +1,67 @@
+
+NAME
+    Test-IsAdmin
+    
+SYNOPSIS
+    Check if PowerShell run elevated (e.g. as admin or not)
+    
+    
+SYNTAX
+    Test-IsAdmin [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This is a complete new approach to check if the Shell runs elevated or not.
+    It runs on PowerShell and PowerShell Core, and it supports macOS or Linux as well.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    System.Boolean
+    
+    
+NOTES
+    
+    
+        Rewritten function to support PowerShell Desktop and Core on Windows, macOS, and Linux
+        Mostly used within other functions and in the personal PowerShell profiles.
+        
+        Version: 1.0.1
+        
+        GUID: a59bfa91-7206-4892-bc2a-acf666b35364
+        
+        Author: Joerg Hochwald
+        
+        Companyname: Alright IT GmbH
+        
+        Copyright: Copyright (c) 2019, Alright IT GmbH - All rights reserved.
+        
+        License: https://opensource.org/licenses/BSD-3-Clause
+        
+        Releasenotes:
+        1.0.1 2019-05-09: Add some comments to the code
+        1.0.0 2019-05-09: Initial Release of the rewritten function
+        
+        THIS CODE IS MADE AVAILABLE AS IS, WITHOUT WARRANTY OF ANY KIND. THE ENTIRE RISK OF THE USE OR THE RESULTS FROM THE USE OF THIS CODE REMAINS WITH THE USER.
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Test-IsAdmin
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+
+

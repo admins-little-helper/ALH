@@ -1,0 +1,27 @@
+
+NAME
+    Test-ALHLocalAdminUnresolvedSID
+    
+SYNTAX
+    Test-ALHLocalAdminUnresolvedSID 
+    
+    
+PARAMETERS
+    None
+    
+    
+INPUTS
+    None
+    
+    
+OUTPUTS
+    System.Object
+    
+ALIASES
+    None
+    
+
+REMARKS
+    None
+
+
