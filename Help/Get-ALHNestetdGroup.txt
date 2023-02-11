@@ -1,22 +1,20 @@
 
 NAME
-    Convert-ALHImageToAsciiArt
+    Get-ALHNestetdGroup
     
 SYNOPSIS
-    Contains function to convert an image file to ASCII Art
     
     
 SYNTAX
-    Convert-ALHImageToAsciiArt [-Path] <String> [[-MaxWidth] <Int32>] [[-Ratio] <Single>] [<CommonParameters>]
+    Get-ALHNestetdGroup [-Identity] <String[]> [[-Parent] <String[]>] [-GroupMember] <Object> [[-Hierarchy] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
-    Contains function to convert an image file to ASCII Art
+    Contains a function to search for nested groups in Active Directory.
     
 
 PARAMETERS
-    -Path <String>
-        Mandatory. Path to a picture file. Supported file formats are bmp, jpg, png.
+    -Identity <String[]>
         
         Required?                    true
         Position?                    1
@@ -24,21 +22,27 @@ PARAMETERS
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -MaxWidth <Int32>
-        Optional. Max width of output string
+    -Parent <String[]>
         
         Required?                    false
         Position?                    2
-        Default value                80
+        Default value                
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -Ratio <Single>
-        Optional. Character height:width ratio
+    -GroupMember <Object>
+        
+        Required?                    true
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Hierarchy <String>
         
         Required?                    false
-        Position?                    3
-        Default value                1.5
+        Position?                    4
+        Default value                
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
@@ -49,29 +53,11 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    Nothing
-    
     
 OUTPUTS
-    String
-    
-    
-NOTES
-    
-    
-        Author:     Dieter Koch
-    
-    -------------------------- EXAMPLE 1 --------------------------
-    
-    PS > # Show an image as ASCII art
-    Convert-ALHImageToAsciiArt -Path C:\temp\picture.bmp
-    
-    
-    
-    
-    
     
     
 RELATED LINKS
+    https://github.com/admins-little-helper/ALH
 
 

@@ -1,0 +1,87 @@
+
+NAME
+    Set-ALHCellColor
+    
+SYNOPSIS
+    Function to set cell color of a html table based on filter criteria.
+    
+    
+SYNTAX
+    Set-ALHCellColor [-InputObject] <Object[]> [-Filter] <String> [-Color] <String> [-Row] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    This functions allows to change the cell color in a html table (InputObject) based on the cell value.
+    
+
+PARAMETERS
+    -InputObject <Object[]>
+        PowerShell object html code containing a table definition.
+        
+        Required?                    true
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Filter <String>
+        Filter string to be used to identify the cells, that's color should be set.
+        
+        Required?                    true
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Color <String>
+        The color code as hex value (e.g. #000000)
+        
+        Required?                    true
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Row [<SwitchParameter>]
+        If specified, the background color will be set for the whole row instead of just the single cell in the table.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Object
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > $htmlReport = Set-CellColor -InputObject $htmlReport -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
+    
+    Update an html report string.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHCellColor.txt
+
+

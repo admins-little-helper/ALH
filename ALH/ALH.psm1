@@ -11,12 +11,12 @@ $PublicScripts = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction 
 $PrivateScripts = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue )
 
 #Dot source the files
-Foreach ($ScriptToImport in @($PublicScripts + $PrivateScripts)) {
-    Try {
+foreach ($ScriptToImport in @($PrivateScripts + $PublicScripts)) {
+    try {
         Write-Verbose -Message "Importing script $($ScriptToImport.FullName)"
         . $ScriptToImport.FullName
     }
-    Catch {
+    catch {
         Write-Error -Message "Failed to import function $($ScriptToImport.FullName): $_"
     }
 }

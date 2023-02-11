@@ -1,9 +1,9 @@
 
 NAME
-    Test-ALHLocalAdminUnresolvedSID
+    Out-ALHHtmlReport
     
 SYNTAX
-    Test-ALHLocalAdminUnresolvedSID 
+    Out-ALHHtmlReport 
     
     
 PARAMETERS

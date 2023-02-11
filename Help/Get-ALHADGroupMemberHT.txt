@@ -1,0 +1,99 @@
+
+NAME
+    Get-ALHADGroupMemberHT
+    
+SYNOPSIS
+    Searches Active Directory for groups and returns results in a hash table.
+    
+    
+SYNTAX
+    Get-ALHADGroupMemberHT [[-SearchBase] <String[]>] [[-Identity] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Searches Active Directory for groups and returns results in a hash table.
+    This function uses System.DirectoryServices.DirectorySearcher instead of the Active Directory PowerShell module.
+    
+
+PARAMETERS
+    -SearchBase <String[]>
+        Name of the organizational unit to start searching recursively for groups.
+        If not specified, the entire domain will be searched.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -Identity <String>
+        Name of the group to search for. Wildcards supported.
+        If not specified, * is used.
+        
+        Required?                    false
+        Position?                    2
+        Default value                *
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'SearchBase'
+    
+    
+OUTPUTS
+    System.DirectoryServices.SearchResult
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHADGroupMemberHT -SearchBase 'OU=Groups1,DC=contoso,DC=com','OU=Groups2,DC=contoso,DC=com' -Verbose
+    
+    Find all groups in two different organizational units and show verbose messages.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHADGroupMemberHT
+    
+    Find all groups in the domain.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > "OU=Groups,OU=Organization,DC=domain,DC=tld", "OU=Distribution Lists,OU=Organization,DC=domain,DC=tld" | Get-ALHADGroupMemberHT
+    
+    Pipe OU distinguished names to search in to function.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Get-ALHADGroupMemberHT -Identity "group_*"
+    
+    Find all groups where name is staring with 'group_' in the entire domain.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADGroupMemberHT.txt
+
+
