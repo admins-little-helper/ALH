@@ -112,8 +112,8 @@ function Get-ALHADLapsPwd {
             }
 
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('ActiveDirectory\Get-ADComputer', [System.Management.Automation.CommandTypes]::Cmdlet)
-            $scriptCmd = { & $wrappedCmd @PSBoundParameters | Select-Object -Property Name, ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime }
-
+            $scriptCmd = { & $wrappedCmd @PSBoundParameters | Select-Object -Property Name, @{Name = "Password"; Expression = { $_.'ms-Mcs-AdmPwd' } }, @{Name = "PwdExpirationTime"; Expression = { [datetime]::FromFileTime($_.'ms-Mcs-AdmPwdExpirationTime') } } }
+            
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
         }
