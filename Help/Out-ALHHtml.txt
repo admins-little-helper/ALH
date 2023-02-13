@@ -2,123 +2,123 @@
 NAME
     Out-ALHHtml
     
+SYNOPSIS
+    A PowerShell function to create a html table fragment.
+    
+    
 SYNTAX
-    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    Out-ALHHtml -Data <Object> [-MainTitle <String>] [-ReportTitle <String>] [-Font <String>] [-LogoText <String>] [-FooterDisclaimerText <String>] [-CellFormat <PSObject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
     
-    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-MainBackgroundColor {alhBlue | Red | DarkRed | LightRed | Yellow | DarkYellow | LightYellow | Blue | DarkBlue | LightBlue | Green | DarkGreen | LightGreen | Purple | DarkPurple | LightPurple | Orange | DarkOrange | LighOrange}] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    Out-ALHHtml -Data <Object> [-MainTitle <String>] [-ReportTitle <String>] [-MainBackgroundColor <String>] [-Font <String>] [-LogoText <String>] [-FooterDisclaimerText <String>] [-CellFormat <PSObject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
     
-    Out-ALHHtml -Data <Object> [-MainTitle <string>] [-ReportTitle <string>] [-MainBackgroundColorHexcode <string>] [-Font <string>] [-LogoText <string>] [-FooterDisclaimerText <string>] [-CellFormat <psobject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
+    Out-ALHHtml -Data <Object> [-MainTitle <String>] [-ReportTitle <String>] [-MainBackgroundColorHexcode <String>] [-Font <String>] [-LogoText <String>] [-FooterDisclaimerText <String>] [-CellFormat <PSObject[]>] [-MakeSortable] [-MakeFilterable] [<CommonParameters>]
     
     
+DESCRIPTION
+    This functions takes an object or an array of objects and creates a html table fragment out of it.
+    Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
+    The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
+    
+
 PARAMETERS
-    -CellFormat <psobject[]>
-        
-        Required?                    false
-        Position?                    Named
-        Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
-        Accept wildcard characters?  false
-        
     -Data <Object>
+        An objet or an array of objects which will be displayed in the html table.
         
         Required?                    true
-        Position?                    Named
+        Position?                    named
+        Default value                
         Accept pipeline input?       true (ByValue)
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -Font <string>
+    -MainTitle <String>
+        The main title for the report (html table).
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -FooterDisclaimerText <string>
+    -ReportTitle <String>
+        A subtitle for the report (html table).
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -LogoText <string>
+    -MainBackgroundColor <String>
+        Specify the background color by name. Choose from a list of pre-defined colors.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                blue
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -MainBackgroundColor <string>
+    -MainBackgroundColorHexcode <String>
+        Specify the background color by hex code (e.g. '#0066a1')
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                #0066a1
         Accept pipeline input?       false
-        Parameter set name           ColorName
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -MainBackgroundColorHexcode <string>
+    -Font <String>
+        Specify the font used for the html document. Defaults to 'Verdana'.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                Verdana
         Accept pipeline input?       false
-        Parameter set name           ColorCode
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -MainTitle <string>
+    -LogoText <String>
+        This text will be shown above the table.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -MakeFilterable
+    -FooterDisclaimerText <String>
+        This text will be shown below the table.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                Note: errors and omissions excepted!
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -MakeSortable
+    -CellFormat <PSObject[]>
+        A hashtable specifying the parameters and values for the function Set-CelLColor to format
+           the html table cells based on filter expressions.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
         Accept wildcard characters?  false
         
-    -ReportTitle <string>
+    -MakeSortable [<SwitchParameter>]
+        If specified, the table will be made sortable.
         
         Required?                    false
-        Position?                    Named
+        Position?                    named
+        Default value                False
         Accept pipeline input?       false
-        Parameter set name           (All)
-        Aliases                      None
-        Dynamic?                     false
+        Accept wildcard characters?  false
+        
+    -MakeFilterable [<SwitchParameter>]
+        If specified, the table will be filterable.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
         Accept wildcard characters?  false
         
     <CommonParameters>
@@ -127,19 +127,31 @@ PARAMETERS
         OutBuffer, PipelineVariable, and OutVariable. For more information, see
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
-    
 INPUTS
-    System.Object
+    Object
     
     
 OUTPUTS
-    System.Object
+    ALHHtmlReport
     
-ALIASES
-    None
     
-
-REMARKS
-    None
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtml.txt
 
 

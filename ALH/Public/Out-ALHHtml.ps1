@@ -75,6 +75,66 @@
 
 
 function Out-ALHHtml {
+    <# 
+    .SYNOPSIS
+    A PowerShell function to create a html table fragment.
+
+    .DESCRIPTION 
+    This functions takes an object or an array of objects and creates a html table fragment out of it.
+    Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
+    The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
+
+    .PARAMETER Data
+    An objet or an array of objects which will be displayed in the html table.
+
+    .PARAMETER MainTitle
+    The main title for the report (html table).
+
+	.PARAMETER ReportTitle
+    A subtitle for the report (html table).
+
+    .PARAMETER MainBackgroundColor
+    Specify the background color by name. Choose from a list of pre-defined colors.
+
+    .PARAMETER MainBackgroundColorHexcode
+    Specify the background color by hex code (e.g. '#0066a1')
+
+    .PARAMETER Font
+    Specify the font used for the html document. Defaults to 'Verdana'.
+
+	.PARAMETER LogoText
+    This text will be shown above the table.
+
+	.PARAMETER FooterDisclaimerText
+	This text will be shown below the table.
+
+	.PARAMETER CellFormat
+	A hashtable specifying the parameters and values for the function Set-CelLColor to format
+    the html table cells based on filter expressions.
+
+	.PARAMETER MakeSortable
+    If specified, the table will be made sortable.
+
+	.PARAMETER MakeFilterable
+	If specified, the table will be filterable.
+
+	.EXAMPLE
+    Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+
+    .INPUTS
+    Object
+
+    .OUTPUTS 
+    ALHHtmlReport
+
+    .NOTES
+    Author:     Dieter Koch
+    Email:      diko@admins-little-helper.de
+
+    .LINK
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtml.txt
+    #>
+
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
@@ -103,7 +163,7 @@ function Out-ALHHtml {
         $LogoText,
 
         [string]
-        $FooterDisclaimerText = "Note: errors and omissions excepted / Hinweis: Alle Angaben ohne Gew&aumlhr",
+        $FooterDisclaimerText = "Note: errors and omissions excepted!",
 
         [PSCustomObject[]]
         $CellFormat,

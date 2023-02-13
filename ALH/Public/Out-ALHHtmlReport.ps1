@@ -109,12 +109,11 @@ function Out-ALHHtmlReport {
 
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlReport.txt
-
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true)][AllowNull()]
+        [Parameter(Mandatory, ValueFromPipeline)][AllowNull()]
         [object]
         $Data,
 
