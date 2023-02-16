@@ -2,6 +2,10 @@
 
 [README.md](./README.md)
 
+## Version 2.0.4 (2023-02-16)
+
+* Fixed issue in calling Set-ALHCellColor in functions 'Out-ALHHtml' and 'Out-ALHHtmlReport'.
+
 ## Version 2.0.3 (2023-02-13)
 
 * Added help to function 'Out-ALHHtml'.
