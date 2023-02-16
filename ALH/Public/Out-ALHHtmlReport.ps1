@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.7
+.VERSION 1.0.8
 
 .GUID 6f529bee-9368-4255-854b-1dde3fc76e86
 
@@ -25,30 +25,34 @@
 .EXTERNALSCRIPTDEPENDENCIES 
 
 .RELEASENOTES
-    1.0.0
-    Initial Release
+1.0.0
+Initial Release
 
-	1.0.1
-	Fixed handling of $null value on input data
+1.0.1
+- Fixed handling of $null value on input data
 
-	1.0.2
-	Fixed handling of $null parameter value for parameter 'Data'
+1.0.2
+- Fixed handling of $null parameter value for parameter 'Data'
 
-	1.0.3
-	Added html tags <thead> and <tbody> to html tabl code.
-	Changed how a html table becomes sortable (just adding class and later use javascript to add click event)
+1.0.3
+- Added html tags <thead> and <tbody> to html tabl code.
+- Changed how a html table becomes sortable (just adding class and later use javascript to add click event)
 
-	1.0.4
-	Fixed issue in applying CellFormat correctly
+1.0.4
+- Fixed issue in applying CellFormat correctly
 
-	1.0.5
-	Fixed issue in applying <tbody> and <thead> tags corretly in array of strings (instead of a single big string)
-	
-	1.0.6
-	Fixed TableRowCount in case it's one ('.Count' only works for arrays, not for a single object)
+1.0.5
+- Fixed issue in applying <tbody> and <thead> tags corretly in array of strings (instead of a single big string)
 
-	1.0.7
-	Replaced linebreaks with "<br/>" html tag for title, subtitle, infotext and footer
+1.0.6
+- Fixed TableRowCount in case it's one ('.Count' only works for arrays, not for a single object)
+
+1.0.7
+- Replaced linebreaks with "<br/>" html tag for title, subtitle, infotext and footer
+
+1.0.8
+- Fixed issue in calling Set-ALHCellColor
+
 #>
 
 <# 
@@ -85,7 +89,7 @@ function Out-ALHHtmlReport {
 	This text will be shown below the table.
 
 	.PARAMETER CellFormat
-	A hashtable specifying the parameters and values for the function Set-CelLColor to format
+	A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
     the html table cells based on filter expressions.
 
 	.PARAMETER AddSort
@@ -161,7 +165,7 @@ function Out-ALHHtmlReport {
     Write-Verbose -Message "Applying conditional cell format..."
     foreach ($Format in $CellFormat) {
         $FilterString = "$($Format.ColumnName) $($Format.Operator) `"$($Format.Value)`""
-        $htmlTable = Set-CellColor -InputObject $htmlTable -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
+        $htmlTable = Set-ALHCellColor -InputObject $htmlTable -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
     }
         
     $htmlTable = foreach ($line in $htmlTable) {

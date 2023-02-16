@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.4.2
+.VERSION 1.4.3
 
 .GUID f1dd360e-d18d-4a35-bcdc-fa1cc17f6498
 
@@ -60,6 +60,9 @@
 1.4.2
 - Added check for color hex code parameter
 
+1.4.3
+- Fixed issue in calling Set-ALHCellColor
+
 #>
 
 
@@ -109,7 +112,7 @@ function Out-ALHHtml {
 	This text will be shown below the table.
 
 	.PARAMETER CellFormat
-	A hashtable specifying the parameters and values for the function Set-CelLColor to format
+	A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
     the html table cells based on filter expressions.
 
 	.PARAMETER MakeSortable

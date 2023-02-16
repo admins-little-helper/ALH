@@ -94,7 +94,7 @@ PARAMETERS
         Accept wildcard characters?  false
         
     -CellFormat <PSObject[]>
-        A hashtable specifying the parameters and values for the function Set-CelLColor to format
+        A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
            the html table cells based on filter expressions.
         
         Required?                    false
