@@ -2,6 +2,11 @@
 
 [README.md](./README.md)
 
+## Version 2.0.5 (2023-02-22)
+
+* Set-ALHSavedCredential: Fixed issue: Wrong paramter name for Out-File.
+* Get-ALHADBitlockerRecoveryKey: Fixed issue in returning computer name.
+
 ## Version 2.0.4 (2023-02-16)
 
 * Fixed issue in calling Set-ALHCellColor in functions 'Out-ALHHtml' and 'Out-ALHHtmlReport'.
