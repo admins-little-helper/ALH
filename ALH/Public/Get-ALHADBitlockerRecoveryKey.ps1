@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.0
+.VERSION 1.0.1
 
 .GUID 759f9aaf-e0c8-4a27-bf43-72acf1dca5db
 
@@ -26,7 +26,10 @@
 
 .RELEASENOTES
     1.0.0
-    Initial release
+    Initial release.
+
+    1.0.1
+    Fixed issue in returning computer name.
 
 #>
 
@@ -116,7 +119,7 @@ function Get-ALHADBitlockerRecoveryKey {
                     if ($null -ne $BitlockerInfo) {
                         foreach ($BitlockerRecoveryKey in $BitlockerInfo) {
                             $ComputerInfo = [ordered]@{}
-                            $ComputerInfo.Name = $Computer.Name
+                            $ComputerInfo.Name = $_.Name
                             $ComputerInfo.PasswordID = ($BitlockerRecoveryKey.Name -split "{")[1] -replace "}", ""
                             $ComputerInfo.PasswordDate = Get-Date (($BitlockerRecoveryKey.Name -split "{")[0])
                             $ComputerInfo.RecoveryPassword = $BitlockerRecoveryKey.'msFVE-RecoveryPassword'
@@ -132,7 +135,8 @@ function Get-ALHADBitlockerRecoveryKey {
                     else {
                         Write-Verbose -Message "No Bitlocker information found for computer '$($_.Name)'"
                     }
-                } }
+                }
+            }
 
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
