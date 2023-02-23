@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.1.0
+.VERSION 1.1.1
 
 .GUID f3d1fbcd-1063-4e97-b7ae-a03ddbec9827 
 
@@ -30,6 +30,9 @@ Initial release
 
 1.1.0
 Cleaned up code.
+
+1.1.1
+Fixed issue: Wrong paramter name for Out-File
 
 #>
 
@@ -154,9 +157,9 @@ function Set-ALHSavedCredential {
     }
 
     Write-Verbose -Message "Saving identity value to file"
-    $Identity | Out-File -Path "$FullPathFileIdentity" -Force 
+    $Identity | Out-File -FilePath "$FullPathFileIdentity" -Force 
     Write-Verbose -Message "Saving secret value to file"
-    $Secret | ConvertFrom-SecureString | Out-File -Path "$FullPathFileSecret" -Force 
+    $Secret | ConvertFrom-SecureString | Out-File -FilePath "$FullPathFileSecret" -Force 
     return Get-ALHSavedCredential -Path $Path -FileNamePrefix $FileNamePrefix
 
     Write-Verbose -Message "Done"
