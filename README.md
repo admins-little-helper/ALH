@@ -16,6 +16,7 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Get-ALHADCircularNestedGroup
 * Get-ALHADComputerLogonTime
 * Get-ALHADDCInfo
+* Get-ALHADDiscrepancy
 * Get-ALHADDSDomainController
 * Get-ALHADFailedLogonAttempts
 * Get-ALHADGroupMember
@@ -27,6 +28,7 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Get-ALHADUserLogonTime
 * Get-ALHCMBaseline
 * Get-ALHDSAttribute
+* Get-ALHDSDomainController
 * Get-ALHDSObject
 * Get-ALHGroupPolicyFailureEvent
 * Get-ALHLoggedOnUser
@@ -46,6 +48,7 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Remove-ALHOldFile
 * Repair-ALHGroupPolicyStatus
 * Set-ALHSavedCredential
+* Stop-ALHService
 * Test-ALHADGroupmembership
 * Test-ALHADUserAccountControl
 * Test-ALHGroupPolicyStatus
@@ -54,7 +57,7 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Test-ALHIsOnBattery
 * Test-ALHIsRebootPending
 * Test-ALHIsUpn
-* Update-ALHSysinternalsSuite
+* Update-ALHSysinternalsSuite'
 
 ## Release notes
 

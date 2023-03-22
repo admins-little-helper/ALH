@@ -1,0 +1,88 @@
+
+NAME
+    Stop-ALHService
+    
+SYNOPSIS
+    The function 'Stop-ALHService' stops a service or kills the service process.
+    
+    
+SYNTAX
+    Stop-ALHService [[-ComputerName] <String[]>] [-ServiceName] <String[]> [-KillDegraded] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The function 'Stop-ALHService' stops a service or kills the service process if it's in the degraded state.
+       Can be run locally or on a remote computer. Requires WMI access.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        The name of the remote computer to stop the service on.
+        
+        Required?                    false
+        Position?                    1
+        Default value                Localhost
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -ServiceName <String[]>
+        The name of the service to stop.
+        
+        Required?                    true
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -KillDegraded [<SwitchParameter>]
+        If specified, the process of a services that is in status 'DEGRADED' will be killed.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String for parameter 'ComputerName'
+    
+    
+OUTPUTS
+    Nothing
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Stop-ALHService -ComputerName RemoteComputer -ServiceName wuauserv -KillDegraded
+    
+    Kills the Windows Update service if it's in degraded state on RemoteComputer.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > @(Computer1, Computer2, Computer3) | Stop-ALHService -ServiceName wuauserv -KillDegraded
+    
+    Kills the Windows Update service if it's in degraded state on Computer1, Computer2 and Computer3.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Stop-ALHService.txt
+
+

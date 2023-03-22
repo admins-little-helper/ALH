@@ -1,0 +1,25 @@
+{
+    "global": {
+        "logDir": "$PSScriptRoot\\Log",
+        "inputDir": "$PSScriptRoot\\Data\\Input",
+        "outputDir": "$PSScriptRoot\\Data\\Output"
+    },
+    "mail": {
+        "from": "sender@domain.org",
+        "to": "recipient@domain.org",
+        "cc": null,
+        "bcc": null,
+        "subject": "Script Report Subject",
+        "body": null,
+        "bodyAsHtml": false,
+        "server": "smtp.domain.org"
+    },
+    "HtmlProperties": {
+        "Title": "Active Directory Discrepancies Report",
+        "SubTitle": "All AD Discrepancies in domain in MyDomain",
+        "MainBackgroundColorHexcode": "#0066a1",
+        "InfoText": "[default]",
+        "Footer": "[default]",
+        "AddTableRowCountToButton": true
+    }
+}

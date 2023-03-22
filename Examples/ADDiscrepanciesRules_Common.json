@@ -1,0 +1,566 @@
+{
+	"AttributesToQuery": [
+		"samAccountName",
+		"userPrincipalName",
+		"mail",
+		"homeDirectory",
+		"msExchRecipientDisplayType",
+		"employeeType",
+		"lastLogon",
+		"lastLogonTimeStamp",
+		"userAccountControl",
+		"primaryGroupId",
+		"whenCreated",
+		"operatingSystem",
+		"ProtectedFromAccidentalDeletion"
+	],
+	"RuleSets": [
+		{
+			"Name": "Computer accounts - Simple name check",
+			"Description": "Dummy rule for testing",
+			"Enabled": false,
+			"ObjectClass": "computer",
+			"Rules": [
+				{
+					"Attribute": "Name",
+					"Operator": "-like",
+					"Values": "\"MyComputer*\""
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"samAccountName",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					}
+				],
+				"OutHtmlProperties": {
+					"ReportTitle": "ReportTitle",
+					"MainBackgroundColorHexcode": "#0066a1",
+					"CellFormat": [
+						{
+							"ColumnName": "Name",
+							"Operator": "-eq",
+							"Value": "MyComputer",
+							"Color": "#009933"
+						}
+					],
+					"LogoText": "MyComputer"
+				}
+			}
+		},
+		{
+			"Name": "Computer accounts - Simple name and samAccountName check",
+			"Description": "Dummy rule for testing",
+			"Enabled": false,
+			"ObjectClass": "computer",
+			"Rules": [
+				{
+					"Attribute": "Name",
+					"Operator": "-like",
+					"Values": "\"MyComputer*\"",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "sAMAccountName",
+					"Operator": "-eq",
+					"Values": "\"MyComputer$\""
+				}
+			]
+		},
+		{
+			"Name": "Computer accounts - Older than 180 days",
+			"Description": "'lastLogon' or 'lastLogonTimestamp' older than 180 days or not set",
+			"Enabled": true,
+			"ObjectClass": "computer",
+			"Rules": [
+				{
+					"Attribute": "lastLogon",
+					"Operator": "-lt",
+					"Values": "$(ConvertFrom-ALHLocalTime -DateTime $((Get-Date).AddDays(-180))).TicksSince1601",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "lastLogonTimeStamp",
+					"Operator": "-lt",
+					"Values": "$(ConvertFrom-ALHLocalTime -DateTime $((Get-Date).AddDays(-180))).TicksSince1601"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"c_Enabled",
+					"whenCreated",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					"ALHobjectGUID",
+					{
+						"Name": "cmd_DisableObject",
+						"Expression": "\"Set-ADComputer -Identity '{0}' -Enabled $false -WhatIf\" -f $_.distinguishedName"
+					},
+					{
+						"Name": "cmd_DeleteObject",
+						"Expression": "\"Remove-ADObject -Identity '{0}' -Confirm:$false -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "AD Objects - AD Objects in 'Computers' container",
+			"Description": "Any AD object in 'Computers' container",
+			"Enabled": true,
+			"ObjectClass": "*",
+			"Rules": [
+				{
+					"Attribute": "distinguishedName",
+					"Operator": "-match",
+					"Values": "(Get-ADObject -Filter {objectClass -eq 'Container' -and Name -eq 'Computers'}).DistinguishedName"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"c_Enabled",
+					"whenCreated",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "Computer accounts - Disabled accounts",
+			"Description": "Disabled computer accounts",
+			"Enabled": true,
+			"ObjectClass": "computer",
+			"Rules": [
+				{
+					"Attribute": "c_Enabled",
+					"Operator": "-eq",
+					"Values": "$false"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"c_Enabled",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"userAccountControl",
+					"whenCreated",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					{
+						"Name": "cmd_EnableObject",
+						"Expression": "\"Set-ADComputer -Identity '{0}' -Enabled $true -WhatIf\" -f $_.distinguishedName"
+					},
+					{
+						"Name": "cmd_DeleteObject",
+						"Expression": "\"Remove-ADObject -Identity '{0}' -Confirm:$false -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "OUs - Missing protection against accidental deletion",
+			"Description": "'ProtectedFromAccidentalDeletion' is not $true",
+			"Enabled": true,
+			"ObjectClass": "organizationalUnit",
+			"Rules": [
+				{
+					"Attribute": "ProtectedFromAccidentalDeletion",
+					"Operator": "-ne",
+					"Values": "true"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"ProtectedFromAccidentalDeletion",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					"c_ParentOu",
+					{
+						"Name": "cmd_EnableObjectProtection",
+						"Expression": "\"Set-ADObject -Identity '{0}' -ProtectedFromAccidentalDeletion $true -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - Password expired",
+			"Description": "User accounts with expired passwords",
+			"Enabled": true,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "userAccountControl",
+					"Operator": "-eq",
+					"Values": "$(Test-ALHADUserAccountControl -UacFlagToCheck 'PASSWORD_EXPIRED' -UacValue $_.userAccountControl -ReturnInt)",
+					"RuleConnector": "-or"
+				},
+				{
+					"Attribute": "'msds-User-Account-Control-Computed'",
+					"Operator": "-eq",
+					"Values": "$(Test-ALHADUserAccountControl -UacFlagToCheck 'PASSWORD_EXPIRED' -UacValue $_.'msds-User-Account-Control-Computed' -ReturnInt)"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					{
+						"Name": "c_PasswordExpired",
+						"Expression": "Test-ALHADUserAccountControl -UacFlagToCheck 'PASSWORD_EXPIRED' -UacValue ($_.userAccountControl -bor $_.'msds-User-Account-Control-Computed')"
+					},
+					"c_Enabled",
+					"userAccountControl",
+					"employeeType",
+					"whenCreated",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - Password never expires",
+			"Description": "User accounts with never expiring passwords",
+			"Enabled": true,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "userAccountControl",
+					"Operator": "-ge",
+					"Values": "$(Test-ALHADUserAccountControl -UacFlagToCheck 'DONT_EXPIRE_PASSWORD' -UacValue $_.userAccountControl -ReturnInt)",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "employeeType",
+					"Operator": "-notin",
+					"Values": [
+						"\"EquipmentMailbox\"",
+						"\"RoomMailbox\"",
+						"\"ServiceAccount\"",
+						"\"SharedMailbox\""
+					],
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "Name",
+					"Operator": "-notmatch",
+					"Values": "\"(HealthMailbox)|(SystemMailbox)\""
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"c_Enabled",
+					"userAccountControl",
+					"'msds-User-Account-Control-Computed'",
+					"whenCreated",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"employeeType",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					{
+						"Name": "cmd_RemovePasswordNeverExpires",
+						"Expression": "\"Set-ADUser -Identity '{0}' -PasswordNeverExpires $false -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - Disabled accounts",
+			"Description": "Disabled user accounts (not covering resource mailbox accounts)",
+			"Enabled": true,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "c_Enabled",
+					"Operator": "-eq",
+					"Values": "$false",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "employeeType",
+					"Operator": "-notin",
+					"Values": [
+						"\"RoomMailbox\"",
+						"\"SharedMailbox\"",
+						"\"EquipmentMailbox\""
+					]
+				}
+			],
+			"ExcludeFromRuleCheck": [
+				"krbtgt"
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					{
+						"Name": "c_PasswordExpired",
+						"Expression": "Test-ALHADUserAccountControl -UacFlagToCheck PASSWORD_EXPIRED -UacValue ($_.userAccountControl -bor $_.'msDS-User-Account-Control-Computed')"
+					},
+					"c_Enabled",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"employeeType",
+					"userAccountControl",
+					"'msDS-User-Account-Control-Computed'",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					{
+						"Name": "cmd_EnableObject",
+						"Expression": "\"Set-ADUser -Identity '{0}' -Enabled $true -WhatIf\" -f $_.distinguishedName"
+					},
+					{
+						"Name": "cmd_DeleteObject",
+						"Expression": "\"Remove-ADObject -Identity '{0}' -Confirm:$false -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - Enabled accounts of resource mailboxes",
+			"Description": "Enabled accounts of resource mailboxes",
+			"Enabled": true,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "c_Enabled",
+					"Operator": "-eq",
+					"Values": "$true",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "employeeType",
+					"Operator": "-in",
+					"Values": [
+						"\"RoomMailbox\"",
+						"\"SharedMailbox\"",
+						"\"EquipmentMailbox\""
+					]
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					{
+						"Name": "c_PasswordExpired",
+						"Expression": "Test-ALHADUserAccountControl -UacFlagToCheck PASSWORD_EXPIRED -UacValue ($_.userAccountControl -bor $_.'msDS-User-Account-Control-Computed')"
+					},
+					"c_Enabled",
+					{
+						"Name": "c_lastLogon",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogon)"
+					},
+					{
+						"Name": "c_lastLogonTimeStamp",
+						"Expression": "[DateTime]::FromFileTime($_.lastLogonTimeStamp)"
+					},
+					"employeeType",
+					"userAccountControl",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID",
+					{
+						"Name": "cmd_DisableObject",
+						"Expression": "\"Set-ADUser -Identity '{0}' -Enabled $false -WhatIf\" -f $_.distinguishedName"
+					}
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - UserPrincipalName not equals primary mail address",
+			"Description": "UserPrincipalName not equals primary mail address (for mail enabled accounts)",
+			"Enabled": false,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "userPrincipalName",
+					"Operator": "-ne",
+					"Values": "$_.mail",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "msExchRecipientDisplayType",
+					"Operator": "-ne",
+					"Values": "$null"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"userPrincipalName",
+					"mail",
+					"employeeType",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - UserPrincipalName not equals SIP address",
+			"Description": "UserPrincipalName not equals primary SIP address (for Skype enabled accounts)",
+			"Enabled": false,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "userPrincipalName",
+					"Operator": "-ne",
+					"Values": "($_.'msRTCSIP-PrimaryUserAddress' -replace 'sip:', '')",
+					"RuleConnector": "-and"
+				},
+				{
+					"Attribute": "'msRTCSIP-PrimaryHomeServer'",
+					"Operator": "-ne",
+					"Values": "$null"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"userPrincipalName",
+					"msRTCSIP-PrimaryUserAddress",
+					"employeeType",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "User accounts - Empty homeDirectory",
+			"Description": "UserAccounts with empty homeDirectory",
+			"Enabled": false,
+			"ObjectClass": "user",
+			"Rules": [
+				{
+					"Attribute": "homeDirectory",
+					"Operator": "-eq",
+					"Values": "$null"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"homeDirectory",
+					"employeeType",
+					"DistinguishedName",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		},
+		{
+			"Name": "Groups - No members",
+			"Description": "Groups with no members",
+			"Enabled": true,
+			"ObjectClass": "group",
+			"Rules": [
+				{
+					"Attribute": "member",
+					"Operator": "-eq",
+					"Values": "$null"
+				}
+			],
+			"ReportSettings": {
+				"AttributesToShow": [
+					"Name",
+					"displayName",
+					"DistinguishedName",
+					"whenChanged",
+					"ObjectClass",
+					"ObjectGUID"
+				],
+				"AttributesToSortBy": [
+					"Name"
+				]
+			}
+		}
+	]
+}

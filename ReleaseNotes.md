@@ -2,6 +2,12 @@
 
 [README.md](./README.md)
 
+## Version 2.1.0 (2023-03-22)
+
+* Added function 'Get-ALHADDiscrepancy'
+* Added function 'Get-ALHDSDomainController'
+* Added function 'Stop-ALHService'
+
 ## Version 2.0.5 (2023-02-22)
 
 * Set-ALHSavedCredential: Fixed issue: Wrong paramter name for Out-File.
