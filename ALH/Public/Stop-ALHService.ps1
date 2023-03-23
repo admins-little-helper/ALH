@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.1
+.VERSION 1.0.3
 
 .GUID f2717702-3f1d-4207-8c86-cc0138cc9cfb
 
@@ -31,6 +31,12 @@
 1.0.1
 - Fixed issue in correctly determining service status and service state.
 
+1.0.2
+- Fixed typo.
+
+1.0.3
+- Changed message output.
+
 #>
 
 
@@ -57,7 +63,7 @@ function Stop-ALHService {
     The name of the service to stop.
 
     .PARAMETER KillDegraded
-    If specified, the process of a services that is in status 'DEGRADED' will be killed.
+    If specified, the process of a services that is in status 'DEGRADED' will be killed. Normally running services will not be stopped.
 
     .EXAMPLE
 	Stop-ALHService -ComputerName RemoteComputer -ServiceName wuauserv -KillDegraded
@@ -156,7 +162,12 @@ function Stop-ALHService {
                     $ServiceObject = Get-CimInstance @GetCimInstanceServiceParam
 
                     if ($null -ne $ServiceObject) {
-                        Write-Verbose -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]."
+                        if ($ServiceObject.Status -eq "Degraded") {
+                            Write-Warning -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]."
+                        }
+                        else {
+                            Write-Information -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]." -InformationAction Continue
+                        }
 
                         switch ($ServiceObject.State) {
                             "Stop pending" {
@@ -189,24 +200,29 @@ function Stop-ALHService {
                                 }
                             }
                             "Running" {
-                                $InvokeCimMethodParams = @{
-                                    InputObject = $ServiceObject
-                                    Method      = "StopService"
-                                }
-                                if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
+                                if (-not ($KillDegraded)) {
+                                    $InvokeCimMethodParams = @{
+                                        InputObject = $ServiceObject
+                                        Method      = "StopService"
+                                    }
+                                    if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
 
-                                $ServiceStopStatus = Invoke-CimMethod @InvokeCimMethodParams
-                                $ServiceStopStatusInt32 = [convert]::ToInt32($ServiceStopStatus.ReturnValue, 10)
+                                    $ServiceStopStatus = Invoke-CimMethod @InvokeCimMethodParams
+                                    $ServiceStopStatusInt32 = [convert]::ToInt32($ServiceStopStatus.ReturnValue, 10)
 
-                                if ($ServiceStopStatusInt32 -eq 0) {
-                                    Write-Information -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])" -InformationAction Continue
+                                    if ($ServiceStopStatusInt32 -eq 0) {
+                                        Write-Information -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])" -InformationAction Continue
+                                    }
+                                    else {
+                                        Write-Warning -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])"
+                                    }
                                 }
                                 else {
-                                    Write-Warning -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])"
+                                    Write-Information -Message "Service is running but '-KillDegraded' was specified. Only stopping if in degraded state." -InformationAction Continue
                                 }
                             }
                             "Stopped" {
-                                Write-Information -Message "Computer [$Computer]: Service [$Service] is already in stopped." -InformationAction Continue
+                                Write-Information -Message "Computer [$Computer]: Service [$Service] is already stopped." -InformationAction Continue
                             }
                         }
                     }
