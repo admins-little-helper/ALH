@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.1.1
+.VERSION 1.2.0
 
 .GUID f3d1fbcd-1063-4e97-b7ae-a03ddbec9827 
 
@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -34,13 +34,16 @@ Cleaned up code.
 1.1.1
 Fixed issue: Wrong paramter name for Out-File
 
+1.2.0
+Redesign and code cleanup.
+
 #>
 
 
 <#
 
 .DESCRIPTION
-Contains a function to store credentials in a secure way.
+Contains a function to store credentials in as secure string in a text file.
 
 #>
 
@@ -48,16 +51,19 @@ Contains a function to store credentials in a secure way.
 function Set-ALHSavedCredential {
     <# 
     .SYNOPSIS
-    Saves credentials (username and password as secure string) in text files.
+    Saves credentials (username and password as secure string) in a text file.
     
     .DESCRIPTION
-    Saves credentials (username and password as secure string) in text files.
+    Saves credentials (username and password as secure string) in a text file.
     
     .PARAMETER Path
     Folder in wich the credential files are stored.
 
     .PARAMETER FileNamePrefix
     Filename prefix to use for credential files.
+
+    .PARAMETER Credential
+    PSCredential object with username and password.
 
     .PARAMETER Identity
     Username for credentials.
@@ -66,12 +72,25 @@ function Set-ALHSavedCredential {
     SecureString representing the password.
 
     .PARAMETER Force
-    Overwrite existing files. Default is set to $false.
+    If specified, existing files will be overwritten.
+
+    .PARAMETER AsJson
+    If specified, the output will be saved in a json file, instead of a text file.
 
     .EXAMPLE
     Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName"
 
     Save credentials for App1. The script will prompt for the password and hide typed characters.
+
+    .EXAMPLE
+    Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName" -AsJson
+
+    Save credentials for App1 in a single JSON file. The script will prompt for the password and hide typed characters.
+
+    .EXAMPLE
+    Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Credential (Get-Credential) -AsJson
+
+    Save credentials for App1 in a single JSON file. Username and password will be requested.
 
     .INPUTS
     Nothing
@@ -80,90 +99,113 @@ function Set-ALHSavedCredential {
     Object
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+    Author: Dieter Koch
+    Email: diko@admins-little-helper.de
 
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHSavedCredential.txt
     #>
     
-    [CmdletBinding(SupportsShouldProcess)]
-
+    [OutputType([PSCredential])]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "default")]
     param
-    (                     
-        [parameter(Mandatory)]
+    (
+        [Parameter(Mandatory)]
         [ValidateNotNull()]
-        [String]
+        [System.IO.FileInfo]
         $Path,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ValidateNotNull()]
         [String]
         $FileNamePrefix,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = "PSCredential")]
+        [ValidateNotNull()]
+        [PSCredential]
+        $Credential,
+
+        [Parameter(Mandatory, ParameterSetName = "IdentitySecret")]
         [ValidateNotNull()]
         [String]
         $Identity,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = "IdentitySecret")]
         [ValidateNotNull()]
         [SecureString]
         $Secret,
 
-        [Boolean]
-        $Force = $false
+        [Switch]
+        $Force,
+
+        [Switch]
+        $AsJson
     )
     
-    Write-Verbose -Message "Checking if path and filename already exist"
+    if ($PSCmdlet.ParameterSetName -eq "IdentitySecret") {
+        $Credential = New-Object System.Management.Automation.PSCredential ($Identity, $Secret)
+    }
+
+    Write-Verbose -Message "Checking if path and filename already exist."
     if (Test-Path -Path $Path -ErrorAction SilentlyContinue) {
-        Write-Verbose -Message "Path exists and is accessable"
+        Write-Verbose -Message "Path exists and is accessible."
             
         $FullPathFileIdentity = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Identity.txt"
         $FullPathFileSecret = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Secret.txt"
+        $FullPathFilCredential = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Credential.json"
 
-        if (Test-Path -Path $FullPathFileIdentity) {
-            if ($Force) {
-                Write-Verbose -Message "File to store identity already exists, file will be overwritten"
-            }
-            else {
-                Write-Output "File to store identity already exists. Stopping here. To overwrite existing file use -Force parameter with value $true"
-                Write-Output "$FullPathFileIdentity"
-                return $null
-            }
-        }
-
-        if (Test-Path -Path $FullPathFileSecret) {
-            if ($Force) {
-                Write-Verbose -Message "File to store secret already exists, file will be overwritten"
-            }
-            else {
-                Write-Output "File to store secret already exists. Stopping here. To overwrite existing file use -Force parameter with value $true"
-                Write-Output "$FullPathFileSecret"
-                return $null
+        $FileList = @($FullPathFileIdentity, $FullPathFileSecret, $FullPathFilCredential)
+        foreach ($File in $FileList) {
+            if (Test-Path -Path $File) {
+                if ($Force.IsPresent) {
+                    Write-Warning -Message "File already exists and will be overwritten: [$File]"
+                }
+                else {
+                    Write-Warning -Message "File already exists. Stopping here. To overwrite existing file use parameter '-Force': [$File]"
+                    return $null
+                }
             }
         }
     }
     else {
-        Write-Verbose -Message "Path does not exist, trying to create it"
+        Write-Verbose -Message "Path does not exist, trying to create it."
             
         try {
-            New-Item -Path $Path -ItemType Directory -Force -ErrorAction SilentlyContinue
+            $null = New-Item -Path $Path -ItemType Directory -Force -ErrorAction SilentlyContinue
         }
         catch {
-            Write-Error -Message "Error creating path $Path. Stopping here."
+            Write-Error -Message "Error creating path [$Path]."
             return $null
         }
     }
 
-    Write-Verbose -Message "Saving identity value to file"
-    $Identity | Out-File -FilePath "$FullPathFileIdentity" -Force 
-    Write-Verbose -Message "Saving secret value to file"
-    $Secret | ConvertFrom-SecureString | Out-File -FilePath "$FullPathFileSecret" -Force 
-    return Get-ALHSavedCredential -Path $Path -FileNamePrefix $FileNamePrefix
+    if ($AsJson.IsPresent) {
+        [PSCustomObject]$MyCredentialObject = @{
+            Username = $Credential.UserName
+            Password = $Credential.Password | ConvertFrom-SecureString
+        }
 
-    Write-Verbose -Message "Done"
+        Write-Verbose -Message "Saving credential to json file."
+        $MyCredentialObject | ConvertTo-Json | Out-File -FilePath $FullPathFilCredential -Force -Encoding utf8
+    }
+    else {
+        Write-Verbose -Message "Saving identity value to file."
+        $Credential.UserName | Out-File -FilePath "$FullPathFileIdentity" -Force -Encoding utf8
+
+        Write-Verbose -Message "Saving secret value to file."
+        $Credential.Password | ConvertFrom-SecureString | Out-File -FilePath "$FullPathFileSecret" -Force -Encoding utf8
+    }
+
+    Write-Verbose -Message "Returning saved credentials."
+    $GetSavedCredentialParams = @{
+        Path           = $Path
+        FileNamePrefix = $FileNamePrefix
+    }
+    if ($AsJson.IsPresent) { $GetSavedCredentialParams.AsJson = $true }
+    $SavedCredential = Get-ALHSavedCredential @GetSavedCredentialParams
+    return $SavedCredential
 }
+
 
 #region EndOfScript
 <#
@@ -183,4 +225,3 @@ function Set-ALHSavedCredential {
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    
