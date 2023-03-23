@@ -2,6 +2,10 @@
 
 [README.md](./README.md)
 
+## Version 2.1.1 (2023-03-23)
+
+* Function 'Stop-ALHService': Fixed issue in correctly determining service status and service state.
+
 ## Version 2.1.0 (2023-03-22)
 
 * Added function 'Get-ALHADDiscrepancy'
