@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.0
+.VERSION 1.0.1
 
 .GUID f2717702-3f1d-4207-8c86-cc0138cc9cfb
 
@@ -25,8 +25,11 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-1.0
+1.0.0
 - Initial release
+
+1.0.1
+- Fixed issue in correctly determining service status and service state.
 
 #>
 
@@ -153,33 +156,35 @@ function Stop-ALHService {
                     $ServiceObject = Get-CimInstance @GetCimInstanceServiceParam
 
                     if ($null -ne $ServiceObject) {
-                        Write-Verbose -Message "Computer [$Computer]: Status of service [$Service] is [$($ServiceObject.State)]."
+                        Write-Verbose -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]."
 
                         switch ($ServiceObject.State) {
-                            "Degraded" {
-                                if ($KillDegraded.IsPresent) {
-                                    $GetCimInstanceProcessParam = @{
-                                        Class  = "Win32_Process"
-                                        Filter = "ProcessId='$($ServiceObject.ProcessId)'"
-                                    }                
-                                    if ($Computer -ne "Localhost") { $GetCimInstanceProcessParam.ComputerName = $Computer }
+                            "Stop pending" {
+                                if ($ServiceObject.Status -eq "Degraded") {
+                                    if ($KillDegraded.IsPresent) {
+                                        $GetCimInstanceProcessParam = @{
+                                            Class  = "Win32_Process"
+                                            Filter = "ProcessId='$($ServiceObject.ProcessId)'"
+                                        }                
+                                        if ($Computer -ne "Localhost") { $GetCimInstanceProcessParam.ComputerName = $Computer }
                                     
-                                    $ServiceProcess = Get-CimInstance @GetCimInstanceProcessParam
+                                        $ServiceProcess = Get-CimInstance @GetCimInstanceProcessParam
 
-                                    $InvokeCimMethodParams = @{
-                                        InputObject = $ServiceProcess
-                                        Method      = "Terminate"
-                                    }
-                                    if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
+                                        $InvokeCimMethodParams = @{
+                                            InputObject = $ServiceProcess
+                                            Method      = "Terminate"
+                                        }
+                                        if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
 
-                                    $ReturnVal = Invoke-CimMethod @InvokeCimMethodParams
-                                    $ReturnValInt32 = [convert]::ToInt32($ReturnVal.ReturnValue, 10)
+                                        $ReturnVal = Invoke-CimMethod @InvokeCimMethodParams
+                                        $ReturnValInt32 = [convert]::ToInt32($ReturnVal.ReturnValue, 10)
 
-                                    if ($ReturnVal -eq 0) {
-                                        Write-Information -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])" -InformationAction Continue
-                                    }
-                                    else {
-                                        Write-Warning -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])"
+                                        if ($ReturnVal -eq 0) {
+                                            Write-Information -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])" -InformationAction Continue
+                                        }
+                                        else {
+                                            Write-Warning -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])"
+                                        }
                                     }
                                 }
                             }
