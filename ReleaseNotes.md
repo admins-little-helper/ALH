@@ -2,6 +2,15 @@
 
 [README.md](./README.md)
 
+## Version 2.2.0 (2023-03-23)
+
+* Fixed typos in some functions.
+* Set-ALHSavedCredentials: Redesign and code cleanup.
+* Get-ALHSavedCredentials: Redesign and code cleanup.
+* Stop-ALHService: Changed message output.
+* Stop-ALHService: Changed how the -KillDegraded switch works. When specified, only service where status is 'degraded' will be stopped. Normally running processes are not touched.
+* Added function 'Get-ALHOffice365UpdateStatus'
+
 ## Version 2.1.1 (2023-03-23)
 
 * Function 'Stop-ALHService': Fixed issue in correctly determining service status and service state.
