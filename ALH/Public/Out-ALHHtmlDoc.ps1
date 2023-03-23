@@ -116,7 +116,6 @@ function Out-ALHHtmlDoc {
     .OUTPUTS 
 	String
 
-
 	.NOTES
     Author:     Dieter Koch
     Email:      diko@admins-little-helper.de

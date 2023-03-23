@@ -176,7 +176,7 @@ function Get-ALHOffice365IPsAndUrls {
         }
     }
     else {
-        Write-Error -Message "Output path does not exist is is not accessable. Can not continue." -ErrorAction Stop
+        Write-Error -Message "Output path does not exist is is not accessible. Can not continue." -ErrorAction Stop
         break
     }
 
