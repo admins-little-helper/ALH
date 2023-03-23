@@ -123,10 +123,10 @@ function Get-ALHScriptSettings {
                             Write-Verbose -Message "Testing logDir path: $($Settings.Global.logDir)"
 
                             if (Test-Path -Path $($Settings.Global.logDir)) {
-                                Write-Verbose -Message "Logfile directory found and accessable: $($Settings.Global.logDir)"
+                                Write-Verbose -Message "Logfile directory found and accessible: $($Settings.Global.logDir)"
                             }
                             else {
-                                Write-Verbose -Message "Logfile directory not found or not accessable: $($Settings.Global.logDir)"
+                                Write-Verbose -Message "Logfile directory not found or not accessible: $($Settings.Global.logDir)"
                                 Write-Verbose -Message "Setting $env:Temp as logfile directory..."
                                 $Settings.Global.logDir = $env:Temp
                             }
@@ -143,10 +143,10 @@ function Get-ALHScriptSettings {
                             Write-Verbose -Message "Testing inputDir path: $($Settings.Global.inputDir)"
 
                             if (Test-Path -Path $Settings.Global.inputDir) {
-                                Write-Verbose -Message "Input directory found and accessable: $($Settings.Global.inputDir)"
+                                Write-Verbose -Message "Input directory found and accessible: $($Settings.Global.inputDir)"
                             }
                             else {
-                                Write-Verbose -Message "Input directory not found or not accessable: $($Settings.Global.inputDir)"
+                                Write-Verbose -Message "Input directory not found or not accessible: $($Settings.Global.inputDir)"
                                 Write-Verbose -Message "Setting input directory to null"
                                 $Settings.Global.inputDir = $null
                             }
@@ -163,10 +163,10 @@ function Get-ALHScriptSettings {
                             Write-Verbose -Message "Testing outputDir path: $($Settings.Global.outputDir)"
 
                             if (Test-Path -Path $Settings.Global.outputDir) {
-                                Write-Verbose -Message "Output directory found and accessable: $($Settings.Global.outputDir)"
+                                Write-Verbose -Message "Output directory found and accessible: $($Settings.Global.outputDir)"
                             }
                             else {
-                                Write-Verbose -Message "Output directory not found or not accessable: $($Settings.Global.outputDir)"
+                                Write-Verbose -Message "Output directory not found or not accessible: $($Settings.Global.outputDir)"
                                 Write-Verbose -Message "Setting $env:Temp as Output directory..."
                                 $Settings.Global.outputDir = $env:Temp
                             }
