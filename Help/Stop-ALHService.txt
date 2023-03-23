@@ -35,7 +35,7 @@ PARAMETERS
         Accept wildcard characters?  false
         
     -KillDegraded [<SwitchParameter>]
-        If specified, the process of a services that is in status 'DEGRADED' will be killed.
+        If specified, the process of a services that is in status 'DEGRADED' will be killed. Normally running services will not be stopped.
         
         Required?                    false
         Position?                    named

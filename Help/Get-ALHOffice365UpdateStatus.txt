@@ -1,0 +1,51 @@
+
+NAME
+    Get-ALHOffice365UpdateStatus
+    
+SYNOPSIS
+    Retrieves the M365 Apps for Enterprise update information.
+    
+    
+SYNTAX
+    Get-ALHOffice365UpdateStatus [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Retrieves the M365 Apps for Enterprise update information.
+    
+
+PARAMETERS
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    Nothing
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHOffice365UpdateStatus
+    
+    
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365UpdateStatus.txt
+
+
