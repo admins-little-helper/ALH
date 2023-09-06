@@ -2,7 +2,7 @@
 
 .VERSION 1.2.0
 
-.GUID f3d1fbcd-1063-4e97-b7ae-a03ddbec9827 
+.GUID f3d1fbcd-1063-4e97-b7ae-a03ddbec9827
 
 .AUTHOR Dieter Koch
 
@@ -37,6 +37,9 @@ Fixed issue: Wrong paramter name for Out-File
 1.2.0
 Redesign and code cleanup.
 
+1.2.1
+Fixed issue when creating $Path failes.
+
 #>
 
 
@@ -49,13 +52,13 @@ Contains a function to store credentials in as secure string in a text file.
 
 
 function Set-ALHSavedCredential {
-    <# 
+    <#
     .SYNOPSIS
     Saves credentials (username and password as secure string) in a text file.
-    
+
     .DESCRIPTION
     Saves credentials (username and password as secure string) in a text file.
-    
+
     .PARAMETER Path
     Folder in wich the credential files are stored.
 
@@ -105,7 +108,7 @@ function Set-ALHSavedCredential {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHSavedCredential.txt
     #>
-    
+
     [OutputType([PSCredential])]
     [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "default")]
     param
@@ -141,7 +144,7 @@ function Set-ALHSavedCredential {
         [Switch]
         $AsJson
     )
-    
+
     if ($PSCmdlet.ParameterSetName -eq "IdentitySecret") {
         $Credential = New-Object System.Management.Automation.PSCredential ($Identity, $Secret)
     }
@@ -149,7 +152,7 @@ function Set-ALHSavedCredential {
     Write-Verbose -Message "Checking if path and filename already exist."
     if (Test-Path -Path $Path -ErrorAction SilentlyContinue) {
         Write-Verbose -Message "Path exists and is accessible."
-            
+
         $FullPathFileIdentity = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Identity.txt"
         $FullPathFileSecret = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Secret.txt"
         $FullPathFilCredential = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Credential.json"
@@ -169,9 +172,9 @@ function Set-ALHSavedCredential {
     }
     else {
         Write-Verbose -Message "Path does not exist, trying to create it."
-            
+
         try {
-            $null = New-Item -Path $Path -ItemType Directory -Force -ErrorAction SilentlyContinue
+            $null = New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
         }
         catch {
             Write-Error -Message "Error creating path [$Path]."
@@ -206,20 +209,19 @@ function Set-ALHSavedCredential {
     return $SavedCredential
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
