@@ -38,10 +38,10 @@
     Added parameter 'DomainName'
     Removed parameter 'SizeLimit' and set PageSize to a value of 500 for the DirectorySearcher object
     Fixed how to get the proper objectClass for ALHobjectClass property
-    
+
     1.0.4
     Added custom attribute ALHProtectedFromAccidentalDeletion
-    
+
 #>
 
 
@@ -103,7 +103,7 @@ function Get-ALHDSObject {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHDSObject.txt
     #>
-    
+
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
         [ValidateNotNullOrEmpty()]
@@ -127,7 +127,7 @@ function Get-ALHDSObject {
         [PSCredential]
         $Credential
     )
-    
+
     $StopWatch = [System.Diagnostics.Stopwatch]::new()
     $StopWatch.Start()
     Write-Verbose -Message "Elapsed time since program start: $($StopWatch.Elapsed)"
@@ -170,7 +170,7 @@ function Get-ALHDSObject {
             $_
             Write-Error -Message "Could not connect to domain '$DomainName'"
             break
-        }    
+        }
     }
     else {
         Write-Verbose -Message "Setting SearchBase specified by parameter '$SearchBase'"
@@ -209,7 +209,7 @@ function Get-ALHDSObject {
         Write-Verbose -Message "Trying to connect with credentials of current user's scope for user '$($env:USERDOMAIN)\$($env:USERNAME)'"
         $Domain = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $ConnectString
     }
-    
+
     if ($null -eq $Domain.Path) {
         Write-Warning -Message "Could not connect to Active Directory. Aborting!"
     }
@@ -231,20 +231,20 @@ function Get-ALHDSObject {
         $DS.Filter = $Filter
         $DS.PageSize = 500
         $DS.SizeLimit = 0
-    
+
         $AllADObjects = $DS.FindAll()
         Write-Verbose -Message "# objects returned by query: $($AllADObjects.Count)"
-    
+
         # taken from https://stackoverflow.com/questions/51761894/regex-extract-ou-from-distinguished-name
         $RegExDN = "^(?:(?<cn>CN=(?<name>.*?)),)?(?<parent>(?:(?<path>(?:CN|OU).*?),)?(?<domain>(?:DC=.*)+))$"
-    
+
         [array]$AllADObjectsCustomObj = foreach ($item in $AllADObjects) {
             $ADObjectHT = @{}
             if ($item.Properties.distinguishedname.count -ne 0) {
                 $RegExDnMatches = [regex]::matches($item.Properties.distinguishedname[0], $RegExDN)
                 $ADObjectHT.Parent = $RegExDnMatches.Groups.Where({ $_.Name -eq 'parent' }).value
                 $ADObjectHT.ALHProtectedFromAccidentalDeletion = [bool]$item.GetDirectoryEntry().ObjectSecurity.Access.where({ $_.IdentityReference -eq (([System.Security.Principal.SecurityIdentifier]::new("S-1-1-0")).Translate([System.Security.Principal.NTAccount])).Value -and $_.AccessControlType -eq "Deny" })
-    
+
                 foreach ($itemprop in $item.Properties.GetEnumerator()) {
                     switch ($itemprop.Name) {
                         "objectClass" { $ADObjectHT.ALHobjectClass = $itemprop.value[$itemprop.value.count - 1] } #[-1] does not work here to get the last element in the array
@@ -254,22 +254,22 @@ function Get-ALHDSObject {
                         "lastlogon" { $ADObjectHT.ALHlastLogon = [DateTime]::FromFileTime($itemprop.value[0]) }
                         "lastlogontimestamp" { $ADObjectHT.ALHlastLogonTimestamp = [DateTime]::FromFileTime($itemprop.value[0]) }
                         "lastlogoff" { $ADObjectHT.ALHlastlogoff = [DateTime]::FromFileTime($itemprop.value[0]) }
-                        "badPasswordTime" { $ADObjectHT.ALHbadPasswordTime = [DateTime]::FromFileTime($itemprop.value[0]) }                        
+                        "badPasswordTime" { $ADObjectHT.ALHbadPasswordTime = [DateTime]::FromFileTime($itemprop.value[0]) }
                     }
 
                     $ADObjectHT."$($itemprop.Name)" = foreach ($itempropvalue in $itemprop.Value) {
                         $itempropvalue
                     }
                 }
-        
+
                 $ADObject = [pscustomobject]$ADObjectHT
-                $ADObject            
+                $ADObject
             }
             else {
                 Write-Warning -Message "Item has no DistinguishedName property, skipping to add to results. Item ADSPath: '$($item.Path)'"
             }
         }
-    
+
         Write-Verbose -Message "# valid objects returned by query: $($AllADObjectsCustomObj.Count)"
         Write-Verbose -Message "Elapsed time since program start: $($StopWatch.Elapsed)"
         $StopWatch.Stop()
@@ -278,20 +278,19 @@ function Get-ALHDSObject {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

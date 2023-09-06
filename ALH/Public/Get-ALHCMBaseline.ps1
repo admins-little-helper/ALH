@@ -11,19 +11,19 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI 
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
  1.0
@@ -32,12 +32,12 @@
 #>
 
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
 Contains function to get a list of baselines on a Configuration Manger client.
 
-#> 
+#>
 
 
 function Get-ALHCMBaseline {
@@ -124,7 +124,7 @@ function Get-ALHCMBaseline {
                     $ErrorMessage = $_.Exception.Message
                     Write-Warning -Message "Error enumerating baselines on computer '$SingleComputer': $ErrorMessage"
                 }
- 
+
                 foreach ($BaselineItem in $Baselines) {
                     $Result = [PSCustomObject]@{
                         ComputerName                 = $SingleComputer
@@ -146,20 +146,19 @@ function Get-ALHCMBaseline {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

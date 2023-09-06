@@ -34,7 +34,7 @@
     1.0.2
     Fixed duplicate parameter for Get-ALHDSObject
     Fixed value name in ValidateSet for parameter 'ClassName'
-    
+
 #>
 
 
@@ -112,7 +112,7 @@ function Get-ALHDSAttribute {
         [switch]
         $BaseClassOnly
     )
-    
+
     begin {
         try {
             Write-Verbose -Message "Getting Active Direcotry domain of computer"
@@ -132,7 +132,7 @@ function Get-ALHDSAttribute {
                 $Forest = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext("Forest", $DomainName)
                 Write-Verbose -Message "Trying to connect with credentials of current user's scope for user '$($env:USERDOMAIN)\$($env:USERNAME)'"
             }
-        
+
             $ADSchema = [System.DirectoryServices.ActiveDirectory.ActiveDirectorySchema]::GetSchema($Forest)
 
             Write-Verbose -Message "Setting parameter values for Get-ALHDSObject"
@@ -145,7 +145,7 @@ function Get-ALHDSAttribute {
             $_
         }
     }
-    
+
     process {
         foreach ($ClassNameItem in $ClassName) {
             $Loop = !($BaseClassOnly.IsPresent)
@@ -166,7 +166,7 @@ function Get-ALHDSAttribute {
                     $ClassNameToQuery = $Class.subClassOf
                 }
                 while ($Loop)
-    
+
                 foreach ($ClassItem in $ClassArray) {
                     $Aux = $ClassItem.AuxiliaryClass
 
@@ -203,20 +203,19 @@ function Get-ALHDSAttribute {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

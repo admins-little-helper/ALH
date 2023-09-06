@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -69,7 +69,7 @@ function Get-ALHADDSDomainController {
 
     .INPUTS
     Nothing
-        
+
     .OUTPUTS
     System.DirectoryServices.ActiveDirectory.DirectoryServer
 
@@ -88,15 +88,15 @@ function Get-ALHADDSDomainController {
     )
 
     $Domain = (Get-CimInstance -ClassName "Win32_ComputerSystem").Domain
-        
+
     if ($null -ne $Domain) {
         $context = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext("Domain", $Domain)
-        
+
         if ($All.IsPresent) {
             $DC = [System.DirectoryServices.ActiveDirectory.DomainController]::FindAll($context)
         }
         else {
-            $DC = [System.DirectoryServices.ActiveDirectory.DomainController]::FindOne($context)        
+            $DC = [System.DirectoryServices.ActiveDirectory.DomainController]::FindOne($context)
         }
     }
     else {
@@ -112,14 +112,14 @@ function Get-ALHADDSDomainController {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

@@ -68,11 +68,11 @@ function Test-ALHIsAdmin {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsAdmin.txt
     #>
-   	
+
     [OutputType([bool])]
     [CmdletBinding()]
     param ()
-	
+
     if ((($PSVersionTable.PSEdition -eq 'Core') -and ($PSVersionTable.Platform -eq 'Win32NT')) -or ($PSVersionTable.PSEdition -eq 'Desktop') ) {
         Write-Verbose -Message "Running on Windows."
         return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')
@@ -87,23 +87,21 @@ function Test-ALHIsAdmin {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    

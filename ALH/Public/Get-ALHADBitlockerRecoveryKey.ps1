@@ -53,7 +53,7 @@ function Get-ALHADBitlockerRecoveryKey {
 
     .DESCRIPTION
     Queries the Bitlocker recovery key for a computer account stored in Active Directory.
-    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the 
+    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
     'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
 
     .EXAMPLE
@@ -113,9 +113,9 @@ function Get-ALHADBitlockerRecoveryKey {
             }
 
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('ActiveDirectory\Get-ADComputer', [System.Management.Automation.CommandTypes]::Cmdlet)
-            $scriptCmd = { & $wrappedCmd @PSBoundParameters | ForEach-Object { 
+            $scriptCmd = { & $wrappedCmd @PSBoundParameters | ForEach-Object {
                     $BitlockerInfo = Get-ADObject -Filter { objectclass -eq 'msFVE-RecoveryInformation' } -SearchBase $_.DistinguishedName -Properties 'msFVE-RecoveryPassword'
-                
+
                     if ($null -ne $BitlockerInfo) {
                         foreach ($BitlockerRecoveryKey in $BitlockerInfo) {
                             $ComputerInfo = [ordered]@{}
@@ -127,8 +127,8 @@ function Get-ALHADBitlockerRecoveryKey {
                             foreach ($Parameter in $PSBoundParameters.Properties) {
                                 $ComputerInfo.$Parameter = $_.$Parameter
                             }
-                        
-                            $ComputerInfoObj = New-Object -TypeName PSObject -Property $ComputerInfo                        
+
+                            $ComputerInfoObj = New-Object -TypeName PSObject -Property $ComputerInfo
                             $ComputerInfoObj
                         }
                     }
@@ -177,14 +177,14 @@ function Get-ALHADBitlockerRecoveryKey {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

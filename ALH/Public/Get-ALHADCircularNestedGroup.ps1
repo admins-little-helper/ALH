@@ -116,23 +116,23 @@ function Get-ALHADCircularNestedGroup {
             }
 
             try {
-                $GroupMembers = @{} 
+                $GroupMembers = @{}
 
                 # Enumerate groups and populate hashtable.
                 # The key value will be the Distinguished Name of the group.
-                # The item value will be an array of the Distinguished Names of all members of the group that are groups. 
-                # The item value starts out as an empty array, since we don't know yet which members are groups. 
+                # The item value will be an array of the Distinguished Names of all members of the group that are groups.
+                # The item value starts out as an empty array, since we don't know yet which members are groups.
                 foreach ($Group in $AllGroups) {
                     $DN = [String]$Group.properties.Item('distinguishedName')
                     Write-Debug -Message "Adding group with DN to hashtable: $DN"
                     $GroupMembers.Add($DN, @())
                 }
- 
+
                 # Now enumerate the groups again to populate the item value arrays.
                 foreach ($Group in $AllGroups) {
                     $DN = [String]$Group.properties.Item('distinguishedName')
                     $Members = @($Group.properties.Item('member'))
-        
+
                     foreach ($Member in $Members) {
                         If ($GroupMembers.ContainsKey($Member)) {
                             Write-Debug -Message "Adding member to group --> $DN"
@@ -141,11 +141,11 @@ function Get-ALHADCircularNestedGroup {
                         }
                     }
                 }
- 
+
                 $NestedGroups = foreach ($Group in $GroupMembers.Keys) {
                     Get-ALHNestetdGroup -Identity $Group -Parent @($Group) -GroupMember $GroupMembers
                 }
- 
+
                 $NestedGroups
 
                 Write-Verbose -Message "Found '$(($NestedGroups | Measure-Object).Count)' nested groups in $SearchBaseElement"
@@ -168,14 +168,14 @@ function Get-ALHADCircularNestedGroup {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

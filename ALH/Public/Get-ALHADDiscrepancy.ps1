@@ -48,7 +48,7 @@
 
     1.0.7
     Corrected domain name output if executed in current user context.
-    
+
     1.0.8
     Added verbose output for elapsed time at program start.
     Changed query for object classes in used in rules to only look at enabled rules.
@@ -65,7 +65,7 @@
 
     1.0.12
     Fixed issue with calculated value for LDAPFilter.
-    
+
     1.0.13
     Added check for attributes to query.
 
@@ -77,10 +77,10 @@
 
     1.0.16
     Fixed issue #40 - Allow to specify multiple rules files.
-    
+
     1.0.17
     Fixed issue with SearchBase when ActiveDirectory Module is used.
-    
+
     1.1.0
     Added paramter '-FilePath' to directly store the output in a html file.
     Corrected names of dependent functions.
@@ -106,7 +106,7 @@ function Get-ALHADDiscrepancy {
 
     .PARAMETER ScriptSettingsFile
     Filepath to the script settings file in JSON format.
-    
+
     .PARAMETER RulesFile
     Filepath to one or more rules files in JSON format.
 
@@ -142,7 +142,7 @@ function Get-ALHADDiscrepancy {
         [ValidateScript({ Test-Path -Path $_ -ErrorAction SilentlyContinue })]
         [string]
         $ScriptSettingsFile,
-        
+
         [ValidateScript({ foreach ($file in $_) { Test-Path -Path $_ -ErrorAction SilentlyContinue } })]
         [string[]]
         $RulesFile,
@@ -171,7 +171,7 @@ function Get-ALHADDiscrepancy {
                 if ($_ -notmatch "(\.htm|\.html)") {
                     throw "The file specified in the InputFile parameter must be one of these types: .htm, .html"
                 }
-                return $true 
+                return $true
             })]
         [Parameter(Mandatory)]
         [string]
@@ -187,7 +187,7 @@ function Get-ALHADDiscrepancy {
         break
     }
     else {
-        $ScriptSettings = Get-ALHScriptSettings -Path "$ScriptSettingsFile"
+        $ScriptSettings = Get-ALHScriptSetting -Path "$ScriptSettingsFile"
     }
 
     if ($null -eq $RulesFile -or $RulesFile.Count -eq 0) {
@@ -221,7 +221,7 @@ function Get-ALHADDiscrepancy {
     $GetALHADAttributesParams = @{}
     $GetADObjectParams = @{}
 
-    if (-not ([string]::IsNullOrEmpty($DomainName))) { 
+    if (-not ([string]::IsNullOrEmpty($DomainName))) {
         $CommonParams.DomainName = $DomainName
         $GetALHADDomainControllerParams.DomainName = $DomainName
 
@@ -258,7 +258,7 @@ function Get-ALHADDiscrepancy {
         }
     }
     if (-not ([string]::IsNullOrEmpty($Server))) {
-        $CommonParams.Server = $Server 
+        $CommonParams.Server = $Server
         $GetALHADDomainControllerParams.Server = $Server
         $GetALHADAttributesParams.Server = $Server
         $GetADObjectParams.Server = $Server
@@ -276,7 +276,7 @@ function Get-ALHADDiscrepancy {
             if ($DomainName -ne $((Get-CimInstance -ClassName "Win32_ComputerSystem").Domain)) {
                 Write-Verbose -Message "Running query aginst foreign domain - need to detect domain controller for query."
                 $Server = "$((Get-ADDomainController -Discover -ForceDiscover -NextClosestSite @CommonParams).HostName)"
-                $CommonParams.Server = $Server 
+                $CommonParams.Server = $Server
             }
             else {
                 Write-Verbose -Message "Running query against current user's domain - no need to detect servername."
@@ -285,7 +285,7 @@ function Get-ALHADDiscrepancy {
         else {
             Write-Verbose -Message "Detecting server to query for Get-ALHAD* cmdlets."
             $Server = "$((Get-ALHADDomainController @GetALHADDomainControllerParams).Name.Substring(2))"
-            $CommonParams.Server = $Server 
+            $CommonParams.Server = $Server
         }
     }
 
@@ -307,7 +307,7 @@ function Get-ALHADDiscrepancy {
 
     if ($UseActiveDirectoryModule.IsPresent) {
         [array]$ObjectClassesToQuery = (($ADRules.RuleSets | Where-Object { $_.Enabled -eq $true }).objectClass | Select-Object -Unique).where({ $_ -eq 'user' -or $_ -eq 'computer' -or $_ -eq 'group' -or $_ -eq 'organizationalUnit' })
-    
+
         if ($ObjectClassesToQuery -contains '*') {
             [string]$ObjectClassQueryString = "objectClass -eq '*'"
         }
@@ -317,7 +317,7 @@ function Get-ALHADDiscrepancy {
     }
     else {
         [array]$ObjectClassesToQuery = (($ADRules.RuleSets | Where-Object { $_.Enabled -eq $true }).objectClass | Select-Object -Unique).where({ $_ -eq 'user' -or $_ -eq 'computer' -or $_ -eq 'group' -or $_ -eq 'organizationalUnit' })
-    
+
         if ($ObjectClassesToQuery -contains '*') {
             [string]$ObjectClassQueryString = "(&(objectClass=*))"
         }
@@ -354,7 +354,7 @@ function Get-ALHADDiscrepancy {
     else {
         Write-Verbose -Message "AttributesToQuery from rules file ignored, because it's not needed for Get-ALHADObject."
     }
-    
+
     if ($UseActiveDirectoryModule.IsPresent) {
         [array]$ADObjectsRaw = Get-ADObject -Filter $ObjectClassQueryString -Property $AttributesToQueryVerified @GetADObjectParams
     }
@@ -363,7 +363,7 @@ function Get-ALHADDiscrepancy {
     }
 
     Write-Verbose -Message "Elapsed time since program start - executed AD Query : $($StopWatch.Elapsed)"
-    
+
     [array]$ADObjects = foreach ($ADObj in $ADObjectsRaw) {
         $ParentOU = { $($($this.DistinguishedName -split ",") | Select-Object -Skip 1 | ForEach-Object { if ( $_ -notmatch "\\" -and $_ -match "=") { $_ } }) -join "," }
         $Enabled = { (-not $(Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue $this.userAccountControl )) }
@@ -375,7 +375,7 @@ function Get-ALHADDiscrepancy {
     Write-Verbose -Message "Elapsed time since program start - added calculated attributes : $($StopWatch.Elapsed)"
 
     $TotalResults = foreach ($RuleSet in $ADRules.RuleSets | Where-Object { $_.Enabled -eq $true } | Sort-Object -Property objectClass, Name) {
-        Write-Information -Message "$($Ruleset.Name)" -InformationAction Continue
+        Write-Information -MessageData "$($Ruleset.Name)" -InformationAction Continue
         Write-Verbose -Message "Elapsed time since program start - started rule processing: $($StopWatch.Elapsed)"
 
         [string]$RuleSetFilterString = foreach ($Rule in $RuleSet.Rules) {
@@ -416,14 +416,14 @@ function Get-ALHADDiscrepancy {
         else {
             [string]$RuleSetFilterComplete = "`$_.ALHobjectClass -like '$($RuleSet.ObjectClass)' -and ($($RuleSetFilterString -join ''))"
         }
-        
+
         $RuleSetFilter = [scriptblock]::Create($RuleSetFilterComplete)
         $RuleSet | Add-Member -Name "RuleSetFilter" -MemberType NoteProperty -Value $RuleSetFilter
 
         Write-Verbose -Message "Elapsed time since program start - created rule set filter scriptblock: $($StopWatch.Elapsed)"
 
         $RuleResult = $null
-        
+
         # In case the current rule has an 'ExcludeFromRuleCheck' attribute, it will be handled here.
         if ( $(Get-Member -InputObject $RuleSet).Name.Contains("ExcludeFromRuleCheck") ) {
             Write-Verbose -Message "Rule has excludes defined. Removing excluded items from check."
@@ -451,7 +451,7 @@ function Get-ALHADDiscrepancy {
             }
         }
         Write-Verbose -Message "Elapsed time since program start - finished applying ruleset filter scriptblock: $($StopWatch.Elapsed)"
-    
+
         $RuleSet | Add-Member -Name "RuleSetResult" -MemberType NoteProperty -Value $RuleResult
         $RuleSet
         Write-Verbose -Message "Elapsed time since program start - processed rule: $($StopWatch.Elapsed)"
@@ -524,7 +524,7 @@ function Get-ALHADDiscrepancy {
 
     $OutALHHtmlDocProperties = @{}
     $ScriptSettings.HtmlProperties.PSObject.Properties | ForEach-Object { $OutALHHtmlDocProperties[$_.Name] = $_.Value }
-    
+
     if ([string]::IsNullOrEmpty($OutALHHtmlDocProperties.Title)) {
         Write-Verbose -Message "Replace empty HTML document 'Title' with default text from this module"
         $OutALHHtmlDocProperties.Title = $OutALHHtmlDocProperties.Title -replace "(\[default\])", "AD Discrepancies based on rules in '$RulesFile'"
@@ -539,7 +539,7 @@ function Get-ALHADDiscrepancy {
         Write-Verbose -Message "Replace HTML document 'InfoText' value '[default]' with default text from this module"
         $OutALHHtmlDocProperties.InfoText = $OutALHHtmlDocProperties.InfoText -replace "(\[default\])", "AD Discrepancies based on rules in '$RulesFile'"
     }
- 
+
     if ($OutALHHtmlDocProperties.Footer -match "(\[default\])") {
         Write-Verbose -Message "Replace HTML document 'Footer' value '[default]' with default text from this module"
         $OutALHHtmlDocProperties.Footer = $OutALHHtmlDocProperties.Footer -replace "(\[default\])", "# rules processed: $(($ADRules.RuleSets | Where-Object { $_.Enabled -eq $true } | Measure-Object).Count) / # total rules defined: $(($ADRules.RuleSets | Measure-Object).Count)"
@@ -558,14 +558,14 @@ function Get-ALHADDiscrepancy {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

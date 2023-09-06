@@ -63,12 +63,12 @@ function Get-ALHAccountInfo {
     .EXAMPLE
     Get-ALHAccountInfo -Identity "S-1-5-32-544"
 
-    AccountName     DomainName   SIDValue    
-    -----------     ----------   --------    
+    AccountName     DomainName   SIDValue
+    -----------     ----------   --------
     administrators  BUILT-IN     S-1-5-32-544
 
     Get account information for a SID value.
-    
+
     .EXAMPLE
     Get-Content -Path "C:\Temp\Accountnames.txt" | Get-ALHAccountInfo
 
@@ -99,7 +99,7 @@ function Get-ALHAccountInfo {
         Write-Verbose -Message "Defining SID regex pattern."
         $SIDPattern = '^S-\d-(\d+-){1,14}\d+$'
     }
-    
+
     process {
         foreach ($SingleIdentity in $Identity) {
             $IdentityInfo = [PSCustomObject]@{
@@ -109,7 +109,7 @@ function Get-ALHAccountInfo {
             }
 
             Write-Verbose -Message "Testing SID value for validity."
-            
+
             if ($SingleIdentity -match $SIDPattern) {
                 Write-Verbose -Message "SID is a valid SID: '$SIDElement'"
                 $IdentityInfo.SIDValue = $SingleIdentity
@@ -125,8 +125,8 @@ function Get-ALHAccountInfo {
             }
             else {
                 Write-Verbose -Message "SID is not a valid SID: '$SIDElement'"
-            }            
-    
+            }
+
             if ($SingleIdentity -match "\\") {
                 Write-Verbose -Message "Username contains '\' - parsing username and domain name from this"
                 $IdentityInfo.DomainName = ($SingleIdentity -split "\\")[0]
@@ -144,7 +144,7 @@ function Get-ALHAccountInfo {
 
             $IdentityInfo.AccountName = ($IdentityInfo.AccountName).ToLower()
             $IdentityInfo.DomainName = ($IdentityInfo.DomainName).ToUpper()
-     
+
             if ([string]::IsNullOrEmpty($IdentityInfo.SIDValue)) {
                 Write-Verbose -Message "Trying to get SID by account domain and name."
                 try {
@@ -168,14 +168,14 @@ function Get-ALHAccountInfo {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

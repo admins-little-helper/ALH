@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -85,11 +85,11 @@ function Test-ALHADUserAccountControl {
 
     .LINK
     http://woshub.com/decoding-ad-useraccountcontrol-value/
-    
+
     .LINK
     https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
     #>
-    
+
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, ValueFromPipeline)]
@@ -125,64 +125,65 @@ function Test-ALHADUserAccountControl {
         $ReturnInt
     )
 
-    $UacFlags = [hashtable][ordered]@{}
-    $UacFlags.Add('SCRIPT', 1)
-    $UacFlags.Add('ACCOUNTDISABLE', 2)
-    $UacFlags.Add('HOMEDIR_REQUIRED', 8)
-    $UacFlags.Add('LOCKOUT', 16)
-    $UacFlags.Add('PASSWD_NOTREQD', 32)
-    $UacFlags.Add('PASSWD_CANT_CHANGE', 64)
-    $UacFlags.Add('ENCRYPTED_TEXT_PWD_ALLOWED', 128)
-    $UacFlags.Add('TEMP_DUPLICATE_ACCOUNT', 256)
-    $UacFlags.Add('NORMAL_ACCOUNT', 512)
-    $UacFlags.Add('INTERDOMAIN_TRUST_ACCOUNT', 2048)
-    $UacFlags.Add('WORKSTATION_TRUST_ACCOUNT', 4096)
-    $UacFlags.Add('SERVER_TRUST_ACCOUNT', 8192)
-    $UacFlags.Add('DONT_EXPIRE_PASSWORD', 65536)
-    $UacFlags.Add('MNS_LOGON_ACCOUNT', 131072)
-    $UacFlags.Add('SMARTCARD_REQUIRED', 262144)
-    $UacFlags.Add('TRUSTED_FOR_DELEGATION', 524288)    
-    $UacFlags.Add('NOT_DELEGATED', 1048576)
-    $UacFlags.Add('USE_DES_KEY_ONLY', 2097152)
-    $UacFlags.Add('DONT_REQ_PREAUTH', 4194304)
-    $UacFlags.Add('PASSWORD_EXPIRED', 8388608)
-    $UacFlags.Add('TRUSTED_TO_AUTH_FOR_DELEGATION', 16777216)
-    $UacFlags.Add('PARTIAL_SECRETS_ACCOUNT', 67108864)
+    process {
+        $UacFlags = [hashtable][ordered]@{}
+        $UacFlags.Add('SCRIPT', 1)
+        $UacFlags.Add('ACCOUNTDISABLE', 2)
+        $UacFlags.Add('HOMEDIR_REQUIRED', 8)
+        $UacFlags.Add('LOCKOUT', 16)
+        $UacFlags.Add('PASSWD_NOTREQD', 32)
+        $UacFlags.Add('PASSWD_CANT_CHANGE', 64)
+        $UacFlags.Add('ENCRYPTED_TEXT_PWD_ALLOWED', 128)
+        $UacFlags.Add('TEMP_DUPLICATE_ACCOUNT', 256)
+        $UacFlags.Add('NORMAL_ACCOUNT', 512)
+        $UacFlags.Add('INTERDOMAIN_TRUST_ACCOUNT', 2048)
+        $UacFlags.Add('WORKSTATION_TRUST_ACCOUNT', 4096)
+        $UacFlags.Add('SERVER_TRUST_ACCOUNT', 8192)
+        $UacFlags.Add('DONT_EXPIRE_PASSWORD', 65536)
+        $UacFlags.Add('MNS_LOGON_ACCOUNT', 131072)
+        $UacFlags.Add('SMARTCARD_REQUIRED', 262144)
+        $UacFlags.Add('TRUSTED_FOR_DELEGATION', 524288)
+        $UacFlags.Add('NOT_DELEGATED', 1048576)
+        $UacFlags.Add('USE_DES_KEY_ONLY', 2097152)
+        $UacFlags.Add('DONT_REQ_PREAUTH', 4194304)
+        $UacFlags.Add('PASSWORD_EXPIRED', 8388608)
+        $UacFlags.Add('TRUSTED_TO_AUTH_FOR_DELEGATION', 16777216)
+        $UacFlags.Add('PARTIAL_SECRETS_ACCOUNT', 67108864)
 
-    if ($null -eq $UacValue -or $UacValue -eq 0) {
-        $Result = $UacFlags.$UacFlagToCheck
-    }
-    else {
-        if ($ReturnInt.IsPresent) {
-            if ([bool]$($UacValue -band $UacFlags.$UacFlagToCheck)) {
-                $Result = $UacValue
-            }
-            else {
-                $Result = -1
-            }
+        if ($null -eq $UacValue -or $UacValue -eq 0) {
+            $Result = $UacFlags.$UacFlagToCheck
         }
         else {
-            $Result = [bool]$($UacValue -band $UacFlags.$UacFlagToCheck)
+            if ($ReturnInt.IsPresent) {
+                if ([bool]$($UacValue -band $UacFlags.$UacFlagToCheck)) {
+                    $Result = $UacValue
+                }
+                else {
+                    $Result = -1
+                }
+            }
+            else {
+                $Result = [bool]$($UacValue -band $UacFlags.$UacFlagToCheck)
+            }
         }
+
+        $Result
     }
-
-    $Result
 }
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -46,29 +46,27 @@ function Get-ALHGroupPolicyFailureEvent {
     <#
     .SYNOPSIS
     Function to query system eventlog for event id 1096 which indicates problems in applying computer group policy.
-     
+
     .DESCRIPTION
     The function 'Get-ALHGroupPolicyFailureEvent' queries the system eventlog for event id 1096 which indicates problems in applying computer group policy.
     The function can query one or multiple computers for one, multiple or any user in a given timeframe.
-     
+
     .PARAMETER StartTime
     The datetime to start searching from. If ommited, it's set for the last two hours.
-     
+
     .PARAMETER ComputerName
     Optional. One or more computernames to search for. If ommited, the script tries to get the domain controller
     with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
-     
+
     .PARAMETER Credential
     Optional. Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
-     
+
     .EXAMPLE
     Get-ALHGroupPolicyFailureEvent
-
     This will run the query on the local computer and show the results.
 
     .EXAMPLE
     Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName COMPUTER01
-
     This will run the query on computer 'COMPUTER01' and searching all events in the last 24 hours.
 
     .INPUTS
@@ -84,22 +82,22 @@ function Get-ALHGroupPolicyFailureEvent {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHGroupPolicyFailureEvent.txt
     #>
-    
+    [OutputType([hashtable])]
     [CmdletBinding()]
     param (
         [ValidateNotNullOrEmpty()]
         [datetime]$StartTime = (Get-Date).AddHours(-2),
-    
+
         [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]
         [ValidateNotNullOrEmpty()]
         [string[]]$ComputerName = $env:COMPUTERNAME,
-    
+
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
-    
+
     begin {
         # Note: This will only count objects if the computer names are given by parameter.
         # In case the input comes from the pipeline, it will always be 1.
@@ -139,7 +137,7 @@ function Get-ALHGroupPolicyFailureEvent {
                             SupportInfo1                 = $Event.Properties[0].Value
                             SupportInfo2                 = $Event.Properties[1].Value
                             ProcessingMode               = $Event.Properties[2].Value
-                            ProcessingTimeInMilliseconds = $Event.Properties[3].Value 
+                            ProcessingTimeInMilliseconds = $Event.Properties[3].Value
                             ErrorCode                    = $Event.Properties[4].Value
                             ErrorDescription             = $Event.Properties[5].Value
                             DCName                       = $Event.Properties[6].Value
@@ -154,7 +152,7 @@ function Get-ALHGroupPolicyFailureEvent {
             }
             catch [System.Exception] {
                 if ($_.FullyQualifiedErrorID -eq 'NoMatchingEventsFound,Microsoft.PowerShell.Commands.GetWinEventCommand') {
-                    Write-Information -Message "No events returned in search" -InformationAction Continue
+                    Write-Information -MessageData "No events returned in search" -InformationAction Continue
                 }
                 else {
                     $_
@@ -163,24 +161,23 @@ function Get-ALHGroupPolicyFailureEvent {
             catch {
                 $_
             }
-        } 
+        }
     }
 }
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

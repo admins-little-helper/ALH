@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -53,10 +53,10 @@ Function Test-ALHIsOnBattery {
     <#
     .SYNOPSIS
     Checks if a computer is running on battery.
-     
+
     .DESCRIPTION
     Checks if a computer is running on battery.
-     
+
     .PARAMETER ComputerName
     The name of the computer to check. Defaults to local computer.
 
@@ -179,14 +179,14 @@ Function Test-ALHIsOnBattery {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

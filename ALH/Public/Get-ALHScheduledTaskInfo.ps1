@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -43,10 +43,10 @@ function Get-ALHScheduledTaskInfo {
     <#
     .SYNOPSIS
     Function to retrieve information about scheduled tasks on local or remote systems.
-     
+
     .DESCRIPTION
     Function to retrieve information about scheduled tasks on local or remote systems.
-     
+
     .PARAMETER Computer
     One or more names of remote computers to query scheduled task information from.
 
@@ -97,7 +97,7 @@ function Get-ALHScheduledTaskInfo {
 
         [switch]
         $Recurse,
-        
+
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
@@ -142,7 +142,7 @@ function Get-ALHScheduledTaskInfo {
             Write-Verbose -Message "Trying to get data from computer $SingleComputer"
 
             if ($SingleComputer -eq $env:COMPUTERNAME) {
-                Get-ScheduledTask -TaskPath $TaskPath -ErrorAction SilentlyContinue | ForEach-Object { 
+                Get-ScheduledTask -TaskPath $TaskPath -ErrorAction SilentlyContinue | ForEach-Object {
                     Get-ScheduledTaskInfo $_ | `
                             Select-Object -Property @{Name = 'PSComputerName'; Expression = { $env:COMPUTERNAME } }, `
                             TaskName, `
@@ -155,18 +155,18 @@ function Get-ALHScheduledTaskInfo {
                 }
                 else {
                     Write-Verbose -Message "Trying to connect to computer $SingleComputer"
-                    
+
                     try {
                         $Session = New-CimSession -ComputerName $SingleComputer -Credential $Credential -ErrorAction Stop
                     }
                     catch {
                         Write-Warning -Message "Connection failed"
                     }
-                    
+
                     if ($null -ne $Session) {
                         Write-Verbose -Message "Successfully connected to computer $SingleComputer"
 
-                        Get-ScheduledTask -CimSession $Session -TaskPath $TaskPath -ErrorAction SilentlyContinue | ForEach-Object { 
+                        Get-ScheduledTask -CimSession $Session -TaskPath $TaskPath -ErrorAction SilentlyContinue | ForEach-Object {
                             Get-ScheduledTaskInfo $_ | `
                                     Select-Object -Property PSComputerName, `
                                     TaskName, `
@@ -188,22 +188,21 @@ function Get-ALHScheduledTaskInfo {
             }
         }
 
-
-        #region EndOfScript
-        <#
+#region EndOfScript
+<#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
-        #endregion
+#endregion

@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -41,7 +41,7 @@
 - Fixed issue with path names in recursion
 
 1.1.3
-- Fixed issue of incorrect handling of root path 
+- Fixed issue of incorrect handling of root path
 
 1.1.4
 - Added error handling
@@ -85,12 +85,12 @@ function Get-ALHRegistryItem {
     Optional. Run query recursively (query sub keys).
 
     .EXAMPLE
-    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common" from Computer "Computer1" 
     Get-ALHRegistryItem -ComputerName Computer1 -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common" -Recurse -Verbose
+    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common" from Computer "Computer1"
 
     .EXAMPLE
-    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" from Computer "Computer1" 
     (Get-ADComputer -SearchBase "OU=myOU,DC=myDomain,DC=tld" -Filter *).Name | Get-ALHRegistryItem -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" -ValueName "enableautomaticupdates"
+    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" from Computer "Computer1".
 
     .INPUTS
     String
@@ -108,7 +108,7 @@ function Get-ALHRegistryItem {
 
     [CmdletBinding()]
     param
-    ( 
+    (
         [parameter(ValueFromPipeline)]
         [String[]]
         $ComputerName = $env:COMPUTERNAME,
@@ -130,7 +130,7 @@ function Get-ALHRegistryItem {
         [switch]
         $SkipConnectionTest
     )
-    
+
     begin {
         $IsRecursive = (Get-PSCallStack)[1].Command -eq $MyInvocation.MyCommand
         $Hive = ""
@@ -156,15 +156,15 @@ function Get-ALHRegistryItem {
             "HKLM" = @{
                 "ShortName" = "HKLM:"
                 "HiveName"  = "LocalMachine"
-            } 
+            }
             "HKU"  = @{
                 "ShortName" = "HKU:"
                 "HiveName"  = "Users"
-            }    
+            }
             "HKCC" = @{
                 "ShortName" = "HKCC:"
                 "HiveName"  = "CurrentConfig"
-            }           
+            }
         }
 
         switch ($Hive) {
@@ -179,7 +179,7 @@ function Get-ALHRegistryItem {
             }
         }
     }
-    
+
     process {
         foreach ($Computer in $ComputerName) {
             $IsComputerOnline = $false
@@ -192,7 +192,7 @@ function Get-ALHRegistryItem {
                 Write-Verbose -Message "Reading values from Computer: $Computer"
                 if ($SkipConnectionTest.IsPresent) {
                     Write-Verbose -Message "Skipping Test-Connection"
-                    $IsComputerOnline = $true                    
+                    $IsComputerOnline = $true
                 }
                 else {
                     Write-Verbose -Message "Checking if system is online."
@@ -212,7 +212,7 @@ function Get-ALHRegistryItem {
                 catch {
                     Write-Warning -Message "Unknown error occured reading registry key: '$($RegistryHive.ShortName)\$Path'"
                 }
-                
+
                 if ($RegistryKey) {
                     $Path = "$($RegistryHive.ShortName)\$Path"
 
@@ -290,14 +290,14 @@ function Get-ALHRegistryItem {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

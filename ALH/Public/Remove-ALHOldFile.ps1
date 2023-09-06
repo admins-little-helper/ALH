@@ -10,19 +10,19 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI 
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
 1.0.0
@@ -60,19 +60,19 @@
 #>
 
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
 Contains function to clean up old files of a given filename pattern.
 
-#> 
+#>
 
 function Remove-ALHOldFile {
-    <# 
-    .SYNOPSIS 
+    <#
+    .SYNOPSIS
     A PowerShell function to remove old files in a given folder.
 
-    .DESCRIPTION 
+    .DESCRIPTION
     A PowerShell function to remove old files of a given filename pattern in a given folder.
     It's also possible to specify either start and end date/time or a timespan to limit the search results to
     files within that time range (based on LastWriteTime of the file).
@@ -137,7 +137,7 @@ function Remove-ALHOldFile {
 
     .EXAMPLE
     # Keep newest 2 "Logfile*.txt" files for each day within the last 14 days in folder C:\MyScripts\Log
-    
+
     14..1 | ForEach-Object {
         Remove-ALHOldFile -Path "C:\MyScript\Log" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 2 -Start (Get-Date).AddDays($_ *-1) -End (Get-Date).AddDays(($_ - 1) *-1) -Verbose
     }
@@ -148,7 +148,7 @@ function Remove-ALHOldFile {
     .INPUTS
     Nothing
 
-    .OUTPUTS 
+    .OUTPUTS
     Nothing
 
     .NOTES
@@ -158,7 +158,7 @@ function Remove-ALHOldFile {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Remove-ALHOldFile.txt
     #>
-    
+
     [CmdletBinding(SupportsShouldProcess = $true, DefaultParametersetName = "default")]
     param(
         [ValidateNotNullOrEmpty()]
@@ -215,14 +215,14 @@ function Remove-ALHOldFile {
         [array]$FoldersToSearchIn = foreach ($SinglePath in $Path) {
             if (Test-Path -Path $SinglePath -PathType Container) {
                 Write-Verbose -Message "Path is a directory, exists and is accessible: $SinglePath"
-                
+
                 [array]$FolderList = Get-Item -Path $SinglePath
                 if ($Recurse.IsPresent) {
                     $FolderList = $FolderList + (Get-ChildItem -Path $SinglePath -Recurse -Directory)
                 }
 
                 Write-Verbose -Message "Number of folders to check: $(($FolderList | Measure-Object).Count)"
-                
+
                 Write-Verbose -Message "Folders to check: "
                 foreach ($FolderItem in $FolderList) {
                     Write-Verbose -Message " --> $($FolderItem.FullName)"
@@ -263,7 +263,7 @@ function Remove-ALHOldFile {
             Write-Error -Message "Specified Start date/time is greater than End date/time. Stopping process."
             break
         }
-        
+
         if ($NumOfFilesToKeep -le -1) {
             Write-Verbose -Message "No files will be deleted."
         }
@@ -283,7 +283,7 @@ function Remove-ALHOldFile {
                     [array]$FilesAlsoMatchingTimeSpan = $FilesFoundByPattern.where({ $_.LastWriteTime -ge $Start -and $_.LastWriteTime -le $End })
                     $NumFilesFoundTotal = ($FilesAlsoMatchingTimeSpan | Measure-Object).Count
                     Write-Verbose -Message "Number of files found matching pattern and given timespan/start/end: $NumFilesFoundTotal in folder $($Folder.FullName)"
-            
+
                     $NumFilesToDelete = $NumFilesFoundTotal - $NumOfFilesToKeep
                     if ($NumFilesToDelete -gt 0) {
                         Write-Verbose -Message "Number of old files to delete: $NumFilesToDelete"
@@ -307,7 +307,7 @@ function Remove-ALHOldFile {
                         Write-Verbose -Message "Number of files found to be older thand start date/time: $(($AdditionalFilesNewerThanEnd | Measure-Object).Count) in folder $($Folder.FullName)"
                     }
                 }
-                
+
                 if ($null -ne $FilesToDelete) {
                     Write-Verbose -Message "Deleting files..."
                     $FilesToDelete | Remove-Item -Verbose
@@ -322,20 +322,19 @@ function Remove-ALHOldFile {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

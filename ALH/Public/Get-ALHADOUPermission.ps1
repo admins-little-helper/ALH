@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -46,13 +46,13 @@ function Get-ALHADOUPermission {
     <#
     .SYNOPSIS
     Function to query AD OU permissions.
-     
+
     .DESCRIPTION
     Function to query permissions on an Active Directory (AD) Organizational Unit (OU).
-     
+
     .PARAMETER -OrganizationalUnit
     One or more distinguished Names of OUs to query permissions for.
-     
+
     .EXAMPLE
     Get-ALHADOUPermission
 
@@ -76,14 +76,14 @@ function Get-ALHADOUPermission {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADOUPermission.txt
     #>
-   
+
     [CmdletBinding()]
     param (
         [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more organizational unit DNs')]
         [ValidateNotNullOrEmpty()]
         [string[]]$OrganizationalUnit
     )
-    
+
     begin {
         $RequiredModules = "ActiveDirectory"
 
@@ -98,7 +98,7 @@ function Get-ALHADOUPermission {
                 Import-Module ActiveDirectory
             }
         }
-        
+
         if (-Not (Test-Path -Path "AD:")) {
             New-PSDrive -Name "AD" -PSProvider ActiveDirectory -Root "//RootDSE/" -Scope Global
         }
@@ -143,20 +143,19 @@ function Get-ALHADOUPermission {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

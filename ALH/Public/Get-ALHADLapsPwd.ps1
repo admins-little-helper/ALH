@@ -50,7 +50,7 @@ function Get-ALHADLapsPwd {
 
     .DESCRIPTION
     The function 'Get-ALHADLapsPwd' retrieves the LAPS Password for a computer account from Active Directory.
-    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the 
+    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
     'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
 
     .EXAMPLE
@@ -113,7 +113,7 @@ function Get-ALHADLapsPwd {
 
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('ActiveDirectory\Get-ADComputer', [System.Management.Automation.CommandTypes]::Cmdlet)
             $scriptCmd = { & $wrappedCmd @PSBoundParameters | Select-Object -Property Name, @{Name = "Password"; Expression = { $_.'ms-Mcs-AdmPwd' } }, @{Name = "PwdExpirationTime"; Expression = { [datetime]::FromFileTime($_.'ms-Mcs-AdmPwdExpirationTime') } } }
-            
+
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
         }
@@ -139,27 +139,26 @@ function Get-ALHADLapsPwd {
             throw
         }
     }
-    
+
     <#
     #.ForwardHelpTargetName ActiveDirectory\Get-ADComputer
     #.ForwardHelpCategory Cmdlet
     #>
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

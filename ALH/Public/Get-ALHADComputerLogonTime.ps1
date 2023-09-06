@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -88,15 +88,15 @@ function Get-ALHADComputerLogonTime {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADComputerLogonTime.txt
     #>
-    
+
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]    
+        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $ComputerName = $env:COMPUTERNAME,
 
-        [Parameter(HelpMessage = 'Enter one or more domain controller to query')]    
+        [Parameter(HelpMessage = 'Enter one or more domain controller to query')]
         [string[]]
         $DomainController
     )
@@ -131,7 +131,7 @@ function Get-ALHADComputerLogonTime {
             Write-Verbose -Message "$($DomainController -join '; ')"
 
             $UniqueDCs = $DomainController | Select-Object -Unique
-        
+
             Write-Verbose -Message "Unique DC names..."
             Write-Verbose -Message "$($UniqueDCs -join '; ')"
 
@@ -171,14 +171,14 @@ function Get-ALHADComputerLogonTime {
 
         foreach ($computer in $ComputerName) {
             Write-Verbose -Message "Querying information for computer $computer..."
-            Write-Progress -Activity "Querying information for computer $computer" -Status "$i out of $ComputerCount done" -PercentComplete $([int] 100 / $ComputerCount * $i) 
+            Write-Progress -Activity "Querying information for computer $computer" -Status "$i out of $ComputerCount done" -PercentComplete $([int] 100 / $ComputerCount * $i)
             $i++
             $j = 0
 
             foreach ($DC in $DCs) {
                 try {
                     Write-Verbose -Message "Querying information from domain controller $($DC.Name)..."
-                    Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j) 
+                    Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j)
                     $j++
 
                     $ComputerInfo = $null
@@ -212,21 +212,20 @@ function Get-ALHADComputerLogonTime {
         }
     }
 }
-    
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#<       ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

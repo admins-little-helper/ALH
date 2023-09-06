@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -46,43 +46,40 @@ function Test-ALHGroupPolicyStatus {
     <#
     .SYNOPSIS
     Function to test if there have been events logged in the last 24 hours which indicate issues in applying computer group policy.
-     
+
     .DESCRIPTION
     Function queries event log for certain events indicating issues in applying computer group policy settings. The function
     by default returns either true or false, but it can also return the events found in the eventlog (use parameter ReturnDetail).
-     
+
     .PARAMETER MachinePolicy
     Repair computer group policy.
-     
+
     .PARAMETER ComputerName
     Allows to specify remote computer name. By default it will run against the local computer.
-     
+
     .PARAMETER Credential
     Specify credentials with necessary permissions to query the system event log on the given computer.
-     
+
     .EXAMPLE
     Test-ALHGroupPolicyStatus
-
     Run check for computer group policy.
 
     .EXAMPLE
     Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
-
     Run check for computer group policy on remote computer named "MyOtherSystem".
 
     .EXAMPLE
     Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
-
     Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
 
     .NOTES
-    Author:     Dieter Koch
+    Author:     Dieter Kochs
     Email:      diko@admins-little-helper.de
 
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHGroupPolicyStatus.txt
     #>
-    
+
     [CmdletBinding()]
     param(
         [ValidateNotNullOrEmpty()]
@@ -114,7 +111,7 @@ function Test-ALHGroupPolicyStatus {
 
     if ($null -ne $DC -and (Test-ComputerSecureChannel)) {
         $EventsFound = Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName $ComputerName -Credential $Credential
- 
+
         if (($EventsFound | Measure-Object).Count -gt 0) {
             if ($ReturnDetails.IsPresent) {
                 $ReturnValue = $EventsFound
@@ -135,20 +132,19 @@ function Test-ALHGroupPolicyStatus {
     $ReturnValue
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

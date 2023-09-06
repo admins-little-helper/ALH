@@ -10,19 +10,19 @@
 
 .COPYRIGHT (c) Dieter Koch. All rights reserved.
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
 .PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
     1.0.0
@@ -30,20 +30,20 @@
 
 #>
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
 Contains a function to rotate file names by appending a number or date.
 
-#> 
+#>
 
 
 function Invoke-ALHFileRotate {
-    <# 
-    .SYNOPSIS 
+    <#
+    .SYNOPSIS
     A PowerShell function to rotate file names by appending a number or date.
 
-    .DESCRIPTION 
+    .DESCRIPTION
     This function can be used for log rotation. It searches for a given filename (exact match!) in a given path or multiple paths.
     Path recursion is also supported. If the file is found, it will be renamed based on a given naming schema.
     This can be either appending a number up to a given threshold. Or the file creation date, file creation date and time or the
@@ -59,8 +59,8 @@ function Invoke-ALHFileRotate {
     Default value is 3. The number of files to keep in case the 'Number' naming schema was selected with the 'NamingSchema' parameter.
 
 	.PARAMETER NamingSchema
-    Default value is 'Number'. One of the following values is possible: 
-    'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'        
+    Default value is 'Number'. One of the following values is possible:
+    'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'
 
 	.EXAMPLE
     Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Threshold 9 -Verbose
@@ -84,7 +84,7 @@ function Invoke-ALHFileRotate {
     .INPUTS
     Nothing
 
-    .OUTPUTS 
+    .OUTPUTS
     Nothing
 
     .NOTES
@@ -94,7 +94,7 @@ function Invoke-ALHFileRotate {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHFileRotate.txt
     #>
-    
+
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline, Position = 0, HelpMessage = 'Enter one or more path names')]
@@ -128,14 +128,14 @@ function Invoke-ALHFileRotate {
         [array]$FoldersToSearchIn = foreach ($SinglePath in $Path) {
             if (Test-Path -Path $SinglePath -PathType Container) {
                 Write-Verbose -Message "Path is a directory, exists and is accessible: $SinglePath"
-                
+
                 [array]$FolderList = Get-Item -Path $SinglePath
                 if ($Recurse.IsPresent) {
                     $FolderList = $FolderList + (Get-ChildItem -Path $SinglePath -Recurse -Directory)
                 }
 
                 Write-Verbose -Message "Number of folders to check: $(($FolderList | Measure-Object).Count)"
-                
+
                 Write-Verbose -Message "Folders to check: "
                 foreach ($FolderItem in $FolderList) {
                     Write-Verbose -Message " --> $($FolderItem.FullName)"
@@ -169,7 +169,7 @@ function Invoke-ALHFileRotate {
                 "Number" {
                     for ($i = $Threshold; $i -ge 0; $i--) {
                         $TargetFileName = Join-Path -Path $FileFound.DirectoryName -ChildPath "$($FileFound.BaseName)_$($i + 1)$($FileFound.Extension)"
-                        
+
                         if ($i -eq 0) {
                             $SourceFileName = $FileFound.FullName
                         }
@@ -193,7 +193,7 @@ function Invoke-ALHFileRotate {
                     $TargetFileName = Join-Path -Path $FileFound.DirectoryName -ChildPath "$($FileFound.BaseName)_$(Get-Date -Date $test[-1].CreationTime -Format 'yyyyMMdd')$($FileFound.Extension)"
                 }
                 "CreationDateTime" {
-                    $TargetFileName = Join-Path -Path $FileFound.DirectoryName -ChildPath "$($FileFound.BaseName)_$(Get-Date -Date $test[-1].CreationTime -Format 'yyyyMMdd-HHmmss')$($FileFound.Extension)"                        
+                    $TargetFileName = Join-Path -Path $FileFound.DirectoryName -ChildPath "$($FileFound.BaseName)_$(Get-Date -Date $test[-1].CreationTime -Format 'yyyyMMdd-HHmmss')$($FileFound.Extension)"
                 }
                 "LastWriteDate" {
                     $TargetFileName = Join-Path -Path $FileFound.DirectoryName -ChildPath "$($FileFound.BaseName)_$(Get-Date -Date $test[-1].LastWriteTime -Format 'yyyyMMdd')$($FileFound.Extension)"
@@ -218,7 +218,7 @@ function Invoke-ALHFileRotate {
     end {
         $StopWatch.Stop()
         Write-Verbose -Message "Elapsed time total: $($StopWatch.Elapsed)"
-    
+
     }
 }
 
@@ -227,14 +227,14 @@ function Invoke-ALHFileRotate {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

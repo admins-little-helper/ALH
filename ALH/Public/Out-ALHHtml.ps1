@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -73,16 +73,16 @@
 
 #>
 
-# Vaguely based on 
+# Vaguely based on
 # https://community.spiceworks.com/scripts/show/2450-change-cell-color-in-html-table-with-powershell-set-cellcolor
 
 
 function Out-ALHHtml {
-    <# 
+    <#
     .SYNOPSIS
     A PowerShell function to create a html table fragment.
 
-    .DESCRIPTION 
+    .DESCRIPTION
     This functions takes an object or an array of objects and creates a html table fragment out of it.
     Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
     The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
@@ -127,7 +127,7 @@ function Out-ALHHtml {
     .INPUTS
     Object
 
-    .OUTPUTS 
+    .OUTPUTS
     ALHHtmlReport
 
     .NOTES
@@ -161,7 +161,7 @@ function Out-ALHHtml {
 
         [string]
         $Font = "Verdana",
-        
+
         [string]
         $LogoText,
 
@@ -207,8 +207,7 @@ function Out-ALHHtml {
         elseif ($PSBoundParameters.ContainsKey('MainBackgroundColorHexcode')) {
             $MainBackgroundColorValue = $MainBackgroundColorHexcode
         }
-  
-  
+
         # CSS for the output table...
         [string]$css = @"
 <style type=`"text/css`">
@@ -314,7 +313,7 @@ function filterTable(ColumnIndex) {
       } else {
         tr[i].style.display = "none";
       }
-    }       
+    }
   }
 }
 </script>
@@ -325,7 +324,7 @@ function filterTable(ColumnIndex) {
 
         # Page header rows...
         [string]$body = @"
-<div id="header"> 
+<div id="header">
     <div id="headerTop">
         <div class="logo1">$LogoText</div>
         <div class="logo2">$MainTitle</div>
@@ -357,7 +356,7 @@ function filterTable(ColumnIndex) {
         # Create a full HTML report file that also will be attached to the email
         [string[]]$htmlReport = $DataToProcess | `
                 ConvertTo-Html -Head $css -Body $body -PostContent "$footer"
-    
+
         foreach ($Format in $CellFormat) {
             $FilterString = "$($Format.ColumnName) $($Format.Operator) `"$($Format.Value)`""
             $htmlReport = Set-ALHCellColor -InputObject $htmlReport -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
@@ -365,8 +364,8 @@ function filterTable(ColumnIndex) {
 
         Write-Verbose -Message "Adding table ID..."
         [regex]$PatternTable = "<table>"
-        $htmlReport = $PatternTable.replace($htmlReport, '<table id="myTable">', 1) 
-    
+        $htmlReport = $PatternTable.replace($htmlReport, '<table id="myTable">', 1)
+
         Write-Verbose -Message "Getting column count"
         [int]$ColumnCount = ([regex]::Matches($htmlReport, "<th>")).Count
 
@@ -388,7 +387,7 @@ function filterTable(ColumnIndex) {
             0..($ColumnCount - 1) | ForEach-Object {
                 $htmlReport = $PatternMyTable.Replace($htmlReport, "<input type=`"text`" id=`"myInput$_`" onkeyup=`"filterTable($_)`" placeholder=`"Filter column $($_ + 1)...`" title=`"FilterColumn$($_ + 1)`"> `r`n<table id=`"myTable`">", 1)
             }
-        
+
             Write-Verbose -Message "Adding filter script to html code"
             $htmlReport = $htmlReport + "`r`n" + $FilterScript
         }
@@ -397,23 +396,21 @@ function filterTable(ColumnIndex) {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    

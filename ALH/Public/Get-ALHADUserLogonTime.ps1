@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -46,38 +46,40 @@ function Get-ALHADUserLogonTime {
     <#
     .SYNOPSIS
     Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
-    
+
     .DESCRIPTION
     Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
-    
+
     .PARAMETER Identity
     One ore more user names (SamAccountName) to query information for. Separate list with commas.
     If no value is provied, the $env:USERNAME will be used.
-    
+
     .PARAMETER DomainController
     One ore more Domain Controller names to query information for. Separate list with commas.
     If no value is provied, all DCs in the current domain are queried.
-    
+
     .EXAMPLE
     Get-ALHADUserLogonTime -Identity User1
-    
+    Get lastlogontime for user named 'User1'.
+
     .EXAMPLE
     Get-ALHADUserLogonTime -Identity User1, User2
-    
+    Get lastlogontime for users named 'User1' and 'User2'.
+
     .EXAMPLE
     Get-ALHADUserLogonTime -Identity User2, User2 -DomainController adds1,adds2
-    
+    Get lastlogontime for users named 'User1' and 'User2' querying Domaincontroller 'adds1' and 'adds2'.
+
     .EXAMPLE
     (Get-ADUser -Filter {name -like "a*"}).Name | Get-ALHADUserLogonTime -DomainController $(Get-ALHADDSDomainController -All)
-
     Get lastlogontime for all users in AD where name starts with 'a', from all domain controllers in the current domain.
 
     .INPUTS
     String
-    
+
     .OUTPUTS
     PSCustomObject
-    
+
     .NOTES
     Author:     Dieter Koch
     Email:      diko@admins-little-helper.de
@@ -85,15 +87,15 @@ function Get-ALHADUserLogonTime {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADUserLogonTime.txt
     #>
-        
+
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]        
+        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $Identity = $env:USERNAME,
-    
-        [Parameter(HelpMessage = 'Enter one or more domain controllers to query')]    
+
+        [Parameter(HelpMessage = 'Enter one or more domain controllers to query')]
         [string[]]
         $DomainController
     )
@@ -119,19 +121,19 @@ function Get-ALHADUserLogonTime {
                 $DCs = Get-ADDomainController -Filter * -ErrorAction Stop
             }
             catch {
-                Write-Information -Message "Error getting domain controllers" -InformationAction Continue
+                Write-Information -MessageData "Error getting domain controllers" -InformationAction Continue
                 break
             }
         }
         else {
             Write-Verbose -Message "DCs specified..."
             Write-Verbose -Message "$($DomainController -join '; ')"
-    
+
             $UniqueDCs = $DomainController | Select-Object -Unique
-            
+
             Write-Verbose -Message "Unique DC names..."
             Write-Verbose -Message "$($UniqueDCs -join '; ')"
-    
+
             $DCs = foreach ($DC in $UniqueDCs) {
                 Write-Verbose -Message "Checking if DC exists: $DC..."
                 $DCInfo = Get-ADDomainController -Filter { Name -eq $DC } -ErrorAction SilentlyContinue
@@ -157,29 +159,29 @@ function Get-ALHADUserLogonTime {
                 @{Name = 'Available'; Expression = { Test-Connection -ComputerName $DCtoTest -Count 2 -Quiet } }
                 $DCInfo
             }
-        }    
+        }
     }
-        
+
     process {
         $i = 0
         $UserCount = ($Identity | Measure-Object).Count
         $j = 0
         $DCCount = ($DCs | Measure-Object).Count
-    
+
         foreach ($user in $Identity) {
             Write-Verbose -Message "Querying information for user $user..."
-            Write-Progress -Activity "Querying information for user $user" -Status "$i out of $UserCount done" -PercentComplete $([int] 100 / $UserCount * $i) 
+            Write-Progress -Activity "Querying information for user $user" -Status "$i out of $UserCount done" -PercentComplete $([int] 100 / $UserCount * $i)
             $i++
             $j = 0
-    
+
             foreach ($DC in $DCs) {
                 try {
                     Write-Verbose -Message "Querying information from domain controller $($DC.Name)..."
-                    Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j) 
+                    Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j)
                     $j++
-    
+
                     $userInfo = $null
-                    
+
                     if ($DC.Available) {
                         $userInfo = Get-ADUser -Server $DC.Name -Filter { samAccountName -eq $user } -Properties mail, lastLogon, lastLogonTimestamp
                         $userInfo = $userInfo | Select-Object -Property SamAccountName, `
@@ -205,30 +207,28 @@ function Get-ALHADUserLogonTime {
                 catch {
                     Write-Error $_
                 }
-    
+
                 $userInfo
             }
         }
     }
 }
-        
-    
+
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    

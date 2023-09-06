@@ -10,19 +10,19 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI 
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
     1.0.0
@@ -47,12 +47,12 @@
 #>
 
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
  Contains a function to install or update SysinternalsSuite.
 
-#> 
+#>
 
 
 function Update-ALHSysinternalsSuite {
@@ -122,7 +122,7 @@ function Update-ALHSysinternalsSuite {
                 if (-not (Test-Path -Path $_ -PathType Container) ) {
                     throw "The Path argument must be a folder. File paths are not allowed."
                 }
-                return $true 
+                return $true
             })]
         [string]
         $SourcePath = "\\live.sysinternals.com\DavWWWRoot\tools",
@@ -139,7 +139,7 @@ function Update-ALHSysinternalsSuite {
                 if (-not (Test-Path -Path $_ -PathType Container) ) {
                     throw "The Path argument must be a folder. File paths are not allowed."
                 }
-                return $true 
+                return $true
             })]
         [Parameter(Mandatory, ValueFromPipeline)]
         [string[]]
@@ -157,7 +157,7 @@ function Update-ALHSysinternalsSuite {
     begin {
         $startTime = (Get-Date)
         Write-Verbose -Message "Start at --> $StartTime"
-        
+
         if ($SourcePath -eq "\\live.sysinternals.com\DavWWWRoot\tools" -or $SourcePath -match "^https?://") {
             Write-Verbose -Message "Detected http/https source - assuming WebDav source"
             Write-Verbose -Message "Checking service 'WebClient' to be able to copy data from WebDav source..."
@@ -178,7 +178,7 @@ function Update-ALHSysinternalsSuite {
                 catch [System.Management.Automation.MethodInvocationException], [Microsoft.PowerShell.Commands.ServiceCommandException] {
                     Write-Verbose -Message "Could not start service 'WebClient'"
                     Write-Verbose -Message "Trying to start it indirectly by running net use..."
-                    
+
                     Start-Process -FilePath "$env:WINDIR\system32\net.exe" -ArgumentList "use $SourcePath" -Wait -WindowStyle Hidden
                 }
                 catch {
@@ -215,7 +215,7 @@ function Update-ALHSysinternalsSuite {
                 Write-Verbose -Message "Getting list of files in destination directory..."
                 $FilesInDestination = [ordered]@{}
                 Get-ChildItem -Path $DestinationPathElement -File | ForEach-Object { $FilesinDestination.Add($_.Name.Trim([char]0), $_.LastWriteTime) }
-            
+
                 Write-Verbose -Message "Comparing source and destination files..."
                 $FilesInDestiantionNotInSource = $FilesinDestination.Keys | ForEach-Object {
                     if ($FilesinDestination.Contains($_) -and !$FilesInSource.Contains($_)) {
@@ -234,12 +234,12 @@ function Update-ALHSysinternalsSuite {
                         }
                     }
                 }
-            
-                Write-Information -Message "Update started..." -InformationAction Continue
+
+                Write-Information -MessageData "Update started..." -InformationAction Continue
 
                 foreach ($File in $FilesInSource.Keys) {
                     Write-Verbose "Checking file --> $($File)"
-                    if ($File) { 
+                    if ($File) {
                         $SourceFileDate = $FilesInSource["$($File)"]
                         $DestinationFileDate = $FilesinDestination["$($File)"]
 
@@ -253,32 +253,32 @@ function Update-ALHSysinternalsSuite {
                                 }
 
                                 $SourceFile = Join-Path -Path $SourcePath -ChildPath $File
-                                Copy-Item -LiteralPath "$SourceFile" -Destination "$DestinationPathElement" -Force 
-                                Write-Information -Message "Copied/Updated: $File" -InformationAction Continue
+                                Copy-Item -LiteralPath "$SourceFile" -Destination "$DestinationPathElement" -Force
+                                Write-Information -MessageData "Copied/Updated: $File" -InformationAction Continue
                             }
                             catch {
-                                Write-Information -Message -Message "An error occurred: $_" -InformationAction Continue
+                                Write-Information -MessageData -Message "An error occurred: $_" -InformationAction Continue
                             }
                         }
                         else {
                             $FileSameVersionCounter++
-                            Write-Information -Message "Same version/date: $File" -InformationAction Continue
+                            Write-Information -MessageData "Same version/date: $File" -InformationAction Continue
                         }
                     }
                 }
-            
+
                 $FilesinDestinationAfterUpdate = [ordered]@{}
                 Write-Verbose -Message "Getting files in destination after update..."
                 Get-ChildItem -Path $DestinationPathElement -File | ForEach-Object { $FilesinDestinationAfterUpdate.Add($_.Name, $_.LastWriteTime) }
                 $FileDiff = $FilesinDestinationAfterUpdate.Count - $FilesInSource.Count
 
-                Write-Information -Message "Update finished..." -InformationAction Continue
-                Write-Information -Message "# of files updated: $FileUpdateCounter" -InformationAction Continue
-                Write-Information -Message "# of files with same date: $FileSameVersionCounter" -InformationAction Continue
-                Write-Information -Message "# of files new in destination: $FileNewCounter" -InformationAction Continue
-                Write-Information -Message "# of files total in source: $($FilesinSource.Count)" -InformationAction Continue
-                Write-Information -Message "# of files total in destination: $($FilesinDestinationAfterUpdate.Count)" -InformationAction Continue
-                Write-Information -Message "# of files removed in destination: $FileRemoveCounter" -InformationAction Continue
+                Write-Information -MessageData "Update finished..." -InformationAction Continue
+                Write-Information -MessageData "# of files updated: $FileUpdateCounter" -InformationAction Continue
+                Write-Information -MessageData "# of files with same date: $FileSameVersionCounter" -InformationAction Continue
+                Write-Information -MessageData "# of files new in destination: $FileNewCounter" -InformationAction Continue
+                Write-Information -MessageData "# of files total in source: $($FilesinSource.Count)" -InformationAction Continue
+                Write-Information -MessageData "# of files total in destination: $($FilesinDestinationAfterUpdate.Count)" -InformationAction Continue
+                Write-Information -MessageData "# of files removed in destination: $FileRemoveCounter" -InformationAction Continue
 
                 Write-Verbose -Message "Comparing source and destination files after update..."
                 $FilesInDestiantionNotInSourceAfterUpdate = $FilesinDestinationAfterUpdate.Keys | ForEach-Object {
@@ -286,9 +286,9 @@ function Update-ALHSysinternalsSuite {
                         $_
                     }
                 }
-            
+
                 if ($FilesInDestiantionNotInSourceAfterUpdate.count -gt 0) {
-                    Write-Information -Message "WARNING: there are more files in the destination folder than in the source folder: $FileDiff" -InformationAction Continue
+                    Write-Information -MessageData "WARNING: there are more files in the destination folder than in the source folder: $FileDiff" -InformationAction Continue
                 }
                 else {
                     Write-Verbose -Message "Source and destination contain the same files."
@@ -296,9 +296,9 @@ function Update-ALHSysinternalsSuite {
             }
             else {
                 try {
-                    Write-Information -Message "Destination path does not exist. Creating it..." -InformationAction Continue
+                    Write-Information -MessageData "Destination path does not exist. Creating it..." -InformationAction Continue
                     New-Item -Path $DestinationPathElement -ItemType Directory -Force | Out-Null
-                
+
                     if (Test-Path -Path $DestinationPathElement) {
                         Write-Verbose "Destination path created successfully"
                         Update-ALHSysinternalsSuite -SourcePath $SourcePath -DestinationPath $DestinationPathElement
@@ -306,34 +306,33 @@ function Update-ALHSysinternalsSuite {
                     else {
                         Write-Error "Destination path could not be created"
                     }
-                
+
                 }
                 catch {
-                    Write-Information -Message -Message "An error occurred: $_" -InformationAction Continue
+                    Write-Information -MessageData -Message "An error occurred: $_" -InformationAction Continue
                 }
             }
         }
     }
 
     end {
-        Write-Information -Message "`nDONE - Elapsed time in seconds: $((((Get-Date) - $startTime).Totalseconds))" -InformationAction Continue
+        Write-Information -MessageData "`nDONE - Elapsed time in seconds: $((((Get-Date) - $startTime).Totalseconds))" -InformationAction Continue
     }
 }
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

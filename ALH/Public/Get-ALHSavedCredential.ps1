@@ -50,30 +50,28 @@ Redesign and code cleanup.
 
 
 function Get-ALHSavedCredential {
-    <# 
+    <#
     .SYNOPSIS
     Retrieve saved credentials (username and secure string password) from a text file.
-    
+
     .DESCRIPTION
     Retrieve saved credentials (username and secure string password) from files.
-    
+
     .PARAMETER Path
     Path to search in for credential files.
 
     .PARAMETER FileNamePrefix
     Filename prefix to use for credential files.
-    
+
     .PARAMETER AsJson
     If specified, the output will be saved in a json file, instead of a text file.
 
     .EXAMPLE
     Get-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredForApp1"
-
     Get credentials for App1 from text files (one for username, another for the password).
 
     .EXAMPLE
     Get-ALHSavedCredential -FilePath C:\Admin\Credentials\MyCredentials.json
-
     Get credentials from a JSON file.
 
     .INPUTS
@@ -104,7 +102,7 @@ function Get-ALHSavedCredential {
                 if (-not (Test-Path -Path $_ -PathType Container) ) {
                     throw "The Path argument must be a folder. File paths are not allowed."
                 }
-                return $true 
+                return $true
             })]
         [System.IO.FileInfo]
         $Path,
@@ -123,7 +121,7 @@ function Get-ALHSavedCredential {
                 if ( -not ([IO.Path]::GetExtension($_) -eq ".json")) {
                     throw "The Path argument must be a file. The given path is a folder."
                 }
-                return $true 
+                return $true
             })]
         [System.IO.FileInfo]
         $FilePath,
@@ -142,7 +140,7 @@ function Get-ALHSavedCredential {
         $FullPathFilCredential = $FilePath
         [switch]$AsJson = $true
     }
-    
+
     if ($AsJson.IsPresent) {
         if ($PSCmdlet.ParameterSetName -eq "Path") {
             $FullPathFilCredential = Join-Path -Path $Path -ChildPath "$($FileNamePrefix)_Credential.json"
@@ -171,12 +169,12 @@ function Get-ALHSavedCredential {
         else {
             Write-Verbose -Message "Reading file content of $FullPathFileIdentity"
             $Identity = Get-Content "$FullPathFileIdentity"
-    
+
             Write-Verbose -Message "Reading file content of $FullPathFileSecret"
             $Secret = Get-Content "$FullPathFileSecret" | ConvertTo-SecureString
             $Credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ($Identity, $Secret)
         }
-        
+
         return $Credentials
     }
     else {
@@ -184,20 +182,19 @@ function Get-ALHSavedCredential {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

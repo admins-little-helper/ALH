@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -43,7 +43,7 @@
 #>
 
 
-function Test-ALHIsRebootPending {    
+function Test-ALHIsRebootPending {
     <#
     .SYNOPSIS
     Check if a computer has a reboot pending.
@@ -65,7 +65,7 @@ function Test-ALHIsRebootPending {
     Test-ALHIsRebootPending-Verbose
 
     Check if there is a reboot pending. Show verbose output.
-   
+
     .INPUTS
     Nothing
 
@@ -79,7 +79,7 @@ function Test-ALHIsRebootPending {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsRebootPending.txt
     #>
-   
+
     [CmdletBinding()]
     param(
         [parameter(ValueFromPipeline)]
@@ -138,7 +138,7 @@ function Test-ALHIsRebootPending {
                 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired'      = @{
                     RegKey         = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired'
                     RegVal         = '(Default)'
-                    Condition      = '$null -ne (Get-ALHRegistryItem -ComputerName $Computer -Path <RegKey>)'                    
+                    Condition      = '$null -ne (Get-ALHRegistryItem -ComputerName $Computer -Path <RegKey>)'
                     RebootRequired = $false
                 }
                 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\Pending'                = @{
@@ -175,31 +175,31 @@ function Test-ALHIsRebootPending {
                     RegKey         = 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending'
                     RegVal         = '(Default)'
                     Condition      = '$null -ne (Get-ALHRegistryItem -ComputerName $Computer -Path <RegKey>)'
-                    RebootRequired = $false        
+                    RebootRequired = $false
                 }
                 'HKLM:\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts'                                  = @{
                     RegKey         = 'HKLM:\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts'
                     RegVal         = '(Default)'
                     Condition      = '$null -ne (Get-ALHRegistryItem -ComputerName $Computer -Path <RegKey>)'
-                    RebootRequired = $false   
+                    RebootRequired = $false
                 }
                 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon__JoinDomain'                                  = @{
                     RegKey         = 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon'
                     RegVal         = 'JoinDomain'
                     Condition      = '$null -ne <RegVal>'
-                    RebootRequired = $false   
+                    RebootRequired = $false
                 }
                 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon__AvoidSpnSet'                                 = @{
                     RegKey         = 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon'
                     RegVal         = 'AvoidSpnSet'
                     Condition      = '$null -ne <RegVal>'
-                    RebootRequired = $false   
+                    RebootRequired = $false
                 }
                 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName'                        = @{
                     RegKey         = 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName'
                     RegVal         = 'ComputerName'
                     Condition      = '<RegVal> -ne $(Get-ALHRegistryItem -ComputerName $Computer -Path "HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" -ValueName ComputerName).Data'
-                    RebootRequired = $false   
+                    RebootRequired = $false
                 }
             }
             WMI      = [ordered]@{
@@ -237,11 +237,11 @@ function Test-ALHIsRebootPending {
                 foreach ($RegItem in $Result.Details.Registry.Keys) {
                     $RegKeyName = $Result.Details.Registry."$($RegItem)".RegKey
                     $RegValName = $Result.Details.Registry."$($RegItem)".RegVal
-                    $RegCondition = $($Result.Details.Registry."$($RegItem)".Condition) 
+                    $RegCondition = $($Result.Details.Registry."$($RegItem)".Condition)
                     $RegCondition = $RegCondition -replace '<RegVal>', '$RegVal'
                     $RegCondition = $RegCondition -replace '<RegKey>', '$RegKeyName'
                     $RegVal = $null
-    
+
                     try {
                         $RegVal = Get-ALHRegistryItem -ComputerName $Computer -Path "$RegKeyname" -ValueName "$RegValName" -ErrorAction Stop
                     }
@@ -254,12 +254,12 @@ function Test-ALHIsRebootPending {
                     catch {
                         $_
                     }
-    
+
                     if ($null -ne $RegVal) {
                         $RegVal = $RegVal.Data
                     }
                     Write-Verbose -Message "RegVal: $RegVal"
-    
+
                     try {
                         if (Invoke-Expression $RegCondition -ErrorAction Stop) {
                             Write-Verbose -Message "Pending reboot detected for check $RegKeyName"
@@ -273,11 +273,11 @@ function Test-ALHIsRebootPending {
                         $_
                     }
                 }
-    
+
                 foreach ($WmiItem in $Result.Details.WMI.Keys) {
                     Write-Verbose -Message "Getting a list of all namespaces on local computer..."
                     $WmiNamespaces = Get-CimInstance -ComputerName $Computer -Namespace root -ClassName __Namespace
-    
+
                     if ($WmiNamespaces.Name -contains $Result.Details.WMI."$($WmiItem)".NameSpace) {
                         $WmiVal = Get-CimInstance -ComputerName $Computer -ClassName $Result.Details.WMI."$($WmiItem)".ClassName -Namespace $Result.Details.WMI."$($WmiItem)".NameSpace -Property $Result.Details.WMI."$($WmiItem)".Property -ErrorAction SilentlyContinue
                         if ($null -ne $WmiVal) {
@@ -295,8 +295,8 @@ function Test-ALHIsRebootPending {
                 Write-Error -Message "Computer is offline or access is denied: $Computer"
                 $NoCheckPerformed = $true
             }
-            
-            $Result.RebootRequired = 
+
+            $Result.RebootRequired =
             if ($NoCheckPerformed) {
                 $null
             }
@@ -314,20 +314,19 @@ function Test-ALHIsRebootPending {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

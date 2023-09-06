@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -48,49 +48,49 @@ function Get-ALHADLockedOutUser {
     <#
     .SYNOPSIS
     Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
-     
+
     .DESCRIPTION
     Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
     The function can query one or multiple computers for one, multiple or any user in a given timeframe.
     This helps to identify the source of the invalid logon attemps because the events contain the source IP
     address of the logon attempt.
-     
+
     .PARAMETER DomainName
-    The AD domain name in which the Domain Controller will be queried, if no value 
-    is specified for the -Compuername parameter
-     
+    The AD domain name in which the Domain Controller will be queried, if no value
+    is specified for the -Compuername parameter.
+
     .PARAMETER Identity
     One or more usernames (samAccountName) to search for. If ommited, events for all users ("*") are searched.
-     
+
     .PARAMETER StartTime
     The datetime to start searching from. If ommited, it's set for the last two hours.
-     
+
     .PARAMETER ComputerName
     One or more computernames to search for. If ommited, the script tries to get the domain controller
     with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
-     
+
     .PARAMETER Credential
     Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
-     
-    .EXAMPLE
-    Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
-    Get-ALHADFailedLogonAttemps
-     
-    .EXAMPLE
-    Get events for user with samAccountName 'mike' within the last 8 hours
-    Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
-     
-    .EXAMPLE
-    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2 
-    Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
-     
-    .EXAMPLE
-    Get events for two users within the last 24 hours from Domain Controller running the PDC role
-    Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
 
     .EXAMPLE
-    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role
+    Get-ALHADFailedLogonAttemps
+    Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
+
+    .EXAMPLE
+    Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
+    Get events for user with samAccountName 'mike' within the last 8 hours.
+
+    .EXAMPLE
+    Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
+
+    .EXAMPLE
+    Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+    Get events for two users within the last 24 hours from Domain Controller running the PDC role.
+
+    .EXAMPLE
     Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1)
+    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
 
     .INPUTS
     Nothing
@@ -105,20 +105,20 @@ function Get-ALHADLockedOutUser {
     .LINK
     https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLockedOutUser.txt
     #>
-   
+
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
         [ValidateNotNullOrEmpty()]
         [string]$DomainName = $env:USERDOMAIN,
-    
+
         [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
         [string[]]$Identity,
-    
+
         [Parameter(ParameterSetName = "DateTime")]
         [ValidateNotNullOrEmpty()]
         [datetime]$StartTime = (Get-Date).AddHours(-2),
-    
+
         [Parameter(ParameterSetName = "TimeRange")]
         [ValidateSet("1h", "2h", "4h", "6h", "8h", "12h", "15h", "18h", "21h", "1d", "2d", "3d", "4d", "5d", "6d", "7d")]
         [ValidateNotNullOrEmpty()]
@@ -126,13 +126,13 @@ function Get-ALHADLockedOutUser {
 
         [ValidateNotNullOrEmpty()]
         [string[]]$ComputerName = [System.DirectoryServices.ActiveDirectory.Domain]::GetDomain((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Domain', $DomainName))).PdcRoleOwner.Name,
-        
+
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
-    
+
     begin {
         $RequiredModules = "ActiveDirectory"
 
@@ -157,7 +157,7 @@ function Get-ALHADLockedOutUser {
 
         $ComputerTotal = $ComputerName.Count
         $UserTotal = $Identity.Count
-        
+
         if ($PsCmdlet.ParameterSetName -eq "TimeRange") {
             if ($TimeRange -match "^\d{1,2}[d]$") {
                 $StartTime = (Get-Date).AddDays( - ($TimeRange -replace "d", ""))
@@ -171,16 +171,15 @@ function Get-ALHADLockedOutUser {
                 Write-Warning -Message "Not a valid timerange. Using default time range of 2h"
                 $StartTime = (Get-Date).AddHours(-2)
             }
-            
         }
 
-        Write-Information -Message "Searching in domain                       : $DomainName" -InformationAction Continue
-        Write-Information -Message "Checking security event log on cmputer(s) : $($Computername -join ';')" -InformationAction Continue
-        Write-Information -Message "Search timeframe                          : $StartTime - $(Get-Date)" -InformationAction Continue
-        Write-Information -Message "Running with credentials of user          : $CredentialsOfUser" -InformationAction Continue
-        Write-Information -Message "Searching for username(s)                 : $($Identity -join ';')" -InformationAction Continue
+        Write-Information -MessageData "Searching in domain                       : $DomainName" -InformationAction Continue
+        Write-Information -MessageData "Checking security event log on cmputer(s) : $($Computername -join ';')" -InformationAction Continue
+        Write-Information -MessageData "Search timeframe                          : $StartTime - $(Get-Date)" -InformationAction Continue
+        Write-Information -MessageData "Running with credentials of user          : $CredentialsOfUser" -InformationAction Continue
+        Write-Information -MessageData "Searching for username(s)                 : $($Identity -join ';')" -InformationAction Continue
     }
-    
+
     process {
         if ($input) {
             $UserTotal = $Input.Count
@@ -212,11 +211,11 @@ function Get-ALHADLockedOutUser {
             }
         }
     }
-    
+
     end {
         <#
         if ($($LockedOutUsers | Measure-Object).Count -eq 0) {
-            Write-Information -Message "`n`nNo records found matching search criteria. Try extending the timeframe.`n" -InformationAction Continue
+            Write-Information -MessageData "`n`nNo records found matching search criteria. Try extending the timeframe.`n" -InformationAction Continue
         }
         else {
             $LockedOutUsers
@@ -225,20 +224,19 @@ function Get-ALHADLockedOutUser {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

@@ -41,7 +41,7 @@ https://github.com/admins-little-helper/ALH
 
 #>
 
-function Get-ALHNestetdGroup {    
+function Get-ALHNestetdGroup {
     <#
     .SYNOPSIS
     Function to recursively enumerate members of a group.
@@ -59,10 +59,10 @@ function Get-ALHNestetdGroup {
 
     .PARAMETER GroupMember
     Mandatory. A hashtable containing all groups (keys) and associated members (values) to check for.
-    
+
     .PARAMETER Hierarchy
     Will only be used during recursion to show how groups membership hierarchy.
-    
+
     .INPUTS
     Nothing
 
@@ -83,7 +83,7 @@ function Get-ALHNestetdGroup {
         [String[]]$Identity,
 
         [String[]]$Parent,
-        
+
         [parameter(Mandatory)]
         $GroupMember,
 
@@ -107,14 +107,14 @@ function Get-ALHNestetdGroup {
             if ($Member -eq $ParentItem) {
                 Write-Verbose "Found circular nested group: Group '$Identity' --> '$ParentItem'"
                 return $ParentItem
-            } 
+            }
         }
-        
+
         # Check all group members for group membership.
         if ($GroupMember.ContainsKey($Member)) {
-            # Add this member to array of parent groups. 
-            # However, this is not a parent for siblings. 
-            # Recursively call function to find nested groups. 
+            # Add this member to array of parent groups.
+            # However, this is not a parent for siblings.
+            # Recursively call function to find nested groups.
             $Temp = $Parent
             $Temp += $Member
             Get-ALHNestetdGroup -Identity $Member -Parent ($Temp) -GroupMember $GroupMember -Hierarchy $Hierarchy
@@ -122,20 +122,19 @@ function Get-ALHNestetdGroup {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

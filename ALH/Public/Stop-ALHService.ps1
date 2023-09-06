@@ -89,9 +89,9 @@ function Stop-ALHService {
     https://github.com/admins-little-helper/ALH/blob/main/Help/Stop-ALHService.txt
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param(
-        [Parameter(ValueFromPipeline = $true)] 
+        [Parameter(ValueFromPipeline = $true)]
         [string[]]
         $ComputerName = "Localhost",
 
@@ -114,7 +114,7 @@ function Stop-ALHService {
             22         = "Other"
             4294967295 = "Other"
         }
-        
+
         $ServiceActionReturnCodes = @{
             0  = "The request was accepted."
             1  = "The request is not supported."
@@ -143,7 +143,7 @@ function Stop-ALHService {
             24 = "The service is currently paused in the system."
         }
     }
-  
+
     process {
         foreach ($Computer in $ComputerName) {
             foreach ($Service in $ServiceName) {
@@ -166,7 +166,7 @@ function Stop-ALHService {
                             Write-Warning -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]."
                         }
                         else {
-                            Write-Information -Message "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]." -InformationAction Continue
+                            Write-Information -MessageData "Computer [$Computer]: Service [$Service] is in state [$($ServiceObject.State)] with status [$($ServiceObject.Status)]." -InformationAction Continue
                         }
 
                         switch ($ServiceObject.State) {
@@ -176,9 +176,9 @@ function Stop-ALHService {
                                         $GetCimInstanceProcessParam = @{
                                             Class  = "Win32_Process"
                                             Filter = "ProcessId='$($ServiceObject.ProcessId)'"
-                                        }                
+                                        }
                                         if ($Computer -ne "Localhost") { $GetCimInstanceProcessParam.ComputerName = $Computer }
-                                    
+
                                         $ServiceProcess = Get-CimInstance @GetCimInstanceProcessParam
 
                                         $InvokeCimMethodParams = @{
@@ -187,14 +187,16 @@ function Stop-ALHService {
                                         }
                                         if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
 
-                                        $ReturnVal = Invoke-CimMethod @InvokeCimMethodParams
-                                        $ReturnValInt32 = [convert]::ToInt32($ReturnVal.ReturnValue, 10)
+                                        if ($PSCmdlet.ShouldProcess("Terminating service process '$ServiceProcess' on computer '$Computer'")) {
+                                            $ReturnVal = Invoke-CimMethod @InvokeCimMethodParams
+                                            $ReturnValInt32 = [convert]::ToInt32($ReturnVal.ReturnValue, 10)
 
-                                        if ($ReturnVal -eq 0) {
-                                            Write-Information -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])" -InformationAction Continue
-                                        }
-                                        else {
-                                            Write-Warning -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])"
+                                            if ($ReturnVal -eq 0) {
+                                                Write-Information -MessageData "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])" -InformationAction Continue
+                                            }
+                                            else {
+                                                Write-Warning -Message "Computer [$Computer] - [$Service]: Process terminate return code: $($ProcessTerminateReturnCodes[$ReturnValInt32])"
+                                            }
                                         }
                                     }
                                 }
@@ -207,22 +209,25 @@ function Stop-ALHService {
                                     }
                                     if ($Computer -ne "Localhost") { $InvokeCimMethodParams.ComputerName = $Computer }
 
-                                    $ServiceStopStatus = Invoke-CimMethod @InvokeCimMethodParams
-                                    $ServiceStopStatusInt32 = [convert]::ToInt32($ServiceStopStatus.ReturnValue, 10)
+                                    if ($PSCmdlet.ShouldProcess("Stopping service '$Service' on computer '$Computer'")) {
 
-                                    if ($ServiceStopStatusInt32 -eq 0) {
-                                        Write-Information -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])" -InformationAction Continue
-                                    }
-                                    else {
-                                        Write-Warning -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])"
+                                        $ServiceStopStatus = Invoke-CimMethod @InvokeCimMethodParams
+                                        $ServiceStopStatusInt32 = [convert]::ToInt32($ServiceStopStatus.ReturnValue, 10)
+
+                                        if ($ServiceStopStatusInt32 -eq 0) {
+                                            Write-Information -MessageData "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])" -InformationAction Continue
+                                        }
+                                        else {
+                                            Write-Warning -Message "Computer [$Computer] - [$Service]: Service action return code: $($ServiceActionReturnCodes[$ServiceStopStatusInt32])"
+                                        }
                                     }
                                 }
                                 else {
-                                    Write-Information -Message "Service is running but '-KillDegraded' was specified. Only stopping if in degraded state." -InformationAction Continue
+                                    Write-Information -MessageData "Service is running but '-KillDegraded' was specified. Only stopping if in degraded state." -InformationAction Continue
                                 }
                             }
                             "Stopped" {
-                                Write-Information -Message "Computer [$Computer]: Service [$Service] is already stopped." -InformationAction Continue
+                                Write-Information -MessageData "Computer [$Computer]: Service [$Service] is already stopped." -InformationAction Continue
                             }
                         }
                     }
@@ -231,27 +236,26 @@ function Stop-ALHService {
                     }
                 }
                 catch {
-                    $_
+                    Write-Error $_
                 }
             }
         }
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

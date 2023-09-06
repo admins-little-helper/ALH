@@ -10,19 +10,19 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI 
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
  1.0
@@ -34,20 +34,20 @@
 #>
 
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
 Contains function to test if a given user, group, computer or contact is member of a given Active Directory group.
 
-#> 
+#>
 
 
 function Test-ALHADGroupmembership {
-    <# 
-    .SYNOPSIS 
+    <#
+    .SYNOPSIS
     A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
 
-    .DESCRIPTION 
+    .DESCRIPTION
     A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
     The function returns a PSCustomObject showing some information about the object found in AD and true or false about memberhsip of the
     given group, in case it was found.
@@ -61,20 +61,18 @@ function Test-ALHADGroupmembership {
     .PARAMETER SearchBase
     AD SearchBase. If omitted, the base DN will be set from current AD domain.
 
-    .EXAMPLE 
+    .EXAMPLE
     Test-GroupMembership -Identity $env:USERNAME -Group "GroupA"
-
     Check, if the currently logged on user is member of a group named GroupA.
 
-    .EXAMPLE 
+    .EXAMPLE
     Test-GroupMembership -Identity mike,john -Group "Group1"
-
     Check, if the users named mike and john are member of a group named Group1.
 
     .INPUTS
     nothing
 
-    .OUTPUTS 
+    .OUTPUTS
     PSCustomObject
 
     .NOTES
@@ -87,7 +85,7 @@ function Test-ALHADGroupmembership {
 
     [CmdletBinding()]
     param(
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]    
+        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $Identity,
@@ -112,10 +110,10 @@ function Test-ALHADGroupmembership {
                 [string]
                 $Group
             )
-            
+
             $SearchFilter = "(&(objectCategory=group)(samaccountname=$Group))"
             $Search = New-Object DirectoryServices.DirectorySearcher($SearchFilter)
-    
+
             try {
                 $Results = $Search.FindAll()
                 $Results | Out-Null
@@ -124,7 +122,7 @@ function Test-ALHADGroupmembership {
                     Write-Verbose -Message "Checking if member is also a group: $member"
                     $MemberSearchFilter = "(&(objectCategory=group)(distinguishedName=$member))"
                     $MemberSearch = New-Object DirectoryServices.DirectorySearcher($MemberSearchFilter)
-                    
+
                     try {
                         $MemberResults = $MemberSearch.FindAll()
                         $MemberResults | Out-Null
@@ -132,7 +130,7 @@ function Test-ALHADGroupmembership {
                     catch {
                         Write-Verbose -Message "An unknown error occured"
                     }
-                    
+
                     if ($null -ne $MemberResults -and $MemberResults.Count -gt 0) {
                         Write-Verbose -Message "Member is a group. Call function recursively."
                         Get-xADGroupMember -Group $MemberResults.Properties["samAccountName"]
@@ -145,7 +143,7 @@ function Test-ALHADGroupmembership {
                 Write-Verbose -Message "An unknown error occured"
             }
         }
-        
+
         [array]$GroupResults = Get-xADGroupMember -Group $Group
 
         if ($Recurse.IsPresent) {
@@ -155,7 +153,7 @@ function Test-ALHADGroupmembership {
                 Write-Verbose -Message "Checking if member is also a group: $member"
                 $MemberSearchFilter = "(&(objectCategory=group)(distinguishedName=$member))"
                 $MemberSearch = New-Object DirectoryServices.DirectorySearcher($MemberSearchFilter)
-                
+
                 try {
                     $MemberResults = $MemberSearch.FindAll()
                     $MemberResults | Out-Null
@@ -163,7 +161,7 @@ function Test-ALHADGroupmembership {
                 catch {
                     Write-Verbose -Message "An unknown error occured"
                 }
-                
+
                 if ($null -ne $MemberResults -and $MemberResults.Count -gt 0) {
                     Write-Verbose -Message "Member is a group. Call function recursively."
                     Get-xADGroupMember -Group $MemberResults.Properties["samAccountName"]
@@ -209,11 +207,11 @@ function Test-ALHADGroupmembership {
                     $distinguishedName = $ADObjectResult.Properties["distinguishedName"][0]
                     $objectCategory = $ADObjectResult.Properties["objectCategory"][0]
                     $BaseObject = $ADObjectResult
-            
+
                     foreach ($GroupResult in $GroupResults) {
                         Write-Verbose -Message "Group found: $($GroupResult.Properties["distinguishedName"])"
                         Write-Verbose -Message "Group member count: $($GroupResult.Properties["Member"].count)"
-                        
+
                         if ($GroupResult.Properties["Member"] -contains $ADObjectResult.Properties["distinguishedName"]) {
                             Write-Verbose -Message "AD object is member of group"
                             $IsMember = $true
@@ -225,7 +223,7 @@ function Test-ALHADGroupmembership {
                             }
                             else {
                                 Write-Verbose -Message "AD object is NOT member of group"
-                                $IsMember = $false                            
+                                $IsMember = $false
                             }
                         }
                     }
@@ -252,20 +250,19 @@ function Test-ALHADGroupmembership {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

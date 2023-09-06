@@ -2,7 +2,7 @@
 
 .VERSION 1.1.0
 
-.GUID 2138fa89-6384-4b9f-898b-f7014d9853f5  
+.GUID 2138fa89-6384-4b9f-898b-f7014d9853f5
 
 .AUTHOR Dieter Koch
 
@@ -10,7 +10,7 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
@@ -111,7 +111,7 @@ function Convert-ALHADUserAccountControl {
     begin {
         # Combine the UserAccountControl value and the msDSUserAccountControlComputed value (see Microsoft documentation for details about this).
         $UserAccountControl = $UserAccountControl -bor $msDSUserAccountControlComputed
-    
+
         $UACPropertyFlags = @(
             "SCRIPT",
             "ACCOUNTDISABLE",
@@ -175,14 +175,14 @@ function Convert-ALHADUserAccountControl {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

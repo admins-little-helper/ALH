@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -68,7 +68,7 @@ function Get-ALHADSubnetInfo {
 
     [CmdletBinding()]
     param ()
-    
+
     $RequiredModules = "ActiveDirectory"
 
     foreach ($RequiredModule in $RequiredModules) {
@@ -92,15 +92,15 @@ function Get-ALHADSubnetInfo {
     $Subnets = Get-ADReplicationSubnet -Filter * -Properties * | Select-Object Name, Site, Location, Description
 
     $ResultsArray = @()
-    
+
     foreach ($Subnet in $Subnets) {
         $SiteName = ""
-        
+
         If ($null -ne $Subnet.Site) { $SiteName = $Subnet.Site.Split(',')[0].Trim('CN=') }
         $DcInSite = $False
-        
+
         If ($DcList.Site -Contains $SiteName) { $DcInSite = $True }
-        
+
         $RA = New-Object PSObject
         $RA | Add-Member -type NoteProperty -Name "Subnet" -Value $Subnet.Name
         $RA | Add-Member -type NoteProperty -Name "SiteName" -Value $SiteName
@@ -109,24 +109,23 @@ function Get-ALHADSubnetInfo {
         $RA | Add-Member -type NoteProperty -Name "SiteDesc" -Value $Subnet.Description
         $ResultsArray += $RA
     }
-    
+
     $ResultsArray | Sort-Object -Property SiteName, Subnet
 }
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

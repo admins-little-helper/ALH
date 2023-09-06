@@ -1,4 +1,4 @@
-<#PSScriptInfo
+﻿<#PSScriptInfo
 
 .VERSION 1.0.0
 
@@ -38,7 +38,7 @@ Initial release
 
 #>
 
-# Vaguely based on 
+# Vaguely based on
 # https://community.spiceworks.com/scripts/show/2450-change-cell-color-in-html-table-with-powershell-set-cellcolor
 
 
@@ -46,10 +46,10 @@ function Set-ALHCellColor {
     <#
     .SYNOPSIS
     Function to set cell color of a html table based on filter criteria.
-     
+
     .DESCRIPTION
     This functions allows to change the cell color in a html table (InputObject) based on the cell value.
-     
+
     .PARAMETER InputObject
     PowerShell object html code containing a table definition.
 
@@ -81,23 +81,23 @@ function Set-ALHCellColor {
     https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHCellColor.txt
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param (
-        [Parameter(Mandatory, ValueFromPipeline)]    
+        [Parameter(Mandatory, ValueFromPipeline)]
         [ValidateNotNull()]
         [Object[]]
         $InputObject,
-        
+
         [Parameter(Mandatory)]
         [ValidateNotNull()]
         [string]
         $Filter,
-        
+
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string]
         $Color,
-        
+
         [switch]
         $Row
     )
@@ -116,7 +116,7 @@ function Set-ALHCellColor {
             }
         }
         else {
-            exit 
+            exit
         }
     }
 
@@ -171,28 +171,29 @@ function Set-ALHCellColor {
                     }
                 }
             }
-            $line
+
+            if ($PSCmdlet.ShouldProcess("Replacing intput '$input' with '$line'")) {
+                $line
+            }
         }
     }
 }
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    
