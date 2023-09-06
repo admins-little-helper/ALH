@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -92,7 +92,7 @@ $CMScheduleActions = @{
 }
 
 
-function Invoke-ALHCMActions {
+function Invoke-ALHCMAction {
     <#
     .SYNOPSIS
     Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
@@ -109,7 +109,7 @@ function Invoke-ALHCMActions {
 
     .EXAMPLE
     Invoke Hardware Inventory and Machine Policy Evaluation tasks on computer Computer1 and Computer2
-    $Result = Invoke-ALHCMActions -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
+    $Result = Invoke-ALHCMAction -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
     $Result
 
     .INPUTS
@@ -123,12 +123,12 @@ function Invoke-ALHCMActions {
     Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMActions.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMAction.txt
     #>
 
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]    
+        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]
         [string[]]
         $ComputerName,
 
@@ -140,13 +140,13 @@ function Invoke-ALHCMActions {
     DynamicParam {
         # Set the dynamic parameters' name
         $ParameterName = 'Action'
-        
-        # Create the dictionary 
+
+        # Create the dictionary
         $RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
         # Create the collection of attributes
         $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-        
+
         # Create and set the parameters' attributes
         $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
         $ParameterAttribute.Mandatory = $true
@@ -155,7 +155,7 @@ function Invoke-ALHCMActions {
         # Add the attributes to the attributes collection
         $AttributeCollection.Add($ParameterAttribute)
 
-        # Generate and set the ValidateSet 
+        # Generate and set the ValidateSet
         $arrSet = $CMScheduleActions.keys
         $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
@@ -166,7 +166,7 @@ function Invoke-ALHCMActions {
         $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string[]], $AttributeCollection)
         $RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
         return $RuntimeParameterDictionary
-    }  
+    }
 
     begin {
         # Bind the parameter to a friendly variable
@@ -192,9 +192,9 @@ function Invoke-ALHCMActions {
                     try {
                         foreach ($ActionToRun in $Action) {
                             Write-Verbose -Message "Triggering action on $($computer.ToUpper()) --> $ActionToRun --> $($CMScheduleActions."$ActionToRun")"
-                            
+
                             $ActionString = "$($CMScheduleActions."$ActionToRun")"
-                            
+
                             Invoke-Command -ComputerName $computer { Invoke-CimMethod -Namespace ROOT\ccm -Class SMS_CLIENT -Name TriggerSchedule -Arguments @{sScheduleID = $using:ActionString } } -Credential $Credential
                         }
                     }
@@ -210,20 +210,19 @@ function Invoke-ALHCMActions {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

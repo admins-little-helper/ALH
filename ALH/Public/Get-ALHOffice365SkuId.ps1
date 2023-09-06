@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -38,43 +38,42 @@
 
 #>
 
-function Get-ALHOffice365SkuIds {
+function Get-ALHOffice365SkuId {
     <#
     .SYNOPSIS
     Function to download and export the current list of Office 365 SKU Ids from the official Microsoft Download page.
-     
+
     .DESCRIPTION
-    The 'Get-ALHOffice365SkuIds' function downloads and exports the current list of Office 365 SKU Ids from the official Microsoft Download page.
+    The 'Get-ALHOffice365SkuId' function downloads and exports the current list of Office 365 SKU Ids from the official Microsoft Download page.
     The function either returns an an array of PSCustomObjects containing all Office 365 SKU Ids, or exports the list
     to either a json or CSV file on a given path.
-     
+
     .PARAMETER OutFile
     The file path to either a CSV or JSON file to which the results are exported.
-     
+
     .PARAMETER Force
     Only has effect if parameter -OutFile is specified. Forces file overwrite if a the specified file already exists.
-     
+
     .PARAMETER Force
     Only has effect if parameter -OutFile is specified. If specified, the result will be saved to the specified filename and return to the console.
-     
+
     .EXAMPLE
-    Get-ALHOffice365SkuIds
+    Get-ALHOffice365SkuId
 
     Gets a list of Office365 SKU Ids.
 
     .EXAMPLE
-    Get-ALHOffice365SkuIds -OutFile 'C:\Temp\Office365SkuIds.csv'
+    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.csv'
 
     Gets a list of Office365 SKU Ids and save the result to a CSV file.
 
-    
     .EXAMPLE
-    Get-ALHOffice365SkuIds -OutFile 'C:\Temp\Office365SkuIds.json' -PassThru
+    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -PassThru
 
     Gets a list of Office365 SKU Ids and save the result to a JSON file and also shows it on the console.
 
     .EXAMPLE
-    Get-ALHOffice365SkuIds -OutFile 'C:\Temp\Office365SkuIds.json' -Force -PassThrough
+    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -Force -PassThrough
 
     Get a list of Office365 SKU Ids and save the result to a JSON file, overwrite if it already exists and also shows the results on the console.
 
@@ -89,7 +88,7 @@ function Get-ALHOffice365SkuIds {
     Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365SkuIds.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365SkuId.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]
@@ -104,7 +103,7 @@ function Get-ALHOffice365SkuIds {
                 if ($_ -notmatch "(\.csv|\.json)") {
                     throw "The file specified in the OutFile parameter must be one of these types: .csv, .json"
                 }
-                return $true 
+                return $true
             })]
         [string]
         $OutFile,
@@ -117,7 +116,7 @@ function Get-ALHOffice365SkuIds {
         [switch]
         $PassThru
     )
-    
+
     # If the 'OutFile' parameter was specified and the file already exits and the 'Force' parameter was not specfied
     # the script stops here because the result could not be saved.
     if ((-not ([string]::IsNullOrEmpty($OutFile))) -and (Test-Path -Path $OutFile) -and (-not ($Force.IsPresent))) {
@@ -132,7 +131,7 @@ function Get-ALHOffice365SkuIds {
         try {
             Write-Verbose -Message "Trying to download file from '$SkuIdDownloadLink'."
             $InvokeWebRequestParams = @{
-                Uri     = $SkuIdDownloadLink 
+                Uri     = $SkuIdDownloadLink
                 Method  = 'Get'
                 OutFile = $TempFile
             }
@@ -178,24 +177,22 @@ function Get-ALHOffice365SkuIds {
                 $O365SkuIdDataCsv
             }
         }
-    }    
+    }
 }
-
-
 
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

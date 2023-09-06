@@ -14,7 +14,7 @@
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
-.PROJECTURI
+.PROJECTURI https://github.com/admins-little-helper/ALH
 
 .ICONURI
 
@@ -45,31 +45,31 @@
 #>
 
 
-function Get-ALHADFailedLogonAttempts {
+function Get-ALHADFailedLogonAttempt {
     <#
     .SYNOPSIS
     Function to query the securtiy event log for event id 4625 and 4771 which are logged for failed logon attempts.
-     
+
     .DESCRIPTION
     Function to query the securtiy event log for event id 4625 and 4771 which are logged for failed logon attempts.
     The function can query one or multiple computers for one, multiple or any user in a given timeframe.
     This helps to identify the source of the invalid logon attempts because the events contain the source IP
     address of the logon attempt.
-     
+
     .PARAMETER DomainName
-    The AD domain name in which the Domain Controller will be queried, if no value 
-    is specified for the -Compuername parameter
-     
+    The AD domain name in which the Domain Controller will be queried, if no value
+    is specified for the -Compuername parameter.
+
     .PARAMETER Identity
     One or more usernames (samAccountName) to search for. If ommited, events for all users ("*") are searched.
-     
+
     .PARAMETER StartTime
     The datetime to start searching from. If ommited, it's set for the last two hours.
-     
+
     .PARAMETER ComputerName
     One or more computernames to search for. If ommited, the script tries to get the domain controller
     with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
-     
+
     .PARAMETER ResolveDNS
     If specified, the script will try to lookup the DNS hostname of the ip address found in the event log record.
     Note that this can be misleading because the ip address shown in the event can be assigned to anohter system at the time
@@ -80,31 +80,31 @@ function Get-ALHADFailedLogonAttempts {
 
     .PARAMETER Credential
     Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
-     
+
     .EXAMPLE
-    Get-ALHADFailedLogonAttempts
+    Get-ALHADFailedLogonAttempt
 
     Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
-     
-    .EXAMPLE
-    Get-ALHADFailedLogonAttempts -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
-
-    Get events for user with samAccountName 'mike' within the last 8 hours
 
     .EXAMPLE
-    Get-ALHADFailedLogonAttempts -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+    Get-ALHADFailedLogonAttempt -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
 
-    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2 
-     
-    .EXAMPLE
-    Get-ALHADFailedLogonAttempts -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
-
-    Get events for two users within the last 24 hours from Domain Controller running the PDC role
+    Get events for user with samAccountName 'mike' within the last 8 hours.
 
     .EXAMPLE
-    Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttempts -StartTime (Get-Date).AddDays(-1)
+    Get-ALHADFailedLogonAttempt -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
 
-    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role
+    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
+
+    .EXAMPLE
+    Get-ALHADFailedLogonAttempt -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+
+    Get events for two users within the last 24 hours from Domain Controller running the PDC role.
+
+    .EXAMPLE
+    Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttempt -StartTime (Get-Date).AddDays(-1)
+
+    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
 
     .INPUTS
     Nothing
@@ -117,42 +117,42 @@ function Get-ALHADFailedLogonAttempts {
     Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADFailedLogonAttempts.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADFailedLogonAttempt.txt
     #>
-    
+
     [CmdletBinding()]
     param (
         [ValidateNotNullOrEmpty()]
         [string]$DomainName = $env:USERDOMAIN,
-    
+
         [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
         [string[]]$Identity,
-    
+
         [Parameter(ParameterSetName = "DateTime")]
         [ValidateNotNullOrEmpty()]
         [datetime]$StartTime = (Get-Date).AddHours(-2),
-    
+
         [Parameter(ParameterSetName = "TimeRange")]
         [ValidateSet("1h", "2h", "4h", "6h", "8h", "12h", "15h", "18h", "21h", "1d", "2d", "3d", "4d", "5d", "6d", "7d")]
         [ValidateNotNullOrEmpty()]
         [string]$TimeRange = "1d",
-    
+
         [ValidateNotNullOrEmpty()]
         [string[]]$ComputerName = [System.DirectoryServices.ActiveDirectory.Domain]::GetDomain((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Domain', $DomainName))).PdcRoleOwner.Name,
-    
+
         [ValidateNotNullOrEmpty()]
         [switch]$ResolveDns = $false,
-        
+
         [ValidateNotNullOrEmpty()]
         [switch]$CheckLockoutStatus = $false,
-        
+
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
-    
+
     begin {
         $RequiredModules = "ActiveDirectory"
 
@@ -177,7 +177,7 @@ function Get-ALHADFailedLogonAttempts {
 
         $ComputerTotal = $ComputerName.Count
         $UserTotal = $Identity.Count
-        
+
         #"StatusHex;StatusDec;StatusText;StatusDesc
         $Event4625FailureReasons = @{
             '-1073741715' = @{
@@ -268,18 +268,17 @@ function Get-ALHADFailedLogonAttempts {
                 Write-Warning -Message "Not a valid timerange. Using default time range of 2h"
                 $StartTime = (Get-Date).AddHours(-2)
             }
-            
         }
 
-        Write-Information -Message "Searching in domain                       : $DomainName" -InformationAction Continue
-        Write-Information -Message "Checking security event log on cmputer(s) : $($Computername -join ';')" -InformationAction Continue
-        Write-Information -Message "Search timeframe                          : $StartTime - $(Get-Date)" -InformationAction Continue
-        Write-Information -Message "Running with credentials of user          : $CredentialsOfUser" -InformationAction Continue
-        Write-Information -Message "Searching for username(s)                 : $($Identity -join ';')" -InformationAction Continue
-        Write-Information -Message "Resolving IP to hostname                  : $($ResolveDns.IsPresent)" -InformationAction Continue
-        Write-Information -Message "Check current lockout status              : $($CheckLockoutStatus.IsPresent)" -InformationAction Continue
+        Write-Information -MessageData "Searching in domain                       : $DomainName" -InformationAction Continue
+        Write-Information -MessageData "Checking security event log on cmputer(s) : $($Computername -join ';')" -InformationAction Continue
+        Write-Information -MessageData "Search timeframe                          : $StartTime - $(Get-Date)" -InformationAction Continue
+        Write-Information -MessageData "Running with credentials of user          : $CredentialsOfUser" -InformationAction Continue
+        Write-Information -MessageData "Searching for username(s)                 : $($Identity -join ';')" -InformationAction Continue
+        Write-Information -MessageData "Resolving IP to hostname                  : $($ResolveDns.IsPresent)" -InformationAction Continue
+        Write-Information -MessageData "Check current lockout status              : $($CheckLockoutStatus.IsPresent)" -InformationAction Continue
     }
-    
+
     process {
         $StartTimeProc = Get-Date
 
@@ -299,7 +298,7 @@ function Get-ALHADFailedLogonAttempts {
 
                 try {
                     Write-Verbose -Message "Searching for user '$user'"
-                    
+
                     $Events4625 = Get-WinEvent -ComputerName $computer -FilterHashtable @{LogName = 'Security'; Id = 4625; StartTime = $StartTime } -Credential $Credential -ErrorAction SilentlyContinue
                     $StartTimeQuery4625 = Get-Date
                     Write-Verbose -Message "Number events found for id 4625 before applying filter: $(($Events4625 | Measure-Object).Count)"
@@ -323,7 +322,7 @@ function Get-ALHADFailedLogonAttempts {
                         @{Name = 'Computer'; Expression = { $computer } }
                     }
                     $StartTimeFormat4625 = Get-Date
-                    
+
                     $Events4771 = Get-WinEvent -ComputerName $computer -FilterHashtable @{LogName = 'Security'; Id = 4771; StartTime = $StartTime } -Credential $Credential -ErrorAction SilentlyContinue
                     $StartTimeQuery4771 = Get-Date
                     Write-Verbose -Message "Number events found for id 4771: $(($Events4771 | Measure-Object).Count)"
@@ -345,7 +344,7 @@ function Get-ALHADFailedLogonAttempts {
                         @{Name = 'FailureReason'; Expression = { $Event4771FailureReasons."$($_.Properties[4].Value)".StatusDescription } }, `
                         @{Name = 'CurrentlyLocked'; Expression = { if ($CheckLockoutStatus.IsPresent) { (Get-ADUser $_.Properties[5].Value -Properties LockedOut).LockedOut } else { '' } } }, `
                         @{Name = 'Computer'; Expression = { $computer } }
-                    }           
+                    }
                     $StartTimeFormat4771 = Get-Date
                 }
                 catch [System.Exception] {
@@ -362,11 +361,11 @@ function Get-ALHADFailedLogonAttempts {
             }
         }
     }
-    
+
     end {
         <#
         if ($($LockedOutUsers | Measure-Object).Count -eq 0) {
-            Write-Information -Message "`n`nNo records found matching search criteria. Try extending the timeframe.`n" -InformationAction Continue
+            Write-Information -MessageData "`n`nNo records found matching search criteria. Try extending the timeframe.`n" -InformationAction Continue
         }
         else {
             $LockedOutUsers | Sort-Object -Property Username, TimeCreated
@@ -387,14 +386,14 @@ function Get-ALHADFailedLogonAttempts {
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/

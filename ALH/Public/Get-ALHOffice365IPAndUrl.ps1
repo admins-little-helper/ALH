@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.1
+.VERSION 1.0.2
 
 .GUID 31231287-50ef-41f6-a780-411712bee2fe
 
@@ -10,49 +10,51 @@
 
 .COPYRIGHT (c) 2021-2023 Dieter Koch
 
-.TAGS 
+.TAGS
 
 .LICENSEURI https://github.com/admins-little-helper/ALH/blob/main/LICENSE
 
 .PROJECTURI https://github.com/admins-little-helper/ALH
 
-.ICONURI 
+.ICONURI
 
-.EXTERNALMODULEDEPENDENCIES 
+.EXTERNALMODULEDEPENDENCIES
 
-.REQUIREDSCRIPTS 
+.REQUIREDSCRIPTS
 
-.EXTERNALSCRIPTDEPENDENCIES 
+.EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-    1.0
+    1.0.0
     Initial Release
 
     1.0.1
     - Extended LastRunInfo
     - Improved data processing
- 
+
+    1.0.2
+    - Fixed issue with clientrequestid.
 #>
 
 
-<# 
+<#
 
-.DESCRIPTION 
+.DESCRIPTION
 Contains a function to retrieve IPs and URLs used by Microsoft 365 services.
 
 Microsoft documentation about Microsoft 365 IP Web service and how to use it:
 https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide
 
-#> 
+#>
 
 
-function Get-ALHOffice365IPsAndUrls {
-    <# 
-    .SYNOPSIS 
+function Get-ALHOffice365IPAndUrl {
+    <#
+    .SYNOPSIS
     Retrieves IPs and URLs used by Microsoft 365 services.
 
     .DESCRIPTION
-    The 'Get-ALHOffice365IPsAndUrls' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
+    The 'Get-ALHOffice365IPAndUrl' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
     It allows to filter the output for example to only URLs, not IPs or only for certain services like Exchange. The data retrieved is stored
     in a local cache file to limit the number of queries against the webservice.
 
@@ -94,37 +96,37 @@ function Get-ALHOffice365IPsAndUrls {
     If specified, data is always retrieved from the web service instead of a local cache file.
 
     .EXAMPLE
-    Get-ALHOffice365IPsAndUrls
+    Get-ALHOffice365IPAndUrl
 
     Retrieve all endpoint sets for all service areas and all categories in the 'Worldwide' Instance
 
     .EXAMPLE
-    Get-ALHOffice365IPsAndUrls -ServiceArea Exchange
+    Get-ALHOffice365IPAndUrl -ServiceArea Exchange
 
     Retrieve all endpoint sets for Exchange and all categories in the 'Worldwide' Instance
 
     .EXAMPLE
-    Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required
+    Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required
 
     Retrieve only required endpoint sets for SharePoint and all categories in the 'Worldwide' Instance
 
     .EXAMPLE
-    Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required -OutputType IPv4 -Force
+    Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required -OutputType IPv4 -Force
 
     Retrieve only IPv4 endpoint sets for Skype and all categories in the 'USGovDoD' Instance and ignore any local cache file (if exist)
 
     .INPUTS
     Nothing
 
-    .OUTPUTS 
+    .OUTPUTS
     PSCustomObject
-    
+
     .NOTES
     Author:     Dieter Koch
     Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPsAndUrls.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPAndUrl.txt
     #>
 
     [CmdletBinding()]
@@ -163,7 +165,7 @@ function Get-ALHOffice365IPsAndUrls {
         [switch]
         $Force
     )
-    
+
     if (Test-Path -Path $OutputPath) {
         $LastRunInfoFile = "$OutputPath\Office365IPsandUrls.json"
         Write-Verbose -Message "Trying to read last run info from $LastRunInfoFile"
@@ -202,8 +204,8 @@ function Get-ALHOffice365IPsAndUrls {
 
     foreach ($SingleInstance in $Instance) {
         $BaseURI = 'https://endpoints.office.com'
-        $VersionRequestURI = $BaseURI + '/version/' + $SingleInstance + '?clientRequestId=' + $LastRunInfo.ClientRequestID.Guid
-        $EndpointRequestURI = $BaseURI + '/endpoints/' + $SingleInstance + '?clientRequestId=' + $LastRunInfo.ClientRequestID.Guid
+        $VersionRequestURI = $BaseURI + '/version/' + $SingleInstance + '?clientRequestId=' + $LastRunInfo.ClientRequestID
+        $EndpointRequestURI = $BaseURI + '/endpoints/' + $SingleInstance + '?clientRequestId=' + $LastRunInfo.ClientRequestID
 
         Write-Verbose -Message "Trying to get version number of latest version from Webservice for Instance '$SingleInstance'..."
 
@@ -212,7 +214,7 @@ function Get-ALHOffice365IPsAndUrls {
                 Uri    = $VersionRequestURI
                 Method = 'Get'
             }
-        
+
             $LatestVersionOnWeb = Invoke-RestMethod @VersionParams
         }
         catch {
@@ -223,7 +225,7 @@ function Get-ALHOffice365IPsAndUrls {
 
         Write-Verbose -Message "Last version locally                    : $($LastRunInfo.LastVersionFromWeb)"
         Write-Verbose -Message "Latest version available from Webservice: $($LatestVersionOnWeb.latest)"
-    
+
         if ($TenantName) {
             Write-Verbose -Message "Parameter '-Tenant' specified, appending value to request URI"
             $EndpointRequestURI = $EndpointRequestURI + "&TenantName=$TenantName"
@@ -243,12 +245,12 @@ function Get-ALHOffice365IPsAndUrls {
 
         if (-not $EndpointsFileExists) {
             Write-Verbose -Message "Endpoints file does not exist."
-            $RetrieveDataFromWeb = $true      
+            $RetrieveDataFromWeb = $true
         }
 
         if ($Force.IsPresent) {
             Write-Verbose -Message "Parameter '-Force' specified."
-            $RetrieveDataFromWeb = $true      
+            $RetrieveDataFromWeb = $true
         }
 
         if ($RetrieveDataFromWeb) {
@@ -307,7 +309,7 @@ function Get-ALHOffice365IPsAndUrls {
 
         if ($OutputType -ne 'All') {
             Write-Verbose -Message "Parameter 'OutputType' specified with value $OutputType"
-        
+
             if ($OutputType -eq 'IPv4') {
                 Write-Verbose -Message "Removing endpoints with URLs and IPv6 addresses from output"
                 $EndPoints = foreach ($EndPoint in $Endpoints) {
@@ -353,23 +355,21 @@ function Get-ALHOffice365IPsAndUrls {
     }
 }
 
-
 #region EndOfScript
 <#
 ################################################################################
 ################################################################################
 #
-#        ______           _          __    _____           _       _   
-#       |  ____|         | |        / _|  / ____|         (_)     | |  
-#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_ 
+#        ______           _          __    _____           _       _
+#       |  ____|         | |        / _|  / ____|         (_)     | |
+#       | |__   _ __   __| |   ___ | |_  | (___   ___ _ __ _ _ __ | |_
 #       |  __| | '_ \ / _` |  / _ \|  _|  \___ \ / __| '__| | '_ \| __|
-#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_ 
+#       | |____| | | | (_| | | (_) | |    ____) | (__| |  | | |_) | |_
 #       |______|_| |_|\__,_|  \___/|_|   |_____/ \___|_|  |_| .__/ \__|
-#                                                           | |        
-#                                                           |_|        
+#                                                           | |
+#                                                           |_|
 ################################################################################
 ################################################################################
 # created with help of http://patorjk.com/software/taag/
 #>
 #endregion
-    
