@@ -2,6 +2,24 @@
 
 [README.md](./README.md)
 
+## Version 2.3.0 (2023-09-06)
+
+* Fixed PSScriptAnalyzer rule violations in all functions.
+* Get-ALHADFailedLogonAttempt: Renamed function to fix rule violation 'PSUseSingularNouns'.
+* Get-ALHOffice365IPAndUrl: Renamed function to fix rule violation 'PSUseSingularNouns'.
+* Get-ALHOffice365IPAndUrl: Fixed issue with clientrequestid.
+* Get-ALHOffice365SkuId: Renamed function to fix rule violation 'PSUseSingularNouns'.
+* Get-ALHScriptSetting: Renamed function to fix rule violation 'PSUseSingularNouns'.
+* Invoke-ALHCMAction: Renamed function to fix rule violation 'PSUseSingularNouns'.
+* Added function: 'Move-ALHElementInArray'.
+* Get-ALHOffice365UpdateStatus: Added parameter 'UpdateChannel' to limit the information returned to a single channel.
+* Get-ALHOffice365UpdateStatus: Added some additional (unofficial!) channel name-ffn mappings.
+
+## Version 2.2.1 (2023-03-24)
+
+* Set-ALHSavedCredentials: Fixed issue when creating $Path failes.
+* Get-ALHOffice365UpdateStatus: Changed output to include 'UpdatedTimeUtc' and removed 'FFN'.
+
 ## Version 2.2.0 (2023-03-23)
 
 * Fixed typos in some functions.
