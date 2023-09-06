@@ -17,10 +17,6 @@
                         <Alignment>left</Alignment>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>FFN</Label>
-                        <Alignment>left</Alignment>
-                    </TableColumnHeader>
-                    <TableColumnHeader>
                         <Label>Channel</Label>
                         <Alignment>left</Alignment>
                     </TableColumnHeader>
@@ -36,6 +32,10 @@
                         <Label>LkgBuild</Label>
                         <Alignment>left</Alignment>
                     </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>UpdatedTimeUtc</Label>
+                        <Alignment>left</Alignment>
+                    </TableColumnHeader>
                 </TableHeaders>
                 <TableRowEntries>
                     <TableRowEntry>
@@ -45,9 +45,6 @@
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>Name</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>FFN</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>Channel</PropertyName>
@@ -60,6 +57,9 @@
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>LkgBuild</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>UpdatedTimeUtc</PropertyName>
                             </TableColumnItem>
                         </TableColumnItems>
                     </TableRowEntry>
