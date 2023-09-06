@@ -1,13 +1,13 @@
 
 NAME
-    Get-ALHScriptSettings
+    Get-ALHScriptSetting
     
 SYNOPSIS
     A PowerShell function for reading settings used in a script from json files.
     
     
 SYNTAX
-    Get-ALHScriptSettings [[-Path] <String>] [<CommonParameters>]
+    Get-ALHScriptSetting [[-Path] <FileInfo[]>] [[-Encoding] <Encoding>] [[-DefaultSettings] <PSObject>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -19,12 +19,37 @@ DESCRIPTION
     
 
 PARAMETERS
-    -Path <String>
+    -Path <FileInfo[]>
         The path to the .json file to be read. If omitted, the script assumes '$PSScriptRoot\settings.json'
         
         Required?                    false
         Position?                    1
         Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Encoding <Encoding>
+        Allows to specify the encoding of the file to be read. Defaults to 'utf8'.
+        
+        Required?                    false
+        Position?                    2
+        Default value                utf8
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DefaultSettings <PSObject>
+        Allows to specify some default settings as fall back that are returned if the specified settings file
+        can not be read successfully or the file is empty.
+        
+        Required?                    false
+        Position?                    3
+        Default value                @{
+                    Global = @{
+                        LogDir    = $env:Temp
+                        InputDir  = $null
+                        OutputDir = $env:Temp
+                    }
+                }
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
@@ -50,15 +75,16 @@ NOTES
     
     -------------------------- EXAMPLE 1 --------------------------
     
-    PS > Get-ALHScriptSettings -Path 'C:\MyScript\Settings.json' -Verbose
+    PS > $Settings = Get-ALHScriptSetting -Path 'C:\MyScript\Settings.json' -Verbose
+    Returns the settings saved in the JSON file as PSCustomObject.
     
-    Get-ALHScriptSettings
+    
     
     
     
     
     
 RELATED LINKS
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScriptSettings.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScriptSetting.txt
 
 

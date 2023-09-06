@@ -7,7 +7,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Set-ALHCellColor [-InputObject] <Object[]> [-Filter] <String> [-Color] <String> [-Row] [<CommonParameters>]
+    Set-ALHCellColor [-InputObject] <Object[]> [-Filter] <String> [-Color] <String> [-Row] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -48,6 +48,22 @@ PARAMETERS
         Required?                    false
         Position?                    named
         Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -WhatIf [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Confirm [<SwitchParameter>]
+        
+        Required?                    false
+        Position?                    named
+        Default value                
         Accept pipeline input?       false
         Accept wildcard characters?  false
         

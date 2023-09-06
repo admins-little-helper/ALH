@@ -3,7 +3,6 @@ NAME
     Get-ALHLoggedOnUser
     
 SYNOPSIS
-    Returns all users currently logged on to local or or remote computer
     
     
 SYNTAX
@@ -11,12 +10,11 @@ SYNTAX
     
     
 DESCRIPTION
-    Returns all users currently logged on to local or or remote computer
+    Contains function to check for any logged on users (either interactivly on the console or via Remote Desktop)
     
 
 PARAMETERS
     -ComputerName <String[]>
-        One or more computernames
         
         Required?                    false
         Position?                    1
@@ -39,54 +37,12 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    System.String for parameter 'ComputerName'
-    
     
 OUTPUTS
-    System.Boolean
-    
-    
-NOTES
-    
-    
-        Author:     Dieter Koch
-        Email:      diko@admins-little-helper.de
-    
-    -------------------------- EXAMPLE 1 --------------------------
-    
-    PS > Get-ALHLoggedOnUser
-    
-    ComputerName   : MYCOMPUTER
-    ComputerStatus : Online
-    Username       : user1
-    SessionName    : rdp-tcp#17
-    ID             : 2
-    State          : Active
-    IdleTime       : .
-    LogonTime      : 02.12.2022 07:26:00
-    
-    Shows the users logged into the local system
-    
-    
-    
-    
-    -------------------------- EXAMPLE 2 --------------------------
-    
-    PS > Get-ALHLoggedOnUser -Computer server1,server2,server3 | Format-Table -AutoSize
-    
-    ComputerName   ComputerStatus Username SessionName ID State  IdleTime LogonTime
-    ------------   -------------- -------- ----------- -- -----  -------- ---------
-    SERVER1        Online         userA    rdp-tcp#17  2  Active .        02.12.2022 07:26:00
-    SERVER2        Online         userB    console     2  Active .        02.12.2022 07:28:00
-    SERVER3        Online         userC    rdp-tcp#18  2  Active .        02.12.2022 08:42:00
-    
-    Shows the users logged into server1, server2, and server3
-    
-    
+    System.Management.Automation.PSObject
     
     
     
 RELATED LINKS
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHLoggedOnUser.txt
 
 

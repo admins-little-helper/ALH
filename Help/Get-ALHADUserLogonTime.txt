@@ -58,6 +58,7 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Get-ALHADUserLogonTime -Identity User1
+    Get lastlogontime for user named 'User1'.
     
     
     
@@ -67,6 +68,7 @@ NOTES
     -------------------------- EXAMPLE 2 --------------------------
     
     PS > Get-ALHADUserLogonTime -Identity User1, User2
+    Get lastlogontime for users named 'User1' and 'User2'.
     
     
     
@@ -76,6 +78,7 @@ NOTES
     -------------------------- EXAMPLE 3 --------------------------
     
     PS > Get-ALHADUserLogonTime -Identity User2, User2 -DomainController adds1,adds2
+    Get lastlogontime for users named 'User1' and 'User2' querying Domaincontroller 'adds1' and 'adds2'.
     
     
     
@@ -85,8 +88,9 @@ NOTES
     -------------------------- EXAMPLE 4 --------------------------
     
     PS > (Get-ADUser -Filter {name -like "a*"}).Name | Get-ALHADUserLogonTime -DomainController $(Get-ALHADDSDomainController -All)
-    
     Get lastlogontime for all users in AD where name starts with 'a', from all domain controllers in the current domain.
+    
+    
     
     
     

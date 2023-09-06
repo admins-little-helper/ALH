@@ -1,13 +1,13 @@
 
 NAME
-    Invoke-ALHCMActions
+    Invoke-ALHCMAction
     
 SYNOPSIS
     Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
     
     
 SYNTAX
-    Invoke-ALHCMActions [[-ComputerName] <String[]>] [-Credential] <PSCredential> [<CommonParameters>]
+    Invoke-ALHCMAction [[-ComputerName] <String[]>] [-Credential] <PSCredential> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -57,7 +57,7 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Invoke Hardware Inventory and Machine Policy Evaluation tasks on computer Computer1 and Computer2
-    $Result = Invoke-ALHCMActions -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
+    $Result = Invoke-ALHCMAction -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
     $Result
     
     
@@ -67,6 +67,6 @@ NOTES
     
     
 RELATED LINKS
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMActions.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMAction.txt
 
 

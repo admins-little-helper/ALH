@@ -7,11 +7,11 @@ SYNOPSIS
     
     
 SYNTAX
-    Invoke-ALHWakeOnLan -MacAddress <String[]> [<CommonParameters>]
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [-UseWolUdpPort7] [<CommonParameters>]
     
-    Invoke-ALHWakeOnLan -MacAddress <String[]> [-WolProxy <String>] [<CommonParameters>]
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [-WolProxy <String>] [-UseWolUdpPort7] [<CommonParameters>]
     
-    Invoke-ALHWakeOnLan -MacAddress <String[]> [-Wait] [<CommonParameters>]
+    Invoke-ALHWakeOnLan -MacAddress <String[]> [-Wait] [-UseWolUdpPort7] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -43,6 +43,14 @@ PARAMETERS
     -Wait [<SwitchParameter>]
         Switch. If specified, the function checks if the system comes up and waits for about 40 seconds per system.
         Can not be combined with parameter WolProxy.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -UseWolUdpPort7 [<SwitchParameter>]
         
         Required?                    false
         Position?                    named
@@ -102,6 +110,15 @@ NOTES
     PS > Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB'
     
     Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB'
+    
+    
+    
+    
+    -------------------------- EXAMPLE 5 --------------------------
+    
+    PS > Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB' -UseWolPort7
+    
+    Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB' using UDP port 7 instead of port 9.
     
     
     

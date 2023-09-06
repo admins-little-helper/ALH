@@ -1,44 +1,40 @@
 
 NAME
-    Get-ALHOffice365SkuIds
+    Move-ALHElementInArray
     
 SYNOPSIS
     
     
 SYNTAX
-    Get-ALHOffice365SkuIds [<CommonParameters>]
-    
-    Get-ALHOffice365SkuIds [-OutFile <String>] [-Force] [-PassThru] [<CommonParameters>]
+    Move-ALHElementInArray [[-Array] <Array>] [[-ElementNumberToMove] <Int32>] [[-NewElementNumber] <Int32>] [<CommonParameters>]
     
     
 DESCRIPTION
-    Contains a function to download and export the current list of Office 365 SKU Ids from the official Microsoft Download page.
+    Contains a function that allows to move an element within an array.
     
 
 PARAMETERS
-    -OutFile <String>
-        Check if the given path is valid.
-        Check if the extension of the given file matches the supported file extensions.
+    -Array <Array>
         
         Required?                    false
-        Position?                    named
+        Position?                    1
         Default value                
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -Force [<SwitchParameter>]
+    -ElementNumberToMove <Int32>
         
         Required?                    false
-        Position?                    named
-        Default value                False
+        Position?                    2
+        Default value                0
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -PassThru [<SwitchParameter>]
+    -NewElementNumber <Int32>
         
         Required?                    false
-        Position?                    named
-        Default value                False
+        Position?                    3
+        Default value                0
         Accept pipeline input?       false
         Accept wildcard characters?  false
         

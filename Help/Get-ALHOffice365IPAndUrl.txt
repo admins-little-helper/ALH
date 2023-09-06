@@ -1,17 +1,17 @@
 
 NAME
-    Get-ALHOffice365IPsAndUrls
+    Get-ALHOffice365IPAndUrl
     
 SYNOPSIS
     Retrieves IPs and URLs used by Microsoft 365 services.
     
     
 SYNTAX
-    Get-ALHOffice365IPsAndUrls [[-Instance] <String[]>] [[-ServiceArea] <String[]>] [[-Category] <String[]>] [[-Required] <Boolean>] [[-ExpressRoute] <Boolean>] [[-TenantName] <String>] [[-OutputType] <String[]>] [[-OutputPath] <String>] [-Force] [<CommonParameters>]
+    Get-ALHOffice365IPAndUrl [[-Instance] <String[]>] [[-ServiceArea] <String[]>] [[-Category] <String[]>] [[-Required] <Boolean>] [[-ExpressRoute] <Boolean>] [[-TenantName] <String>] [[-OutputType] <String[]>] [[-OutputPath] <String>] [-Force] [<CommonParameters>]
     
     
 DESCRIPTION
-    The 'Get-ALHOffice365IPsAndUrls' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
+    The 'Get-ALHOffice365IPAndUrl' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
     It allows to filter the output for example to only URLs, not IPs or only for certain services like Exchange. The data retrieved is stored
     in a local cache file to limit the number of queries against the webservice.
     
@@ -130,7 +130,7 @@ NOTES
     
     -------------------------- EXAMPLE 1 --------------------------
     
-    PS > Get-ALHOffice365IPsAndUrls
+    PS > Get-ALHOffice365IPAndUrl
     
     Retrieve all endpoint sets for all service areas and all categories in the 'Worldwide' Instance
     
@@ -139,7 +139,7 @@ NOTES
     
     -------------------------- EXAMPLE 2 --------------------------
     
-    PS > Get-ALHOffice365IPsAndUrls -ServiceArea Exchange
+    PS > Get-ALHOffice365IPAndUrl -ServiceArea Exchange
     
     Retrieve all endpoint sets for Exchange and all categories in the 'Worldwide' Instance
     
@@ -148,7 +148,7 @@ NOTES
     
     -------------------------- EXAMPLE 3 --------------------------
     
-    PS > Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required
+    PS > Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required
     
     Retrieve only required endpoint sets for SharePoint and all categories in the 'Worldwide' Instance
     
@@ -157,7 +157,7 @@ NOTES
     
     -------------------------- EXAMPLE 4 --------------------------
     
-    PS > Get-ALHOffice365IPsAndUrls -ServiceArea SharePoint -Required -OutputType IPv4 -Force
+    PS > Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required -OutputType IPv4 -Force
     
     Retrieve only IPv4 endpoint sets for Skype and all categories in the 'USGovDoD' Instance and ignore any local cache file (if exist)
     
@@ -166,6 +166,6 @@ NOTES
     
     
 RELATED LINKS
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPsAndUrls.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPAndUrl.txt
 
 

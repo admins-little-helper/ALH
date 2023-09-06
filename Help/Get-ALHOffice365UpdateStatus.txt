@@ -7,7 +7,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALHOffice365UpdateStatus [<CommonParameters>]
+    Get-ALHOffice365UpdateStatus [[-UpdateChannel] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -15,6 +15,15 @@ DESCRIPTION
     
 
 PARAMETERS
+    -UpdateChannel <String>
+        The name of the update channel to retrieve. If none is specified, all channels are returned.
+        
+        Required?                    false
+        Position?                    1
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
         ErrorAction, ErrorVariable, WarningAction, WarningVariable,
@@ -38,6 +47,17 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Get-ALHOffice365UpdateStatus
+    Returns information about all update channels.
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHOffice365UpdateStatus -UpdateChannel MonthylEnterprise
+    Returns information about the MonthlyEnterprise update channel.
     
     
     

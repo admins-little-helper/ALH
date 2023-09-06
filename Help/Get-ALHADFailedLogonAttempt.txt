@@ -1,15 +1,15 @@
 
 NAME
-    Get-ALHADFailedLogonAttempts
+    Get-ALHADFailedLogonAttempt
     
 SYNOPSIS
     Function to query the securtiy event log for event id 4625 and 4771 which are logged for failed logon attempts.
     
     
 SYNTAX
-    Get-ALHADFailedLogonAttempts [-DomainName <String>] [-Identity <String[]>] [-StartTime <DateTime>] [-ComputerName <String[]>] [-ResolveDns] [-CheckLockoutStatus] [-Credential <PSCredential>] [<CommonParameters>]
+    Get-ALHADFailedLogonAttempt [-DomainName <String>] [-Identity <String[]>] [-StartTime <DateTime>] [-ComputerName <String[]>] [-ResolveDns] [-CheckLockoutStatus] [-Credential <PSCredential>] [<CommonParameters>]
     
-    Get-ALHADFailedLogonAttempts [-DomainName <String>] [-Identity <String[]>] [-TimeRange <String>] [-ComputerName <String[]>] [-ResolveDns] [-CheckLockoutStatus] [-Credential <PSCredential>] [<CommonParameters>]
+    Get-ALHADFailedLogonAttempt [-DomainName <String>] [-Identity <String[]>] [-TimeRange <String>] [-ComputerName <String[]>] [-ResolveDns] [-CheckLockoutStatus] [-Credential <PSCredential>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -21,8 +21,8 @@ DESCRIPTION
 
 PARAMETERS
     -DomainName <String>
-        The AD domain name in which the Domain Controller will be queried, if no value 
-        is specified for the -Compuername parameter
+        The AD domain name in which the Domain Controller will be queried, if no value
+        is specified for the -Compuername parameter.
         
         Required?                    false
         Position?                    named
@@ -117,7 +117,7 @@ NOTES
     
     -------------------------- EXAMPLE 1 --------------------------
     
-    PS > Get-ALHADFailedLogonAttempts
+    PS > Get-ALHADFailedLogonAttempt
     
     Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
     
@@ -126,42 +126,42 @@ NOTES
     
     -------------------------- EXAMPLE 2 --------------------------
     
-    PS > Get-ALHADFailedLogonAttempts -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
+    PS > Get-ALHADFailedLogonAttempt -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
     
-    Get events for user with samAccountName 'mike' within the last 8 hours
+    Get events for user with samAccountName 'mike' within the last 8 hours.
     
     
     
     
     -------------------------- EXAMPLE 3 --------------------------
     
-    PS > Get-ALHADFailedLogonAttempts -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+    PS > Get-ALHADFailedLogonAttempt -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
     
-    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2
+    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
     
     
     
     
     -------------------------- EXAMPLE 4 --------------------------
     
-    PS > Get-ALHADFailedLogonAttempts -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+    PS > Get-ALHADFailedLogonAttempt -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
     
-    Get events for two users within the last 24 hours from Domain Controller running the PDC role
+    Get events for two users within the last 24 hours from Domain Controller running the PDC role.
     
     
     
     
     -------------------------- EXAMPLE 5 --------------------------
     
-    PS > Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttempts -StartTime (Get-Date).AddDays(-1)
+    PS > Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttempt -StartTime (Get-Date).AddDays(-1)
     
-    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role
+    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
     
     
     
     
     
 RELATED LINKS
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADFailedLogonAttempts.txt
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADFailedLogonAttempt.txt
 
 

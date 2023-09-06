@@ -12,7 +12,7 @@ SYNTAX
     
 DESCRIPTION
     Queries the Bitlocker recovery key for a computer account stored in Active Directory.
-    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the 
+    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
     'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
     
 

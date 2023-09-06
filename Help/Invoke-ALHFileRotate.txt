@@ -46,7 +46,7 @@ PARAMETERS
         Accept wildcard characters?  false
         
     -NamingSchema <String>
-        Default value is 'Number'. One of the following values is possible: 
+        Default value is 'Number'. One of the following values is possible:
         'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'
         
         Required?                    false

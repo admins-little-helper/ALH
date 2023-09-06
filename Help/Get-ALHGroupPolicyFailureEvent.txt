@@ -67,8 +67,9 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Get-ALHGroupPolicyFailureEvent
-    
     This will run the query on the local computer and show the results.
+    
+    
     
     
     
@@ -76,8 +77,9 @@ NOTES
     -------------------------- EXAMPLE 2 --------------------------
     
     PS > Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName COMPUTER01
-    
     This will run the query on computer 'COMPUTER01' and searching all events in the last 24 hours.
+    
+    
     
     
     

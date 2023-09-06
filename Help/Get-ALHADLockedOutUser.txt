@@ -23,8 +23,8 @@ DESCRIPTION
 
 PARAMETERS
     -DomainName <String>
-        The AD domain name in which the Domain Controller will be queried, if no value 
-        is specified for the -Compuername parameter
+        The AD domain name in which the Domain Controller will be queried, if no value
+        is specified for the -Compuername parameter.
         
         Required?                    false
         Position?                    named
@@ -99,8 +99,8 @@ NOTES
     
     -------------------------- EXAMPLE 1 --------------------------
     
-    PS > Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
-    Get-ALHADFailedLogonAttemps
+    PS > Get-ALHADFailedLogonAttemps
+    Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
     
     
     
@@ -109,8 +109,8 @@ NOTES
     
     -------------------------- EXAMPLE 2 --------------------------
     
-    PS > Get events for user with samAccountName 'mike' within the last 8 hours
-    Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
+    PS > Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
+    Get events for user with samAccountName 'mike' within the last 8 hours.
     
     
     
@@ -119,8 +119,8 @@ NOTES
     
     -------------------------- EXAMPLE 3 --------------------------
     
-    PS > Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2 
-    Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+    PS > Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
     
     
     
@@ -129,8 +129,8 @@ NOTES
     
     -------------------------- EXAMPLE 4 --------------------------
     
-    PS > Get events for two users within the last 24 hours from Domain Controller running the PDC role
-    Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+    PS > Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+    Get events for two users within the last 24 hours from Domain Controller running the PDC role.
     
     
     
@@ -139,8 +139,8 @@ NOTES
     
     -------------------------- EXAMPLE 5 --------------------------
     
-    PS > Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role
-    Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1)
+    PS > Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1)
+    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
     
     
     

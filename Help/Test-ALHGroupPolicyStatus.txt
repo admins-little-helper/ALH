@@ -55,14 +55,15 @@ OUTPUTS
 NOTES
     
     
-        Author:     Dieter Koch
+        Author:     Dieter Kochs
         Email:      diko@admins-little-helper.de
     
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Test-ALHGroupPolicyStatus
-    
     Run check for computer group policy.
+    
+    
     
     
     
@@ -70,8 +71,9 @@ NOTES
     -------------------------- EXAMPLE 2 --------------------------
     
     PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
-    
     Run check for computer group policy on remote computer named "MyOtherSystem".
+    
+    
     
     
     
@@ -79,8 +81,9 @@ NOTES
     -------------------------- EXAMPLE 3 --------------------------
     
     PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
-    
     Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
+    
+    
     
     
     
