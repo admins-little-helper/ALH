@@ -3,24 +3,43 @@ NAME
     Get-ALHADOUPermission
     
 SYNOPSIS
-    Function to query AD OU permissions.
+    Retrieves permissions set on a specified Active Directory organizational unit or container.
     
     
 SYNTAX
-    Get-ALHADOUPermission [[-OrganizationalUnit] <String[]>] [<CommonParameters>]
+    Get-ALHADOUPermission [[-OrganizationalUnit] <String[]>] [-IncludeContainer] [-Recurse] [<CommonParameters>]
     
     
 DESCRIPTION
-    Function to query permissions on an Active Directory (AD) Organizational Unit (OU).
+    The 'Get-ALHADOUPermission' function retrieves permissions set on a specified Active Directory organizational unit or container.
     
 
 PARAMETERS
     -OrganizationalUnit <String[]>
+        One or more distinguished Names of Active Directory organizational units or containers for which to retrieve permissions.
         
         Required?                    false
         Position?                    1
-        Default value                
+        Default value                @(, "*")
         Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -IncludeContainer [<SwitchParameter>]
+        If specified, the query will include permissions for containers. Otherwise permissions are quried only for Organizational Units.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Recurse [<SwitchParameter>]
+        If specified, the query will include permissions for the specified OU string(s) and all child OUs (and containers if parameter 'IncludeContainer' was specified).
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
         Accept wildcard characters?  false
         
     <CommonParameters>
@@ -30,11 +49,11 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    Nothing
+    System.String
     
     
 OUTPUTS
-    Nothing
+    System.DirectoryServices.ActiveDirectoryAccessRule
     
     
 NOTES
@@ -54,9 +73,27 @@ NOTES
     
     -------------------------- EXAMPLE 2 --------------------------
     
-    PS > Get-ALHADOUPermission -OrganizationalUnit "OU=DepartmentX;DC=company,DC=tld"
+    PS > Get-ALHADOUPermission -OrganizationalUnit "OU=DepartmentX,DC=company,DC=tld"
     
     Get permissions for a specific OU in current domain.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get-ALHADOUPermission -OrganizationalUnit "OU=DepartmentX,DC=company,DC=tld" -Recurse
+    
+    Get permissions for a specific OU and all sub-OUs in current domain.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Get-ALHADOUPermission -OrganizationalUnit "*" -IncludeContainer
+    
+    Get permissions for all OUs and containers in current domain.
     
     
     

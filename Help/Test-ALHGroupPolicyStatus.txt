@@ -7,7 +7,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Test-ALHGroupPolicyStatus [[-ComputerName] <String>] [-ReturnDetails] [[-Credential] <PSCredential>] [<CommonParameters>]
+    Test-ALHGroupPolicyStatus [[-ComputerName] <String[]>] [-ReturnDetails] [[-Credential] <PSCredential>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -16,13 +16,13 @@ DESCRIPTION
     
 
 PARAMETERS
-    -ComputerName <String>
+    -ComputerName <String[]>
         Allows to specify remote computer name. By default it will run against the local computer.
         
         Required?                    false
         Position?                    1
         Default value                "$env:COMPUTERNAME"
-        Accept pipeline input?       false
+        Accept pipeline input?       true (ByValue)
         Accept wildcard characters?  false
         
     -ReturnDetails [<SwitchParameter>]
@@ -49,8 +49,12 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
+    System.String
+    
     
 OUTPUTS
+    Nothing
+    
     
 NOTES
     
@@ -61,9 +65,8 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Test-ALHGroupPolicyStatus
+    
     Run check for computer group policy.
-    
-    
     
     
     
@@ -71,9 +74,8 @@ NOTES
     -------------------------- EXAMPLE 2 --------------------------
     
     PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
+    
     Run check for computer group policy on remote computer named "MyOtherSystem".
-    
-    
     
     
     
@@ -81,9 +83,8 @@ NOTES
     -------------------------- EXAMPLE 3 --------------------------
     
     PS > Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
+    
     Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
-    
-    
     
     
     

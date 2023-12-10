@@ -3,7 +3,7 @@ NAME
     Get-ALHADGroupMember
     
 SYNOPSIS
-    Queries all members of an AD group of a given objectClass.
+    Retrieves all members of an AD group that are of a given objectClass.
     
     
 SYNTAX
@@ -11,7 +11,7 @@ SYNTAX
     
     
 DESCRIPTION
-    Queries all members of an AD group of a given objectClass.
+    The 'Get-ALHADGroupMember' function retrieves all members of an AD group of a given objectClass.
     
 
 PARAMETERS

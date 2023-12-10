@@ -59,7 +59,7 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    nothing
+    System.String
     
     
 OUTPUTS
@@ -75,9 +75,8 @@ NOTES
     -------------------------- EXAMPLE 1 --------------------------
     
     PS > Test-GroupMembership -Identity $env:USERNAME -Group "GroupA"
+    
     Check, if the currently logged on user is member of a group named GroupA.
-    
-    
     
     
     
@@ -85,9 +84,8 @@ NOTES
     -------------------------- EXAMPLE 2 --------------------------
     
     PS > Test-GroupMembership -Identity mike,john -Group "Group1"
+    
     Check, if the users named mike and john are member of a group named Group1.
-    
-    
     
     
     

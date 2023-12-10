@@ -1,0 +1,115 @@
+
+NAME
+    Get-ALHHolidayDE
+    
+SYNOPSIS
+    Retrieves public holidays for Germany.
+    
+    
+SYNTAX
+    Get-ALHHolidayDE [[-Year] <Int32>] [[-Country] <String[]>] [-ShowWeekDay] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Retrieves public holidays for Germany using the free API 'https://feiertage-api.de/api/'
+    
+
+PARAMETERS
+    -Year <Int32>
+        The year (format 'yyyy') to retrieve public holidays for. If ommited, the current date's year will be used.
+        
+        Required?                    false
+        Position?                    1
+        Default value                0
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Country <String[]>
+        The country code for any of the 16 German country or "NATIONAL" for nationwide public holidays (same is if the parameter is omitted).
+        
+        Required?                    false
+        Position?                    2
+        Default value                
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -ShowWeekDay [<SwitchParameter>]
+        If specified, the output is formatted with an additional column 'Weekday' showing the day of the week of the public holiday's date.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHHolidayDE
+    
+    Get public holidays in the current year and for all German countries.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHHolidayDE -Year 2024
+    
+    Get public holidays in 2024.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS > Get-ALHHolidayDE -Year $(Get-Date -Date (Get-Date).AddYears(+1) -Format 'yyyy')
+    
+    Get public holiday for next year.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS > Get-ALHHolidayDE -Year 2023 -Country 'BW'
+    
+    Get public holiday in 2023 for the country Baden-Wuerttemberg (BW)
+    
+    
+    
+    
+    -------------------------- EXAMPLE 5 --------------------------
+    
+    PS > Get-ALHHolidayDE -ShowWeekDay
+    
+    Get public holiday in the current year and show the day of the week in the output.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHHolidayDE.txt
+    https://feiertage-api.de/api/
+
+

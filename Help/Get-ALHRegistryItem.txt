@@ -71,6 +71,8 @@ PARAMETERS
 INPUTS
     
 OUTPUTS
+    System.Management.Automation.PSObject
+    
     
     
 RELATED LINKS

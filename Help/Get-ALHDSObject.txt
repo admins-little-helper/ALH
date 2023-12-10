@@ -3,7 +3,7 @@ NAME
     Get-ALHDSObject
     
 SYNOPSIS
-    Function to query Active Directory using ADSI DirectorySearch and therefore no dependency to the ActiveDirectory PowerShell module.
+    Query Active Directory using ADSI DirectorySearch and therefore no dependency to the ActiveDirectory PowerShell module.
     
     
 SYNTAX
@@ -15,7 +15,7 @@ SYNTAX
     
     
 DESCRIPTION
-    The function 'Get-ALHDSObject' allows to query Active Directory withtout any dependency to the ActiveDirectory PowerShell module.
+    The function 'Get-ALHDSObject' queries Active Directory withtout any dependency to the ActiveDirectory PowerShell module.
     For more information about the Directory Searcher refer to https://docs.microsoft.com/en-us/dotnet/api/system.directoryservices.directorysearcher?view=dotnet-plat-ext-6.0.
     
 

@@ -7,7 +7,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Repair-ALHGroupPolicyStatus [-ReportOnly] [[-ComputerName] <String>] [[-Credential] <PSCredential>] [<CommonParameters>]
+    Repair-ALHGroupPolicyStatus [-ReportOnly] [[-ComputerName] <String[]>] [[-Credential] <PSCredential>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -24,7 +24,7 @@ PARAMETERS
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -ComputerName <String>
+    -ComputerName <String[]>
         Allows to specify remote computer name. By default it will run against the local computer.
         
         Required?                    false
@@ -49,7 +49,7 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    Nothing
+    System.String
     
     
 OUTPUTS

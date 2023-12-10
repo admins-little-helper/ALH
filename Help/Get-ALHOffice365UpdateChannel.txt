@@ -1,0 +1,90 @@
+
+NAME
+    Get-ALHOffice365UpdateChannel
+    
+SYNOPSIS
+    Retrieve the name of the M365 Apps (Office 365) update channel configured on a computer.
+    
+    
+SYNTAX
+    Get-ALHOffice365UpdateChannel [[-ComputerName] <String[]>] [[-SkipConnectionTest]] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    The function 'Get-ALHOffice365UpdateChannel' retrieves the name of the M365 Apps (Office 365) update channel configured on a computer.
+    
+
+PARAMETERS
+    -ComputerName <String[]>
+        Specifies the name of the computer for which to retrieve the update channel information. Defaults to the local computername.
+        
+        Required?                    false
+        Position?                    1
+        Default value                $env:COMPUTERNAME
+        Accept pipeline input?       true (ByValue)
+        Accept wildcard characters?  false
+        
+    -SkipConnectionTest [<SwitchParameter>]
+        If specified, no attempt to ping the computer before trying to retrieve the update channel information is made.
+        
+        Required?                    false
+        Position?                    2
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    System.String
+    
+    
+OUTPUTS
+    PSCustomObject
+    
+    
+NOTES
+    
+    
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS > Get-ALHOffice365UpdateChannel
+    
+    Computer      EffectiveChannel ConfiguredChannels
+    --------      ---------------- ------------------
+    LocalComputer Current          @{Channel=Current; ChannelGuid=492350f6-3a01-4f97-b9c0-c7c6ddf67d60; ChannelRegVal=http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60; Prio=4}
+    
+    Returns the update channel information for the local computer.
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS > Get-ALHOffice365UpdateChannel -ComputerName RemoteComputer1, RemoteComputer2
+    
+    Computer        EffectiveChannel ConfiguredChannels
+    --------        ---------------- ------------------
+    RemoteComputer1 Current          @{Channel=Current; ChannelGuid=492350f6-3a01-4f97-b9c0-c7c6ddf67d60; ChannelRegVal=http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60; Prio=4}
+    RemoteComputer2 Current          @{Channel=Current; ChannelGuid=492350f6-3a01-4f97-b9c0-c7c6ddf67d60; ChannelRegVal=http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60; Prio=4}
+    
+    Returns the update channel information for the two computers 'RemoteComputer1' and 'RemoteComputer2'. This only works if the specified
+    computers are online and if the user executing the function has administrator privileges on them to read the registry remotely.
+    
+    
+    
+    
+    
+RELATED LINKS
+    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365UpdateChannel.txt
+    https://techcommunity.microsoft.com/t5/microsoft-365-blog/how-to-manage-office-365-proplus-channels-for-it-pros/ba-p/795813
+    https://learn.microsoft.com/en-us/deployoffice/updates/change-update-channels
+
+

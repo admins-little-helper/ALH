@@ -3,34 +3,37 @@ NAME
     Update-ALHSysinternalsSuite
     
 SYNOPSIS
-    Installs or updates SysinternalsSuite.
+    Installs or updates SysinternalsSuite tools.
     
     
 SYNTAX
     Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
     
-    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> -CleanAll [-WhatIf] [-Confirm] [<CommonParameters>]
+    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> [-Clean] [-WhatIf] [-Confirm] [<CommonParameters>]
     
-    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> -Clean [-WhatIf] [-Confirm] [<CommonParameters>]
+    Update-ALHSysinternalsSuite [-SourcePath <String>] -DestinationPath <String[]> [-CleanAll] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
-    Installs or updates SysinternalsSuite tools either from any given source path or from https://live.sysinternals.com.
+    Installs or updates SysinternalsSuite tools either from a given source path or from https://live.sysinternals.com.
     The function compares the last modified date of the files in the source and destination path and only copies newer files from the source path.
     
 
 PARAMETERS
     -SourcePath <String>
-        The source path from where to copy SysinternalsSuite tools. Defaults to https://live.sysinternals.com.
+        Specifies the source path from where to copy SysinternalsSuite tools.
+        If not specified, 'SysinternalsSuite.zip' from http://download.sysinternals.com/files/ will be downloaded and used as source.
+        Allows to specify the keyword 'WebDav' which will then set the SourcePath to 'https://live.sysinternals.com/tools'.
         
         Required?                    false
         Position?                    named
-        Default value                \\live.sysinternals.com\DavWWWRoot\tools
+        Default value                WebDav
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
     -DestinationPath <String[]>
-        The destination path to which the files should be copied. The folder will be created in case the it does not yet exist.
+        Specifies the destination path to which the files should be copied. The destination folder will be created in case the it does not yet exist.
+        Multiple destination paths can be specified to update SysinternalsSuite for example on multiple remote systems.
         
         Required?                    true
         Position?                    named
@@ -38,19 +41,19 @@ PARAMETERS
         Accept pipeline input?       true (ByValue)
         Accept wildcard characters?  false
         
-    -CleanAll [<SwitchParameter>]
-        If specified, all files in the destination folder will be deleted before copying files from the source.
+    -Clean [<SwitchParameter>]
+        If specified, any file in the destination folder that does not exist in the source folder will be deleted before the update.
         
-        Required?                    true
+        Required?                    false
         Position?                    named
         Default value                False
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -Clean [<SwitchParameter>]
-        If specified, any files in the destination folder that do not exist in the source folder will be deleted before the update.
+    -CleanAll [<SwitchParameter>]
+        If specified, all files in the destination folder will be deleted before copying files from the source.
         
-        Required?                    true
+        Required?                    false
         Position?                    named
         Default value                False
         Accept pipeline input?       false
@@ -79,7 +82,7 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    System.String
+    Nothing
     
     
 OUTPUTS
@@ -96,7 +99,8 @@ NOTES
     
     PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite
     
-    # Install Sysinternals tools from https://live.sysinternals.com to the local path C:\Admin\SysinternalsSuite.
+    Install Sysinternals tools by downloading the 'SysinternalsSuite.zip' from http://download.sysinternals.com/files/SysinternalsSuite.zip, expanding the zip file
+    and copying the files to the specified destiantion directory 'C:\Admin\SysinternalsSuite'.
     
     
     
@@ -105,7 +109,7 @@ NOTES
     
     PS > Update-ALHSysinternalsSuite -SourcePath \\server\share\SysinternalsSuiteFolder -DestinationPath C:\Admin\SysinternalsSuite
     
-    # Update Sysinternals tools from a local network share.
+    Installing or updating the SysinternalsSuite tools from a local network share.
     
     
     
@@ -114,7 +118,9 @@ NOTES
     
     PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite -Clean -Verbose
     
-    # Update Sysinternals tools and delete any existing files in the destionation path, that do not exist in the source path. Show verbose output.
+    Install Sysinternals tools by downloading the 'SysinternalsSuite.zip' from http://download.sysinternals.com/files/SysinternalsSuite.zip, expanding the zip file
+    and copying the files to the specified destination directory 'C:\Admin\SysinternalsSuite'. All files existing in the destination path that are not found in the
+    source zip file, will be removed.
     
     
     
@@ -123,7 +129,8 @@ NOTES
     
     PS > Update-ALHSysinternalsSuite -DestinationPath C:\Admin\SysinternalsSuite -CleanAll -Verbose
     
-    # Update Sysinternals tools and delete all existing files in the destination path first. Show verbose output.
+    Install Sysinternals tools by downloading the 'SysinternalsSuite.zip' from http://download.sysinternals.com/files/SysinternalsSuite.zip, expanding the zip file
+    and copying the files to the specified destiantion directory 'C:\Admin\SysinternalsSuite'. All files already existing in the destination path will be removed.
     
     
     

@@ -12,7 +12,7 @@ SYNTAX
     
 DESCRIPTION
     The function 'Stop-ALHService' stops a service or kills the service process if it's in the degraded state.
-       Can be run locally or on a remote computer. Requires WMI access.
+    Can be run locally or on a remote computer. Requires WMI access.
     
 
 PARAMETERS

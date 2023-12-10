@@ -41,7 +41,7 @@ PARAMETERS
         about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216). 
     
 INPUTS
-    Nothing
+    System.String
     
     
 OUTPUTS
