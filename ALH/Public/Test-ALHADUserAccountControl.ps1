@@ -48,46 +48,48 @@
 function Test-ALHADUserAccountControl {
     <#
     .SYNOPSIS
-    Tests if a given UserAccountControl value matches a specific UAC flag.
+        Tests if a given UserAccountControl value matches a specific UAC flag.
 
     .DESCRIPTION
-    Tests if a given UserAccountControl value matches a specific UAC flag.
+        Tests if a given UserAccountControl value matches a specific UAC flag.
 
     .PARAMETER UacFlagToCheck
-    Optional. UAC Flag to test for.
+        Optional. UAC Flag to test for.
 
     .PARAMETER UacValue
-    Optional. The value of the UserAccountControl attribute of an AD object.
+        Optional. The value of the UserAccountControl attribute of an AD object.
 
     .PARAMETER ReturnInt
-    Optional. If specified, the function returns the integer value of the UAC flag.
+        Optional. If specified, the function returns the integer value of the UAC flag.
 
     .EXAMPLE
-    Check if a given UserAccountControl value means that the account is disabled. Returns $true or $false
-    Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue (Get-ADUser -Identity User1 -Property UserAccountControl).UserAccountControl
+        Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue (Get-ADUser -Identity User1 -Property UserAccountControl).UserAccountControl
+
+        Check if a given UserAccountControl value means that the account is disabled. Returns $true or $false
 
     .EXAMPLE
-    Check if a given UserAccountControl value means that the account is disabled. Returns the integer value of the UserAccountControl flag
-    Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue 514 -ReturnInt
+        Test-ALHADUserAccountControl -UacFlagToCheck ACCOUNTDISABLE -UacValue 514 -ReturnInt
+
+        Check if a given UserAccountControl value means that the account is disabled. Returns the integer value of the UserAccountControl flag
 
     .INPUTS
-    Integer
+        Integer
 
     .OUTPUTS
-    Boolean or Integer
+        Boolean or Integer
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADUserAccountControl.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADUserAccountControl.txt
 
     .LINK
-    http://woshub.com/decoding-ad-useraccountcontrol-value/
+        http://woshub.com/decoding-ad-useraccountcontrol-value/
 
     .LINK
-    https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+        https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
     #>
 
     [CmdletBinding()]

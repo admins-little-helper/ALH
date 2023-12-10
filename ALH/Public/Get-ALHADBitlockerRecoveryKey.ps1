@@ -49,34 +49,34 @@ https://github.com/admins-little-helper/ALH
 function Get-ALHADBitlockerRecoveryKey {
     <#
     .SYNOPSIS
-    Retrieves the Bitlocker recovery key for a computer account stored in Active Directory.
+        Retrieves the Bitlocker recovery key for a computer account stored in Active Directory.
 
     .DESCRIPTION
-    Queries the Bitlocker recovery key for a computer account stored in Active Directory.
-    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
-    'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
+        Queries the Bitlocker recovery key for a computer account stored in Active Directory.
+        This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
+        'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
 
     .EXAMPLE
-    Get-ALHADBitlockerRecoveryKey -Identity MyComputer
+        Get-ALHADBitlockerRecoveryKey -Identity MyComputer
 
     .EXAMPLE
-    Get-ALHADBitlockerRecoveryKey -Identity MyComputer1, MyComputer2
+        Get-ALHADBitlockerRecoveryKey -Identity MyComputer1, MyComputer2
 
     .EXAMPLE
-    MyComputer1, MyComputer2 | Get-ALHADBitlockerRecoveryKey
+        MyComputer1, MyComputer2 | Get-ALHADBitlockerRecoveryKey
 
     .INPUTS
-    System.String
+        System.String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADBitlockerRecoveryKey.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADBitlockerRecoveryKey.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'Filter')]

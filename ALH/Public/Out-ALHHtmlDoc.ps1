@@ -68,62 +68,63 @@ Some helpful information was found here:
 function Out-ALHHtmlDoc {
 	<#
     .SYNOPSIS
-	A PowerShell function to create a html document out of ALHHtmlTables.
+		A PowerShell function to create a html document out of ALHHtmlTables.
 
     .DESCRIPTION
-	This functions takes one or multiple 'ALHHtmlTable' objects as input and creates a html document.
-	The given html tables will be shown one after another in the resulting html document with their own
-	titles, subtitles, footers etc.
+		This functions takes one or multiple 'ALHHtmlTable' objects as input and creates a html document.
+		The given html tables will be shown one after another in the resulting html document with their own
+		titles, subtitles, footers etc.
 
     .PARAMETER HtmlReport
-	One or multiple PFCHtmlReport objects to create the document from.
+		One or multiple PFCHtmlReport objects to create the document from.
 
     .PARAMETER Title
-    A title for the document.
+    	A title for the document.
 
 	.PARAMETER Subtitle
-	A subtitle for the document.
+		A subtitle for the document.
 
 	.PARAMETER Infotext
-	This text will be shown in the header.
+		This text will be shown in the header.
 
 	.PARAMETER Footer
-	This text will be shown at the document footer.
+		This text will be shown at the document footer.
 
 	.PARAMETER MainBackgroundColor
-	Color name for the document background color.
+		Color name for the document background color.
 
 	.PARAMETER MainBackgroundColorHexcode
-	Color hex code for the document background color.
+		Color hex code for the document background color.
 
 	.PARAMETER Font
-	Font used for the whole html document. Default value is 'Verdana'.
+		Font used for the whole html document. Default value is 'Verdana'.
 
 	.PARAMETER FontInfoText
-	Font used for the html report info text. Default values is 'Courier New'.
+		Font used for the html report info text. Default values is 'Courier New'.
 
 	.PARAMETER AddTableRowCountToButton
-	If specified, the value of the 'TableRowCount' property of the ALHHtmlReport class object is added to the button text.
+		If specified, the value of the 'TableRowCount' property of the ALHHtmlReport class object is added to the button text.
 
 	.EXAMPLE
-	Out-ALHHtmlDoc -HtmlReport $HtmlReport -Title "DocTitle" -SubTitle "DocSubtitle" -InfoText "DocInfoText" -Footer "DocFooter" -MainBackgroundColorHexcode "#3366cc" | Out-File -FilePath C:\temp\testhtml4.html
+		Out-ALHHtmlDoc -HtmlReport $HtmlReport -Title "DocTitle" -SubTitle "DocSubtitle" -InfoText "DocInfoText" -Footer "DocFooter" -MainBackgroundColorHexcode "#3366cc" | Out-File -FilePath C:\temp\testhtml4.html
 
-	$HtmlReport = Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlTable -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+		$HtmlReport = Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlTable -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
 
     .INPUTS
-	ALHHtmlReport
+		ALHHtmlReport
 
     .OUTPUTS
-	String
+		String
 
 	.NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+		Author:     Dieter Koch
+		Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlDoc.txt
+	    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlDoc.txt
     #>
 
+	[OutputType([String])]
 	[CmdletBinding(DefaultParameterSetName = "default")]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true)]

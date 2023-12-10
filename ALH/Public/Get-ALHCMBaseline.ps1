@@ -26,7 +26,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
- 1.0
+ 1.0.0
  - Initial Release
 
 #>
@@ -43,47 +43,47 @@ Contains function to get a list of baselines on a Configuration Manger client.
 function Get-ALHCMBaseline {
     <#
     .SYNOPSIS
-	Gets a list of baselines on a Configuration Manger client.
+	    Gets a list of baselines on a Configuration Manger client.
 
     .DESCRIPTION
-	The function 'Get-ALHCMBaseline' gets a list of baselines on a Configuration Manger client.
+	    The function 'Get-ALHCMBaseline' gets a list of baselines on a Configuration Manger client.
 
     .PARAMETER ComputerName
-	Computer to check. Default is the local computer.
+	    Computer to check. Default is the local computer.
 
     .EXAMPLE
-	Get-ALHCMBaseline -BaselineName "MyBaseline1"
+	    Get-ALHCMBaseline -BaselineName "MyBaseline1"
 
-    Triggers the evaluation of baseline with name "MyBaseline1" on the local computer.
-
-    .EXAMPLE
-	Get-ALHCMBaseline
-
-    Triggers the evaluation of all baselines on the local computer.
+        Triggers the evaluation of baseline with name "MyBaseline1" on the local computer.
 
     .EXAMPLE
-	Get-ALHCMBaseline -ComputerName CLIENT01 -BaselineName "Baseline XYZ"
+    	Get-ALHCMBaseline
 
-    Triggers the evaluation of baseline with name "Baseline XYZ" on the remote computer named "CLIENT01".
+        Triggers the evaluation of all baselines on the local computer.
+
+    .EXAMPLE
+	    Get-ALHCMBaseline -ComputerName CLIENT01 -BaselineName "Baseline XYZ"
+
+        Triggers the evaluation of baseline with name "Baseline XYZ" on the remote computer named "CLIENT01".
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-	Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+	    Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHCMBaseline.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHCMBaseline.txt
     #>
 
     [OutputType([PSCustomObject])]
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
-        [Parameter(ValueFromPipeline)]
+        [Parameter(ValueFromPipeline = $true)]
         [string[]]
         $ComputerName = $env:COMPUTERNAME,
 

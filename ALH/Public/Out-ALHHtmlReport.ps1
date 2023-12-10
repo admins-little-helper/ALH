@@ -66,53 +66,53 @@ Contains a function to create a html table fragment
 function Out-ALHHtmlReport {
     <#
     .SYNOPSIS
-    A PowerShell function to create a html table fragment.
+        A PowerShell function to create a html table fragment.
 
     .DESCRIPTION
-    This functions takes an object or an array of objects and creates a html table fragment out of it.
-    Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
-    The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
+        This functions takes an object or an array of objects and creates a html table fragment out of it.
+        Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
+        The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
 
     .PARAMETER Data
-    An objet or an array of objects which will be displayed in the html table.
+        An objet or an array of objects which will be displayed in the html table.
 
     .PARAMETER Title
-    A title for the report (html table).
+        A title for the report (html table).
 
 	.PARAMETER Subtitle
-    A subtitle for the report (html table).
+        A subtitle for the report (html table).
 
 	.PARAMETER Infotext
-    This text will be shown above the table.
+        This text will be shown above the table.
 
 	.PARAMETER Footer
-	This text will be shown below the table.
+	    This text will be shown below the table.
 
 	.PARAMETER CellFormat
-	A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
-    the html table cells based on filter expressions.
+	    A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
+        the html table cells based on filter expressions.
 
 	.PARAMETER AddSort
-    If specified, the table will be made sortable.
+        If specified, the table will be made sortable.
 
 	.PARAMETER AddFilter
-	If specified, the table will be filterable.
+	    If specified, the table will be filterable.
 
 	.EXAMPLE
-    Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+        Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
 
     .INPUTS
-    Object
+        Object
 
     .OUTPUTS
-    ALHHtmlReport
+        ALHHtmlReport
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlReport.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtmlReport.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]

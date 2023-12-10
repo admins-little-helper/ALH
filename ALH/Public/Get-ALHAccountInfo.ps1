@@ -42,57 +42,59 @@
 function Get-ALHAccountInfo {
     <#
     .SYNOPSIS
-    Get an account's SID by account name and domain name, or get an account's domain and name by it's SID.
+        Get an account's SID by account name and domain name, or get an account's domain and name by it's SID.
 
     .DESCRIPTION
-    The 'Get-ALHAccountInfo' function gets an account's SID by account name and domain name, or get an account's domain and name by it's SID.
+        The 'Get-ALHAccountInfo' function gets an account's SID by account name and domain name, or get an account's domain and name by it's SID.
 
     .PARAMETER Identity
-    An accounts SID or username in the format '<domain>\<username>' or '<user@domain.tld>'.
-    To get the SID for a computer account, remember to add the '$' trailing character to the account name.
+        An accounts SID or username in the format '<domain>\<username>' or '<user@domain.tld>'.
+        To get the SID for a computer account, remember to add the '$' trailing character to the account name.
 
     .EXAMPLE
-    Get-ALHAccountInfo -Identity "Domain\Computer1$"
+        Get-ALHAccountInfo -Identity "Domain\Computer1$"
 
-    AccountName DomainName SIDValue
-    ----------- ---------- --------
-    Computer1   DOMAIN     S-1-5-21-3332716652-4045636879-1442444979-2117
+        AccountName DomainName SIDValue
+        ----------- ---------- --------
+        Computer1   DOMAIN     S-1-5-21-3332716652-4045636879-1442444979-2117
 
-    Get SID for computer account 'Computer1' in domain 'Domain'.
-
-    .EXAMPLE
-    Get-ALHAccountInfo -Identity "S-1-5-32-544"
-
-    AccountName     DomainName   SIDValue
-    -----------     ----------   --------
-    administrators  BUILT-IN     S-1-5-32-544
-
-    Get account information for a SID value.
+        Get SID for computer account 'Computer1' in domain 'Domain'.
 
     .EXAMPLE
-    Get-Content -Path "C:\Temp\Accountnames.txt" | Get-ALHAccountInfo
+        Get-ALHAccountInfo -Identity "S-1-5-32-544"
 
-    Get SID for a multiple accounts retrieved from a text file via pipeline input.
+        AccountName     DomainName   SIDValue
+        -----------     ----------   --------
+        administrators  BUILT-IN     S-1-5-32-544
+
+        Get account information for a SID value.
+
+    .EXAMPLE
+        Get-Content -Path "C:\Temp\Accountnames.txt" | Get-ALHAccountInfo
+
+        Get SID for a multiple accounts retrieved from a text file via pipeline input.
 
     .INPUTS
-    System.String
+        System.String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHAccountInfo.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHAccountInfo.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding()]
     [OutputType([PSCustomObject])]
     param(
-        [parameter(Mandatory, ValueFromPipeline, HelpMessage = 'Enter account name or SID')]
-        [string[]]$Identity
+        [parameter(Mandatory = $true, ValueFromPipeline = $true, HelpMessage = 'Enter account name or SID')]
+        [string[]]
+        $Identity
     )
 
     begin {
@@ -111,7 +113,7 @@ function Get-ALHAccountInfo {
             Write-Verbose -Message "Testing SID value for validity."
 
             if ($SingleIdentity -match $SIDPattern) {
-                Write-Verbose -Message "SID is a valid SID: '$SIDElement'"
+                Write-Verbose -Message "SID is a valid SID: '$SingleIdentity'"
                 $IdentityInfo.SIDValue = $SingleIdentity
 
                 try {
@@ -124,7 +126,7 @@ function Get-ALHAccountInfo {
                 }
             }
             else {
-                Write-Verbose -Message "SID is not a valid SID: '$SIDElement'"
+                Write-Verbose -Message "SID is not a valid SID: '$SingleIdentity'"
             }
 
             if ($SingleIdentity -match "\\") {

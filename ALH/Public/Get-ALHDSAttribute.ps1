@@ -48,52 +48,54 @@ Contains a function to query Active Directory for all attributes of a given clas
 function Get-ALHDSAttribute {
     <#
     .SYNOPSIS
-    Function to query Active Directory for all attributes of a given class.
+        Function to query Active Directory for all attributes of a given class.
 
     .DESCRIPTION
-    Function to query Active Directory for all attributes of a given class.
+        Function to query Active Directory for all attributes of a given class.
 
     .PARAMETER ClassName
-    Name of the class for which the attribues should be queried.
-    Can not be used together with parameter -CustomClassName
+        Name of the class for which the attribues should be queried.
+        Can not be used together with parameter -CustomClassName
 
     .PARAMETER CustomClassName
-    AD Class name if notthing of the of pre-defined classes for -ClassName matches.
-    Can not be used together with parameter -ClassName
+        AD Class name if notthing of the of pre-defined classes for -ClassName matches.
+        Can not be used together with parameter -ClassName
 
     .PARAMETER DomainName
-    FQDN of the value to query.
-    If omitted the domain of the machine is used.
+        FQDN of the value to query.
+        If omitted the domain of the machine is used.
 
     .PARAMETER Server
-    Specify the name or fqdn of a server (Domain Controller) to run the query against.
-    If omitted a Domain Controller will be automatically detected based on OS default mechanism.
+        Specify the name or fqdn of a server (Domain Controller) to run the query against.
+        If omitted a Domain Controller will be automatically detected based on OS default mechanism.
 
     .PARAMETER Credential
-    Credential object used to connect to Active Directory.
-    If omitted the connection atempt is made in the current user's context.
+        Credential object used to connect to Active Directory.
+        If omitted the connection atempt is made in the current user's context.
 
     .EXAMPLE
-    $Result = Get-ALHDSObject -Server "dc.domain.tld" -SearchBase "DC=domain,DC=tld" -Verbose
-    $Result | Select-Object -Property Name, Parent, objectClass, objectCategory | Format-Table -AutoSize
+        $Result = Get-ALHDSObject -SearchBase "CN=MyComputer,OU=MyComputerOU,DC=domain,DC=tld" -Verbose
+        $Result | Select-Object -Property Name, Parent, objectClass, objectCategory | Format-Table -AutoSize
+
+        Shows a list of all attributes of all objects in Active Directory.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHDSAttribute.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHDSAttribute.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
-        [Parameter(Mandatory, ParameterSetName = "ClassName")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ClassName")]
         [ArgumentCompleter({ "Computer", "Group", "User", "OrganizationalUnit" })]
         [string[]]
         $ClassName,
@@ -142,7 +144,7 @@ function Get-ALHDSAttribute {
             if ($null -ne $Credential) { $GetALHADObjectParams.Credential = $Credential }
         }
         catch {
-            $_
+            Write-Error $_
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿<#PSScriptInfo
 
-.VERSION 1.1.0
+.VERSION 1.2.0
 
 .GUID dff730a8-af84-4b38-8fc3-de34ffd1e170
 
@@ -31,13 +31,16 @@
 1.1.0
 - Made script accept values for paramter ComputerName from pipeline.
 
+1.2.0
+- Added custom type and format.
+
 #>
 
 
 <#
 
 .DESCRIPTION
- Contains function to query 'lastLogon' and 'lastLogonTimestamp' attributes from Domain Controllers in the current AD domain for one ore more user objects.
+ Contains function to retrieve 'lastLogon' and 'lastLogonTimestamp' attributes from Domain Controllers in the current AD domain for one ore more user objects.
 
 #>
 
@@ -45,47 +48,51 @@
 function Get-ALHADUserLogonTime {
     <#
     .SYNOPSIS
-    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
+        Retrieves 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
 
     .DESCRIPTION
-    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
+        Retrieves 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controllers in the current AD domain for one ore more user objects.
 
     .PARAMETER Identity
-    One ore more user names (SamAccountName) to query information for. Separate list with commas.
-    If no value is provied, the $env:USERNAME will be used.
+        One ore more user names (SamAccountName) to query information for. Separate list with commas.
+        If no value is provied, the $env:USERNAME will be used.
 
     .PARAMETER DomainController
-    One ore more Domain Controller names to query information for. Separate list with commas.
-    If no value is provied, all DCs in the current domain are queried.
+        One ore more Domain Controller names to query information for. Separate list with commas.
+        If no value is provied, all DCs in the current domain are queried.
 
     .EXAMPLE
-    Get-ALHADUserLogonTime -Identity User1
-    Get lastlogontime for user named 'User1'.
+        Get-ALHADUserLogonTime -Identity User1
+
+        Get lastlogontime for user named 'User1'.
 
     .EXAMPLE
-    Get-ALHADUserLogonTime -Identity User1, User2
-    Get lastlogontime for users named 'User1' and 'User2'.
+        Get-ALHADUserLogonTime -Identity User1, User2
+
+        Get lastlogontime for users named 'User1' and 'User2'.
 
     .EXAMPLE
-    Get-ALHADUserLogonTime -Identity User2, User2 -DomainController adds1,adds2
-    Get lastlogontime for users named 'User1' and 'User2' querying Domaincontroller 'adds1' and 'adds2'.
+        Get-ALHADUserLogonTime -Identity User2, User2 -DomainController adds1,adds2
+
+        Get lastlogontime for users named 'User1' and 'User2' querying Domaincontroller 'adds1' and 'adds2'.
 
     .EXAMPLE
-    (Get-ADUser -Filter {name -like "a*"}).Name | Get-ALHADUserLogonTime -DomainController $(Get-ALHADDSDomainController -All)
-    Get lastlogontime for all users in AD where name starts with 'a', from all domain controllers in the current domain.
+        (Get-ADUser -Filter {name -like "a*"}).Name | Get-ALHADUserLogonTime -DomainController $(Get-ALHADDSDomainController -All)
+
+        Get lastlogontime for all users in AD where name starts with 'a', from all domain controllers in the current domain.
 
     .INPUTS
-    String
+        String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADUserLogonTime.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADUserLogonTime.txt
     #>
 
     [CmdletBinding()]
@@ -180,35 +187,39 @@ function Get-ALHADUserLogonTime {
                     Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j)
                     $j++
 
-                    $userInfo = $null
+                    $ALHUserInfo = [PSCustomObject]@{
+                        Name               = $user
+                        mail               = $null
+                        lastLogon          = $null
+                        lastLogonTimestamp = $null
+                        DCName             = $DC.Name
+                        DCDoesExist        = $DC.Exists
+                        DCIsOnline         = $DC.Available
+                    }
 
                     if ($DC.Available) {
-                        $userInfo = Get-ADUser -Server $DC.Name -Filter { samAccountName -eq $user } -Properties mail, lastLogon, lastLogonTimestamp
-                        $userInfo = $userInfo | Select-Object -Property SamAccountName, `
-                            Name, `
-                            Mail, `
-                        @{Name = 'lastLogon'; Expression = { [datetime]::FromFileTime($_.lastLogon) } }, `
-                        @{Name = 'lastLogonTimestamp'; Expression = { [datetime]::FromFileTime($_.lastLogonTimestamp) } }, `
-                        @{Name = 'DC'; Expression = { $DC.Name } },
-                        @{Name = 'DCExists'; Expression = { $DC.Exists } },
-                        @{Name = 'DCAvailable'; Expression = { $DC.Available } }
-                    }
-                    else {
-                        $userInfo = [PSCustomObject]@{
-                            Name               = $user
-                            lastLogon          = ''
-                            lastLogonTimestamp = ''
-                            DC                 = $DC.Name
-                            DCExists           = $DC.Exists
-                            DCAvailable        = $DC.Available
+                        $GetADUserParams = @{
+                            Server     = $DC.Name
+                            Filter     = { samAccountName -eq $user }
+                            Properties = @("mail", "lastLogon", "lastLogonTimestamp")
                         }
+                        $UserInfo = Get-ADUser @GetADUserParams
+
+                        $ALHUserInfo.Name = $UserInfo.Name
+                        $ALHUserInfo.Mail = $UserInfo.Mail
+                        $ALHUserInfo.lastLogon = [datetime]::FromFileTime($UserInfo.lastLogon)
+                        $ALHUserInfo.lastLogonTimestamp = [datetime]::FromFileTime($UserInfo.lastLogonTimestamp)
+                        $ALHUserInfo.DCName = $DC.Name
+                        $ALHUserInfo.DCDoesExist = $DC.Exists
+                        $ALHUserInfo.DCIsOnline = $DC.Available
                     }
                 }
                 catch {
                     Write-Error $_
                 }
 
-                $userInfo
+                $ALHUserInfo.PSObject.TypeNames.Insert(0, "ALHADUserInfo")
+                $ALHUserInfo
             }
         }
     }

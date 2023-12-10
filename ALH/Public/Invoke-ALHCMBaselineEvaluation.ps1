@@ -42,41 +42,41 @@ Contains a function to trigger the baseline evaluation on a Configuration Manger
 function Invoke-ALHCMBaselineEvaluation {
     <#
     .SYNOPSIS
-	Triggers the baseline evaluation on a Configuration Manger client.
+	    Triggers the baseline evaluation on a Configuration Manger client.
 
     .DESCRIPTION
-	The function 'Invoke-ALHCMBaselineEvaluation' triggers the baseline evaluation on a Configuration Manger client.
+	    The function 'Invoke-ALHCMBaselineEvaluation' triggers the baseline evaluation on a Configuration Manger client.
 
     .PARAMETER ComputerName
-	Computer to check. Default is the local computer.
+	    Computer to check. Default is the local computer.
 
     .EXAMPLE
-	Invoke-CMBaselineEvaluation -BaselineName "MyBaseline1"
+	    Invoke-CMBaselineEvaluation -BaselineName "MyBaseline1"
 
-    Triggers the evaluation of baseline with name "MyBaseline1" on the local computer.
-
-    .EXAMPLE
-	Invoke-CMBaselineEvaluation
-
-    Triggers the evaluation of all baselines on the local computer.
+        Triggers the evaluation of baseline with name "MyBaseline1" on the local computer.
 
     .EXAMPLE
-	Invoke-CMBaselineEvaluation -ComputerName CLIENT01 -BaselineName "Baseline XYZ"
+    	Invoke-CMBaselineEvaluation
 
-    Triggers the evaluation of baseline with name "Baseline XYZ" on the remote computer named "CLIENT01".
+        Triggers the evaluation of all baselines on the local computer.
+
+    .EXAMPLE
+	    Invoke-CMBaselineEvaluation -ComputerName CLIENT01 -BaselineName "Baseline XYZ"
+
+        Triggers the evaluation of baseline with name "Baseline XYZ" on the remote computer named "CLIENT01".
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-	Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+	    Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMBaselineEvaluation.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMBaselineEvaluation.txt
     #>
 
     [OutputType([PSCustomObject])]

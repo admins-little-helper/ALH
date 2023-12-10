@@ -41,26 +41,26 @@
 function Test-ALHIsUpn {
     <#
     .SYNOPSIS
-    Check if a given string is a valid UPN.
+        Check if a given string is a valid UPN.
 
     .DESCRIPTION
-    Checkif a given string is a valid UPN.
+        Checkif a given string is a valid UPN.
 
     .EXAMPLE
-    Test-ALHIsUpn -UPN "somebody@somedomain.tld"
+        Test-ALHIsUpn -UPN "somebody@somedomain.tld"
 
     .INPUTS
-    System.String
+        System.String
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsUpn.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsUpn.txt
     #>
 
     [OutputType([bool])]

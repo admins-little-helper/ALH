@@ -45,45 +45,45 @@ Contains a function to repair corrupt group policy local store
 function Repair-ALHGroupPolicyStatus {
     <#
     .SYNOPSIS
-    Function to repair corrupt group policy local store.
+        Function to repair corrupt group policy local store.
 
     .DESCRIPTION
-    Function to repair corrupt group policy local store.
+        Function to repair corrupt group policy local store.
 
     .PARAMETER MachinePolicy
-    Repair computer group policy.
+        Repair computer group policy.
 
     .PARAMETER ReportOnly
-    Only report problems. If ommitted and problems are found, the script attemtps to repair it.
+        Only report problems. If ommitted and problems are found, the script attemtps to repair it.
 
     .PARAMETER ComputerName
-    Allows to specify remote computer name. By default it will run against the local computer.
+        Allows to specify remote computer name. By default it will run against the local computer.
 
     .PARAMETER Credential
-    Specify credentials with necessary permissions to query the system event log on the given computer.
+        Specify credentials with necessary permissions to query the system event log on the given computer.
 
     .EXAMPLE
-    Repair-ALHGroupPolicyStatus
+        Repair-ALHGroupPolicyStatus
 
-    Run check for machine group policy and repair if issues are detected.
+        Run check for machine group policy and repair if issues are detected.
 
     .EXAMPLE
-    Repair-ALHGroupPolicyStatus -Computer -ReportOnly -Verbose
+        Repair-ALHGroupPolicyStatus -Computer -ReportOnly -Verbose
 
-    Run check for group policy and report only if issues are detected.
+        Run check for group policy and report only if issues are detected.
 
     .INPUTS
-    Nothing
+        System.String
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Repair-ALHGroupPolicyStatus.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Repair-ALHGroupPolicyStatus.txt
     #>
 
     [CmdletBinding()]
@@ -92,7 +92,7 @@ function Repair-ALHGroupPolicyStatus {
         $ReportOnly,
 
         [ValidateNotNullOrEmpty()]
-        [string]
+        [string[]]
         $ComputerName = "$env:COMPUTERNAME",
 
         [ValidateNotNull()]
@@ -101,29 +101,32 @@ function Repair-ALHGroupPolicyStatus {
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
 
-    $GroupPolicyStatus = Test-ALHGroupPolicyStatus -ComputerName $ComputerName -Credential $Credential -ReturnDetails
+    process {
+        foreach ($Computer in $ComputerName) {
+            $GroupPolicyStatus = Test-ALHGroupPolicyStatus -ComputerName $Computer -Credential $Credential -ReturnDetails
 
-    if ($GroupPolicyStatus -ne $false) {
-        if ($ReportOnly.IsPresent) {
-            Write-Verbose -Message "Group Policy status test indicates problem."
-        }
-        else {
-            $RegistryPolFile = ($GroupPolicyStatus | Select-Object -Last 1 -Property FilePath).FilePath
-            Write-Verbose -Message "Group Policy status test indicates problem. Trying to repair it."
-            Write-Verbose -Message "Trying to remove file $RegistryPolFile on computer $ComputerName"
+            if ($GroupPolicyStatus -ne $false) {
+                if ($ReportOnly.IsPresent) {
+                    Write-Verbose -Message "[$Computer]: Group Policy status test indicates problem for computer."
+                }
+                else {
+                    $RegistryPolFile = ($GroupPolicyStatus | Select-Object -Last 1 -Property FilePath).FilePath
+                    Write-Verbose -Message "[$Computer]: Group Policy status test indicates problem. Trying to repair it."
+                    Write-Verbose -Message "[$Computer]: Trying to remove file [$RegistryPolFile] and then running 'gpupdate /force'"
 
-            Invoke-Command -ComputerName $ComputerName -Credential $Credential -ScriptBlock {
-                Remove-Item -Path $using:RegistryPolFile -Force
-                Write-Verbose -Message "Running gpupdate /force..."
-                Start-Process -FilePath "$($using:env:SystemRoot)\system32\gpupdate.exe" -ArgumentList "/force" -WindowStyle Hidden
+                    Invoke-Command -ComputerName $Computer -Credential $Credential -ScriptBlock {
+                        Remove-Item -Path $using:RegistryPolFile -Force
+                        Start-Process -FilePath "$($using:env:SystemRoot)\system32\gpupdate.exe" -ArgumentList "/force" -WindowStyle Hidden
+                    }
+                }
             }
+            else {
+                Write-Verbose -Message "[$Computer]: Group Policy status test indicates no problem."
+            }
+
+            Write-Verbose -Message "[$Computer]: DONE"
         }
     }
-    else {
-        Write-Verbose -Message "Group Policy status test indicates no problem."
-    }
-
-    Write-Verbose -Message "Done"
 }
 
 #region EndOfScript

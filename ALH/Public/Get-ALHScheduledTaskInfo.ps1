@@ -42,46 +42,46 @@
 function Get-ALHScheduledTaskInfo {
     <#
     .SYNOPSIS
-    Function to retrieve information about scheduled tasks on local or remote systems.
+        Function to retrieve information about scheduled tasks on local or remote systems.
 
     .DESCRIPTION
-    Function to retrieve information about scheduled tasks on local or remote systems.
+        Function to retrieve information about scheduled tasks on local or remote systems.
 
     .PARAMETER Computer
-    One or more names of remote computers to query scheduled task information from.
+        One or more names of remote computers to query scheduled task information from.
 
     .PARAMETER TaskName
-    Specifies an array of one or more names of a scheduled task. You can use "*" for a wildcard character query.
+        Specifies an array of one or more names of a scheduled task. You can use "*" for a wildcard character query.
 
     .PARAMETER TaskPath
-    Specifies an array of one or more paths for scheduled tasks in Task Scheduler namespace.
-    You can use "*" for a wildcard character query. You can use \* for the root folder.
-    To specify a full TaskPath you need to include the leading and trailing \.
-    If you do not specify a path, the cmdlet uses the root folder.
+        Specifies an array of one or more paths for scheduled tasks in Task Scheduler namespace.
+        You can use "*" for a wildcard character query. You can use \* for the root folder.
+        To specify a full TaskPath you need to include the leading and trailing \.
+        If you do not specify a path, the cmdlet uses the root folder.
 
     .PARAMETER Recurse
-    Will make sure that scheduled task information is queried for all specifed task names including subfolders.
+        Will make sure that scheduled task information is queried for all specifed task names including subfolders.
 
     .PARAMETER Credential
-    Credentials to get scheduled task info.
+        Credentials to get scheduled task info.
 
     .EXAMPLE
-    Get-ALHScheduledTaskInfo -Computer "MyComputer1" -TaskPath "\" -Credential (Get-Credential) -Verbose
+        Get-ALHScheduledTaskInfo -Computer "MyComputer1" -TaskPath "\" -Credential (Get-Credential) -Verbose
 
-    Get a list of all scheduled tasks in root folder on computer named 'MyComputer1' using credentials entered during execution.
+        Get a list of all scheduled tasks in root folder on computer named 'MyComputer1' using credentials entered during execution.
 
     .INPUTS
-    String
+        System.String
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScheduledTaskInfo.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHScheduledTaskInfo.txt
     #>
 
     [CmdletBinding()]

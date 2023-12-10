@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0.17
+.VERSION 1.1.0
 
 .GUID aaad0933-beef-40ea-b916-5dfc9b1e85ea
 
@@ -99,42 +99,42 @@
 function Get-ALHADDiscrepancy {
     <#
     .SYNOPSIS
-    Function to run rules to identify discrepancies in Active Directory.
+        Function to run rules to identify discrepancies in Active Directory.
 
     .DESCRIPTION
-    The function 'Get-ALHADDiscrepancy' queries Active Directory and used some customizable rules to detect any discrepancies or inconsistencies in the attribute values.
+        The function 'Get-ALHADDiscrepancy' queries Active Directory and used some customizable rules to detect any discrepancies or inconsistencies in the attribute values.
 
     .PARAMETER ScriptSettingsFile
-    Filepath to the script settings file in JSON format.
+        Filepath to the script settings file in JSON format.
 
     .PARAMETER RulesFile
-    Filepath to one or more rules files in JSON format.
+        Filepath to one or more rules files in JSON format.
 
     .PARAMETER UseActiveDirectoryModule
-    If specified, this function is using the ActiveDirecotry PowerShell module to query Active Directory objects.
-    If omitted this function used the Get-ALHADObject function from the ALH module to query Active Directory.
+        If specified, this function is using the ActiveDirecotry PowerShell module to query Active Directory objects.
+        If omitted this function used the Get-ALHADObject function from the ALH module to query Active Directory.
 
     .PARAMETER FilePath
-    Filepath to the output html report file.
+        Filepath to the output html report file.
 
     .EXAMPLE
-    Get-ALHADDiscrepancy
+        Get-ALHADDiscrepancy
 
     .EXAMPLE
-    Get-ALHADDiscrepancy -ScriptSettingsFile 'C:\Admin\ADRulesSettings.json' -RulesFile 'C:\Admin\ADRules.json'
+        Get-ALHADDiscrepancy -ScriptSettingsFile 'C:\Admin\ADRulesSettings.json' -RulesFile 'C:\Admin\ADRules.json'
 
     .INPUTS
-    None
+        None
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDiscrepancy.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDiscrepancy.txt
     #>
 
     [CmdletBinding()]

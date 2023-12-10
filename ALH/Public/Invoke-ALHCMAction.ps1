@@ -95,40 +95,40 @@ $CMScheduleActions = @{
 function Invoke-ALHCMAction {
     <#
     .SYNOPSIS
-    Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
+        Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
 
     .DESCRIPTION
-    Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
+        Runs ConfigMgr Actions like hardware inventory, policy refresh etc.
 
     .PARAMETER ComputerName
-    Name of a remote computer. If no name is sepcified, the command runs agains the local computer.
-    Multiple Names can be specified as comma separated strings.
+        Name of a remote computer. If no name is sepcified, the command runs agains the local computer.
+        Multiple Names can be specified as comma separated strings.
 
     .PARAMETER Credential
-    Credentials that will be used for remote system.
+        Credentials that will be used for remote system.
 
     .EXAMPLE
-    Invoke Hardware Inventory and Machine Policy Evaluation tasks on computer Computer1 and Computer2
-    $Result = Invoke-ALHCMAction -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
-    $Result
+        Invoke Hardware Inventory and Machine Policy Evaluation tasks on computer Computer1 and Computer2
+        $Result = Invoke-ALHCMAction -ComputerName Computer1, Computer2 -Action 'Hardware Inventory', 'Machine Policy Evaluation' -Credential $CredentialForRemote  -Verbose
+        $Result
 
     .INPUTS
-    Nothing
+        System.String
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMAction.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHCMAction.txt
     #>
 
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]
+        [Parameter(ValueFromPipeline = $true, HelpMessage = 'Enter one or more computer names')]
         [string[]]
         $ComputerName,
 

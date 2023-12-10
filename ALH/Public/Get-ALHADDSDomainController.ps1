@@ -52,33 +52,33 @@ Contains function to get the currently used Domain Controller by the operating s
 function Get-ALHADDSDomainController {
     <#
     .SYNOPSIS
-    Returns information about AD Domain Controller.
+        Returns information about AD Domain Controller.
 
     .DESCRIPTION
-    Returns information about AD Domain Controller.
+        Returns information about AD Domain Controller.
 
     .EXAMPLE
-    Get-ALHADDSDomainController
+        Get-ALHADDSDomainController
 
-    Get the current domain controller used by the operating system
+        Get the current domain controller used by the operating system
 
     .EXAMPLE
-    Get-ALHADDSDomainController -All
+        Get-ALHADDSDomainController -All
 
-    Get the all domain controllers in the current domain
+        Get the all domain controllers in the current domain
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    System.DirectoryServices.ActiveDirectory.DirectoryServer
+        System.DirectoryServices.ActiveDirectory.DirectoryServer
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDSDomainController.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDSDomainController.txt
     #>
 
     [CmdletBinding()]

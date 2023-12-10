@@ -45,47 +45,49 @@ Contains function to test if a given user, group, computer or contact is member 
 function Test-ALHADGroupmembership {
     <#
     .SYNOPSIS
-    A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
+        A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
 
     .DESCRIPTION
-    A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
-    The function returns a PSCustomObject showing some information about the object found in AD and true or false about memberhsip of the
-    given group, in case it was found.
+        A PowerShell function to test if a given user, group, computer or contact is member of a given Active Directory group.
+        The function returns a PSCustomObject showing some information about the object found in AD and true or false about memberhsip of the
+        given group, in case it was found.
 
     .PARAMETER Identity
-    The samAccountName of the AD object, for which group membership should be checked.
+        The samAccountName of the AD object, for which group membership should be checked.
 
     .PARAMETER Group
-    The samAccountName of the AD group, whose members will be checked.
+        The samAccountName of the AD group, whose members will be checked.
 
     .PARAMETER SearchBase
-    AD SearchBase. If omitted, the base DN will be set from current AD domain.
+        AD SearchBase. If omitted, the base DN will be set from current AD domain.
 
     .EXAMPLE
-    Test-GroupMembership -Identity $env:USERNAME -Group "GroupA"
-    Check, if the currently logged on user is member of a group named GroupA.
+        Test-GroupMembership -Identity $env:USERNAME -Group "GroupA"
+
+        Check, if the currently logged on user is member of a group named GroupA.
 
     .EXAMPLE
-    Test-GroupMembership -Identity mike,john -Group "Group1"
-    Check, if the users named mike and john are member of a group named Group1.
+        Test-GroupMembership -Identity mike,john -Group "Group1"
+
+        Check, if the users named mike and john are member of a group named Group1.
 
     .INPUTS
-    nothing
+        System.String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADGroupmembership.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHADGroupmembership.txt
     #>
 
     [CmdletBinding()]
     param(
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
+        [Parameter(ValueFromPipeline = $true, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $Identity,

@@ -47,85 +47,95 @@
 function Get-ALHADLockedOutUser {
     <#
     .SYNOPSIS
-    Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
+        Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
 
     .DESCRIPTION
-    Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
-    The function can query one or multiple computers for one, multiple or any user in a given timeframe.
-    This helps to identify the source of the invalid logon attemps because the events contain the source IP
-    address of the logon attempt.
+        Function to query the securtiy event log for event id 4740 which is logged in case a user account gets locked out.
+        The function can query one or multiple computers for one, multiple or any user in a given timeframe.
+        This helps to identify the source of the invalid logon attemps because the events contain the source IP
+        address of the logon attempt.
 
     .PARAMETER DomainName
-    The AD domain name in which the Domain Controller will be queried, if no value
-    is specified for the -Compuername parameter.
+        The AD domain name in which the Domain Controller will be queried, if no value
+        is specified for the -Compuername parameter.
 
     .PARAMETER Identity
-    One or more usernames (samAccountName) to search for. If ommited, events for all users ("*") are searched.
+        One or more usernames (samAccountName) to search for. If ommited, events for all users ("*") are searched.
 
     .PARAMETER StartTime
-    The datetime to start searching from. If ommited, it's set for the last two hours.
+        The datetime to start searching from. If ommited, it's set for the last two hours.
 
     .PARAMETER ComputerName
-    One or more computernames to search for. If ommited, the script tries to get the domain controller
-    with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
+        One or more computernames to search for. If ommited, the script tries to get the domain controller
+        with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
 
     .PARAMETER Credential
-    Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
+        Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
 
     .EXAMPLE
-    Get-ALHADFailedLogonAttemps
-    Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
+        Get-ALHADFailedLogonAttemps
+
+        Get events for all users in the last 2 hours from the domain ctonroller with the PDC emulator role.
 
     .EXAMPLE
-    Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
-    Get events for user with samAccountName 'mike' within the last 8 hours.
+        Get-ALHADFailedLogonAttemps -Identity 'mike' -StartTime (Get-Date).AddHours(-8)
+
+        Get events for user with samAccountName 'mike' within the last 8 hours.
 
     .EXAMPLE
-    Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
-    Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
+        Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1) -ComputerName dc1,dc2
+
+        Get events for any user within last 24 hours from a computers (Domain Controller) dc1 and dc2.
 
     .EXAMPLE
-    Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
-    Get events for two users within the last 24 hours from Domain Controller running the PDC role.
+        Get-ALHADFailedLogonAttemps -Identity 'user1','user2' -StartTime (Get-Date).AddDays(-1)
+
+        Get events for two users within the last 24 hours from Domain Controller running the PDC role.
 
     .EXAMPLE
-    Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1)
-    Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
+        Get-Content -Path C:\Temp\Userlist.txt | Get-ALHADFailedLogonAttemps -StartTime (Get-Date).AddDays(-1)
+
+        Get events for users from pipeline input within the last 24 hours from Domain Controller running the PDC role.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLockedOutUser.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLockedOutUser.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
         [ValidateNotNullOrEmpty()]
-        [string]$DomainName = $env:USERDOMAIN,
+        [string]
+        $DomainName = $env:USERDOMAIN,
 
         [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more user names')]
         [ValidateNotNullOrEmpty()]
-        [string[]]$Identity,
+        [string[]]
+        $Identity,
 
         [Parameter(ParameterSetName = "DateTime")]
         [ValidateNotNullOrEmpty()]
-        [datetime]$StartTime = (Get-Date).AddHours(-2),
+        [datetime]
+        $StartTime = (Get-Date).AddHours(-2),
 
         [Parameter(ParameterSetName = "TimeRange")]
         [ValidateSet("1h", "2h", "4h", "6h", "8h", "12h", "15h", "18h", "21h", "1d", "2d", "3d", "4d", "5d", "6d", "7d")]
         [ValidateNotNullOrEmpty()]
-        [string]$TimeRange = "1d",
+        [string]
+        $TimeRange = "1d",
 
         [ValidateNotNullOrEmpty()]
-        [string[]]$ComputerName = [System.DirectoryServices.ActiveDirectory.Domain]::GetDomain((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Domain', $DomainName))).PdcRoleOwner.Name,
+        [string[]]
+        $ComputerName = [System.DirectoryServices.ActiveDirectory.Domain]::GetDomain((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Domain', $DomainName))).PdcRoleOwner.Name,
 
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]

@@ -50,107 +50,107 @@
 function Get-ALHDSDomainController {
     <#
     .SYNOPSIS
-    Locate a domain controller.
+        Locate a domain controller.
 
     .DESCRIPTION
-    Locates a domain controller and returns the name and some additional information for about it.
+        Locates a domain controller and returns the name and some additional information for about it.
 
     .PARAMETER DomainName
-    The name of the Active Directory domain to search a DC for.
+        The name of the Active Directory domain to search a DC for.
 
     .PARAMETER Server
-    The name of the server to run the search from.
+        The name of the server to run the search from.
 
     .PARAMETER DomainGuid
-    The GUID of the domain to find. This is used if the DC cannot be found by DomainName.
+        The GUID of the domain to find. This is used if the DC cannot be found by DomainName.
 
     .PARAMETER SiteName
-    The name of the site where the DC should exist.
+        The name of the site where the DC should exist.
 
     .PARAMETER DirectoryServiceRequired
-    Require the DC to support directory services.
+        Require the DC to support directory services.
 
     .PARAMETER DirectoryServicePreferred
-    Prioritise DCs that support directory services over ones that do not.
+        Prioritise DCs that support directory services over ones that do not.
 
     .PARAMETER GlobalCatalogRequired
-    Require the DC to be a global catalog server for the forest of domains with this domain as the root.
+        Require the DC to be a global catalog server for the forest of domains with this domain as the root.
 
     .PARAMETER PrimaryDCRequired
-    Finds the DC that is the primary domain controller for the domain.
+        Finds the DC that is the primary domain controller for the domain.
 
     .PARAMETER NoCache
-    Forces cached information to be ignored.
+        Forces cached information to be ignored.
 
     .PARAMETER UseCache
-    Always use the cached information even when the function would normally refresh the data.
+        Always use the cached information even when the function would normally refresh the data.
 
     .PARAMETER IpRequired
-    The DC must have an IP address.
+        The DC must have an IP address.
 
     .PARAMETER KdcRequired
-    The DC must be a kerberos key distribution center.
+        The DC must be a kerberos key distribution center.
 
     .PARAMETER TimeservRequired
-    Requires the DC be currently running the Windows Time Service.
+        Requires the DC be currently running the Windows Time Service.
 
     .PARAMETER WritableRequired
-    The DC must be writable and not a read only copy.
+        The DC must be writable and not a read only copy.
 
     .PARAMETER GoodTimeservPreferred
-    Finds a DC that is a reliable time server.
+        Finds a DC that is a reliable time server.
 
     .PARAMETER AvoidSelf
-    When calling from a domain controller, specified that the returned DC should not be the current host.
+        When calling from a domain controller, specified that the returned DC should not be the current host.
 
     .PARAMETER OnlyLdapNeeded
-    Find a host that is an LDAP server and not necessarily a DC.
+        Find a host that is an LDAP server and not necessarily a DC.
 
     .PARAMETER IsFlatName
-    The -DomainName value is a flag name, e.g. DOMAIN. This cannot be combined with IsDnsName.
+        The -DomainName value is a flag name, e.g. DOMAIN. This cannot be combined with IsDnsName.
 
     .PARAMETER IsDnsName
-    The -DomainName value is a DNS name, e.g. domain.com. This cannot be combined with IsFlagName.
+        The -DomainName value is a DNS name, e.g. domain.com. This cannot be combined with IsFlagName.
 
     .PARAMETER TryNextClosestSite
-    Attempt to find a DC in the same site but if nothing is found try the next closest site.
+        Attempt to find a DC in the same site but if nothing is found try the next closest site.
 
     .PARAMETER WebServiceRequired
-    Requires the DC to be running the Active Directory web service.
+        Requires the DC to be running the Active Directory web service.
 
     .PARAMETER Server2008OrLater
-    DC must be running Windows Server 2008 or later.
+        DC must be running Windows Server 2008 or later.
 
     .PARAMETER Server2012OrLater
-    DC must be running Windows Server 2012 or later.
+        DC must be running Windows Server 2012 or later.
 
     .PARAMETER Server2012R2OrLater
-    DC must be running Windows Server 2012 R2 or later.
+        DC must be running Windows Server 2012 R2 or later.
 
     .PARAMETER Server2016OrLater
-    DC must be running Windows Server 2016 or later.
+        DC must be running Windows Server 2016 or later.
 
     .PARAMETER ReturnDnsName
-    Returns the DNS names for Name and DomainName. This cannot be combined with ReturnFlatName.
+        Returns the DNS names for Name and DomainName. This cannot be combined with ReturnFlatName.
 
     .PARAMETER ReturnFlatName
-    Returns the flag name for Name and DOmain Name. This cannot be combined with ReturnDnsName.
+        Returns the flag name for Name and DOmain Name. This cannot be combined with ReturnDnsName.
 
     .EXAMPLE
-    Get-ALHDSDomainController
+        Get-ALHDSDomainController
 
     .INPUTS
-    None
+        None
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHDSDomainController.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHDSDomainController.txt
     #>
 
     [CmdletBinding()]
@@ -277,7 +277,7 @@ namespace NetApi
         private static extern Int32 NetApiBufferFree(
             IntPtr Buffer);
 
-        public static DCInfo DsGetDcName(string domainName, string computerName = null, string siteName = null,
+        public static ALHDSDCInfo DsGetDcName(string domainName, string computerName = null, string siteName = null,
             GetDcFlags flags = GetDcFlags.None, Guid? domainGuid = null)
         {
             IntPtr rawInfo;
@@ -306,7 +306,7 @@ namespace NetApi
                 var info = (NativeHelpers.DOMAIN_CONTROLLER_INFOW)Marshal.PtrToStructure(rawInfo,
                     typeof(NativeHelpers.DOMAIN_CONTROLLER_INFOW));
 
-                return new DCInfo()
+                return new ALHDSDCInfo()
                 {
                     Name = info.DomainControllerName,
                     Address = info.DomainControllerAddress,
@@ -326,7 +326,7 @@ namespace NetApi
         }
     }
 
-    public class DCInfo
+    public class ALHDSDCInfo
     {
         public string Name { get; internal set; }
         public string Address { get; internal set; }
@@ -507,13 +507,16 @@ namespace NetApi
         return
     }
 
-    [NetApi.NativeMethods]::DsGetDcName(
+    $ReturnVal = [NetApi.NativeMethods]::DsGetDcName(
         $DomainName,
         $ServerValue,
         $siteNameValue,
         $flags,
         $DomainGuid
     )
+
+    $ReturnVal.PSObject.TypeNames.Insert(0, "ALHDSDCInfo")
+    $ReturnVal
 }
 
 #region EndOfScript

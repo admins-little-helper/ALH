@@ -45,28 +45,28 @@ https://github.com/admins-little-helper/ALH
 function Test-ALHIsAdmin {
     <#
     .SYNOPSIS
-    Check if PowerShell runs with elevated permissions.
+        Check if PowerShell runs with elevated permissions.
 
     .DESCRIPTION
-    Check if PowerShell runs with elevated permissions. Also supports .NET CORE on Linux/macOS.
+        Check if PowerShell runs with elevated permissions. Also supports .NET CORE on Linux/macOS.
 
     .EXAMPLE
-    Test-ALHIsAdmin
+        Test-ALHIsAdmin
 
-    Returns $true or $false.
+        Returns $true or $false.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsAdmin.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsAdmin.txt
     #>
 
     [OutputType([bool])]
@@ -86,6 +86,7 @@ function Test-ALHIsAdmin {
         return
     }
 }
+
 
 #region EndOfScript
 <#

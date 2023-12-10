@@ -2,6 +2,15 @@
 
 [README.md](./README.md)
 
+## Version 2.4.0 (2023-12-10)
+
+* Get-ALHADOUPermission: Reworked code.
+* Get-ALHADOUPermission: Added parameter 'Recurse' to retrieve permissions for sub OUs as well.
+* Get-ALHHolidayDE: Added function to retrieve public holiday for Germany.
+* Get-ALHOffice365UpdateChannel: Added function to retrieve the configured M365 Apps (Office 365) update channel.
+* Update-ALHSysinternalsSuite: By default the new version no longer defaults to the WebDav source. Instead it downloads the SysinternalsSuite.zip file and uses that as source.
+* Get-ALHADUserLogonTime: Changed default output format to table style.
+
 ## Version 2.3.0 (2023-09-06)
 
 * Fixed PSScriptAnalyzer rule violations in all functions.

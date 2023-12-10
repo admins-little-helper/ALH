@@ -50,43 +50,43 @@ Contains function to stop a service. Support running on a remote computer.
 function Stop-ALHService {
     <#
     .SYNOPSIS
-	The function 'Stop-ALHService' stops a service or kills the service process.
+	    The function 'Stop-ALHService' stops a service or kills the service process.
 
     .DESCRIPTION
-	The function 'Stop-ALHService' stops a service or kills the service process if it's in the degraded state.
-    Can be run locally or on a remote computer. Requires WMI access.
+        The function 'Stop-ALHService' stops a service or kills the service process if it's in the degraded state.
+        Can be run locally or on a remote computer. Requires WMI access.
 
     .PARAMETER ComputerName
-	The name of the remote computer to stop the service on.
+    	The name of the remote computer to stop the service on.
 
     .PARAMETER ServiceName
-    The name of the service to stop.
+        The name of the service to stop.
 
     .PARAMETER KillDegraded
-    If specified, the process of a services that is in status 'DEGRADED' will be killed. Normally running services will not be stopped.
+        If specified, the process of a services that is in status 'DEGRADED' will be killed. Normally running services will not be stopped.
 
     .EXAMPLE
-	Stop-ALHService -ComputerName RemoteComputer -ServiceName wuauserv -KillDegraded
+        Stop-ALHService -ComputerName RemoteComputer -ServiceName wuauserv -KillDegraded
 
-    Kills the Windows Update service if it's in degraded state on RemoteComputer.
+        Kills the Windows Update service if it's in degraded state on RemoteComputer.
 
     .EXAMPLE
-	@(Computer1, Computer2, Computer3) | Stop-ALHService -ServiceName wuauserv -KillDegraded
+    	@(Computer1, Computer2, Computer3) | Stop-ALHService -ServiceName wuauserv -KillDegraded
 
-    Kills the Windows Update service if it's in degraded state on Computer1, Computer2 and Computer3.
+        Kills the Windows Update service if it's in degraded state on Computer1, Computer2 and Computer3.
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-	Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+	    Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Stop-ALHService.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Stop-ALHService.txt
     #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]

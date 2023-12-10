@@ -78,138 +78,138 @@
 
 
 function Out-ALHHtml {
-    <#
+	<#
     .SYNOPSIS
-    A PowerShell function to create a html table fragment.
+		A PowerShell function to create a html table fragment.
 
     .DESCRIPTION
-    This functions takes an object or an array of objects and creates a html table fragment out of it.
-    Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
-    The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
+		This functions takes an object or an array of objects and creates a html table fragment out of it.
+		Additionally it allows to format cells in the table based on filter expressions. It also can make a table sortable and filterable.
+		The returned ALHHtmlReport object can then be used as input in function 'Out-HtmlDoc' function to create a complete html document.
 
     .PARAMETER Data
-    An objet or an array of objects which will be displayed in the html table.
+		An objet or an array of objects which will be displayed in the html table.
 
     .PARAMETER MainTitle
-    The main title for the report (html table).
+		The main title for the report (html table).
 
 	.PARAMETER ReportTitle
-    A subtitle for the report (html table).
+		A subtitle for the report (html table).
 
     .PARAMETER MainBackgroundColor
-    Specify the background color by name. Choose from a list of pre-defined colors.
+	    Specify the background color by name. Choose from a list of pre-defined colors.
 
     .PARAMETER MainBackgroundColorHexcode
-    Specify the background color by hex code (e.g. '#0066a1')
+    	Specify the background color by hex code (e.g. '#0066a1')
 
     .PARAMETER Font
-    Specify the font used for the html document. Defaults to 'Verdana'.
+    	Specify the font used for the html document. Defaults to 'Verdana'.
 
 	.PARAMETER LogoText
-    This text will be shown above the table.
+    	This text will be shown above the table.
 
 	.PARAMETER FooterDisclaimerText
-	This text will be shown below the table.
+		This text will be shown below the table.
 
 	.PARAMETER CellFormat
-	A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
-    the html table cells based on filter expressions.
+		A hashtable specifying the parameters and values for the function Set-ALHCelLColor to format
+		the html table cells based on filter expressions.
 
 	.PARAMETER MakeSortable
-    If specified, the table will be made sortable.
+	    If specified, the table will be made sortable.
 
 	.PARAMETER MakeFilterable
-	If specified, the table will be filterable.
+		If specified, the table will be filterable.
 
 	.EXAMPLE
-    Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
+    	Get-Process | Select-Object -Propert Name,ID | Out-ALHHtmlReport -Title "Process on my computer" -Subtitle "Process list" -Infotext "A list of processes running a my computer" -Footer "Process list at $(Get-Date)" -AddSort -AddFilter
 
     .INPUTS
-    Object
+	    Object
 
     .OUTPUTS
-    ALHHtmlReport
+	    ALHHtmlReport
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+		Author:     Dieter Koch
+		Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtml.txt
+	    https://github.com/admins-little-helper/ALH/blob/main/Help/Out-ALHHtml.txt
     #>
 
-    [CmdletBinding(DefaultParameterSetName = "default")]
-    param (
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-        [object]
-        $Data,
+	[CmdletBinding(DefaultParameterSetName = "default")]
+	param (
+		[Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+		[object]
+		$Data,
 
-        [string]
-        $MainTitle,
+		[string]
+		$MainTitle,
 
-        [string]
-        $ReportTitle,
+		[string]
+		$ReportTitle,
 
-        [Parameter(ParameterSetName = "ColorName")]
-        [ValidateSet("alhBlue", "Red", "DarkRed", "LightRed", "Yellow", "DarkYellow", "LightYellow", "Blue", "DarkBlue", "LightBlue", "Green", "DarkGreen", "LightGreen", "Purple", "DarkPurple", "LightPurple", "Orange", "DarkOrange", "LighOrange")]
-        [string]
-        $MainBackgroundColor = "blue",
+		[Parameter(ParameterSetName = "ColorName")]
+		[ValidateSet("alhBlue", "Red", "DarkRed", "LightRed", "Yellow", "DarkYellow", "LightYellow", "Blue", "DarkBlue", "LightBlue", "Green", "DarkGreen", "LightGreen", "Purple", "DarkPurple", "LightPurple", "Orange", "DarkOrange", "LighOrange")]
+		[string]
+		$MainBackgroundColor = "blue",
 
-        [Parameter(ParameterSetName = "ColorCode")]
-        [string]
-        $MainBackgroundColorHexcode = "#0066a1",
+		[Parameter(ParameterSetName = "ColorCode")]
+		[string]
+		$MainBackgroundColorHexcode = "#0066a1",
 
-        [string]
-        $Font = "Verdana",
+		[string]
+		$Font = "Verdana",
 
-        [string]
-        $LogoText,
+		[string]
+		$LogoText,
 
-        [string]
-        $FooterDisclaimerText = "Note: errors and omissions excepted!",
+		[string]
+		$FooterDisclaimerText = "Note: errors and omissions excepted!",
 
-        [PSCustomObject[]]
-        $CellFormat,
+		[PSCustomObject[]]
+		$CellFormat,
 
-        [switch]
-        $MakeSortable,
+		[switch]
+		$MakeSortable,
 
-        [switch]
-        $MakeFilterable
-    )
+		[switch]
+		$MakeFilterable
+	)
 
-    begin {
-        $Colors = [ordered]@{
-            'alhBlue'     = '#0066a1'
-            'Red'         = '#ff0000'
-            'DarkRed'     = '#990000'
-            'LightRed'    = '#ffcccc'
-            'Yellow'      = '#ffff00'
-            'DarkYellow'  = '#ffff00'
-            'LightYellow' = '#ffff00'
-            'Blue'        = '#0000ff'
-            'DarkBlue'    = '#000099'
-            'LightBlue'   = '#ccccff'
-            'Green'       = '#00ff55'
-            'DarkGreen'   = '#009933'
-            'LightGreen'  = '#ccffdd'
-            'Purple'      = '#cc00cc'
-            'DarkPurple'  = '#990099'
-            'LightPurple' = '#ffccff'
-            'Orange'      = '#ff6600'
-            'DarkOrange'  = '#993d00'
-            'LighOrange'  = '#ffe0cc'
-        }
+	begin {
+		$Colors = [ordered]@{
+			'alhBlue'     = '#0066a1'
+			'Red'         = '#ff0000'
+			'DarkRed'     = '#990000'
+			'LightRed'    = '#ffcccc'
+			'Yellow'      = '#ffff00'
+			'DarkYellow'  = '#ffff00'
+			'LightYellow' = '#ffff00'
+			'Blue'        = '#0000ff'
+			'DarkBlue'    = '#000099'
+			'LightBlue'   = '#ccccff'
+			'Green'       = '#00ff55'
+			'DarkGreen'   = '#009933'
+			'LightGreen'  = '#ccffdd'
+			'Purple'      = '#cc00cc'
+			'DarkPurple'  = '#990099'
+			'LightPurple' = '#ffccff'
+			'Orange'      = '#ff6600'
+			'DarkOrange'  = '#993d00'
+			'LighOrange'  = '#ffe0cc'
+		}
 
-        if ($PSBoundParameters.ContainsKey('MainBackgroundColor')) {
-            $MainBackgroundColorValue = $Colors[$MainBackgroundColor]
-        }
-        elseif ($PSBoundParameters.ContainsKey('MainBackgroundColorHexcode')) {
-            $MainBackgroundColorValue = $MainBackgroundColorHexcode
-        }
+		if ($PSBoundParameters.ContainsKey('MainBackgroundColor')) {
+			$MainBackgroundColorValue = $Colors[$MainBackgroundColor]
+		}
+		elseif ($PSBoundParameters.ContainsKey('MainBackgroundColorHexcode')) {
+			$MainBackgroundColorValue = $MainBackgroundColorHexcode
+		}
 
-        # CSS for the output table...
-        [string]$css = @"
+		# CSS for the output table...
+		[string]$css = @"
 <style type=`"text/css`">
     html body        { font-family: $Font; font-size: 12px; height: 100%; margin: 0; overflow: auto; }
     #header          { background: $MainBackgroundColorValue; color: #ffffff; width: 100% }
@@ -236,7 +236,7 @@ function Out-ALHHtml {
 </style>
 "@
 
-        [string]$SortScript = @"
+		[string]$SortScript = @"
 <script>
 function sortTable(ColumnIndex) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -295,7 +295,7 @@ function sortTable(ColumnIndex) {
 </script>
 "@
 
-        [string]$FilterScript = @"
+		[string]$FilterScript = @"
 <script>
 function filterTable(ColumnIndex) {
   var input, filter, table, tr, td, i, txtValue, filterColumn;
@@ -319,11 +319,11 @@ function filterTable(ColumnIndex) {
 </script>
 "@
 
-        [string]$CurrentDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-        [string]$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.ToLower()
+		[string]$CurrentDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+		[string]$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.ToLower()
 
-        # Page header rows...
-        [string]$body = @"
+		# Page header rows...
+		[string]$body = @"
 <div id="header">
     <div id="headerTop">
         <div class="logo1">$LogoText</div>
@@ -338,62 +338,62 @@ function filterTable(ColumnIndex) {
 <div class="headerRow"></div>
 "@
 
-        <# footer#>
-        [string]$footer = @"
+		<# footer#>
+		[string]$footer = @"
 <table><tr><td class="sectionRow">$FooterDisclaimerText</td></tr></table>
 <p class='footer'>Report created: $CurrentDate || Computername: $env:COMPUTERNAME || Username: $CurrentUser || ScriptPath: $PSCommandPath</p>
 "@
 
-        # Add required assemblies
-        Add-Type -AssemblyName System.Web, PresentationFramework, PresentationCore
-    }
+		# Add required assemblies
+		Add-Type -AssemblyName System.Web, PresentationFramework, PresentationCore
+	}
 
-    process {
-        [array]$DataToProcess += foreach ($item in $Data) { $item }
-    }
+	process {
+		[array]$DataToProcess += foreach ($item in $Data) { $item }
+	}
 
-    end {
-        # Create a full HTML report file that also will be attached to the email
-        [string[]]$htmlReport = $DataToProcess | `
-                ConvertTo-Html -Head $css -Body $body -PostContent "$footer"
+	end {
+		# Create a full HTML report file that also will be attached to the email
+		[string[]]$htmlReport = $DataToProcess | `
+				ConvertTo-Html -Head $css -Body $body -PostContent "$footer"
 
-        foreach ($Format in $CellFormat) {
-            $FilterString = "$($Format.ColumnName) $($Format.Operator) `"$($Format.Value)`""
-            $htmlReport = Set-ALHCellColor -InputObject $htmlReport -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
-        }
+		foreach ($Format in $CellFormat) {
+			$FilterString = "$($Format.ColumnName) $($Format.Operator) `"$($Format.Value)`""
+			$htmlReport = Set-ALHCellColor -InputObject $htmlReport -Filter $FilterString -Color $($Format.Color) -Row:$($Format.Row)
+		}
 
-        Write-Verbose -Message "Adding table ID..."
-        [regex]$PatternTable = "<table>"
-        $htmlReport = $PatternTable.replace($htmlReport, '<table id="myTable">', 1)
+		Write-Verbose -Message "Adding table ID..."
+		[regex]$PatternTable = "<table>"
+		$htmlReport = $PatternTable.replace($htmlReport, '<table id="myTable">', 1)
 
-        Write-Verbose -Message "Getting column count"
-        [int]$ColumnCount = ([regex]::Matches($htmlReport, "<th>")).Count
+		Write-Verbose -Message "Getting column count"
+		[int]$ColumnCount = ([regex]::Matches($htmlReport, "<th>")).Count
 
-        if ($MakeSortable.IsPresent) {
-            Write-Verbose -Message "Making table headers sortable..."
-            [regex]$PatternTH = "<th>"
+		if ($MakeSortable.IsPresent) {
+			Write-Verbose -Message "Making table headers sortable..."
+			[regex]$PatternTH = "<th>"
 
-            0..$ColumnCount | ForEach-Object {
-                $htmlReport = $PatternTH.Replace($htmlReport, "<th onclick=`"sortTable($_)`">", 1)
-            }
+			0..$ColumnCount | ForEach-Object {
+				$htmlReport = $PatternTH.Replace($htmlReport, "<th onclick=`"sortTable($_)`">", 1)
+			}
 
-            Write-Verbose -Message "Adding sort script to html code"
-            $htmlReport = $htmlReport + "`r`n" + $SortScript
-        }
+			Write-Verbose -Message "Adding sort script to html code"
+			$htmlReport = $htmlReport + "`r`n" + $SortScript
+		}
 
-        if ($MakeFilterable.IsPresent) {
-            [regex]$PatternMyTable = "<table id=`"myTable`">"
+		if ($MakeFilterable.IsPresent) {
+			[regex]$PatternMyTable = "<table id=`"myTable`">"
 
-            0..($ColumnCount - 1) | ForEach-Object {
-                $htmlReport = $PatternMyTable.Replace($htmlReport, "<input type=`"text`" id=`"myInput$_`" onkeyup=`"filterTable($_)`" placeholder=`"Filter column $($_ + 1)...`" title=`"FilterColumn$($_ + 1)`"> `r`n<table id=`"myTable`">", 1)
-            }
+			0..($ColumnCount - 1) | ForEach-Object {
+				$htmlReport = $PatternMyTable.Replace($htmlReport, "<input type=`"text`" id=`"myInput$_`" onkeyup=`"filterTable($_)`" placeholder=`"Filter column $($_ + 1)...`" title=`"FilterColumn$($_ + 1)`"> `r`n<table id=`"myTable`">", 1)
+			}
 
-            Write-Verbose -Message "Adding filter script to html code"
-            $htmlReport = $htmlReport + "`r`n" + $FilterScript
-        }
+			Write-Verbose -Message "Adding filter script to html code"
+			$htmlReport = $htmlReport + "`r`n" + $FilterScript
+		}
 
-        $htmlReport
-    }
+		$htmlReport
+	}
 }
 
 #region EndOfScript

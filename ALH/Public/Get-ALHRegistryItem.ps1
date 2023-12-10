@@ -62,54 +62,58 @@
 function Get-ALHRegistryItem {
     <#
     .SYNOPSIS
-    Read Registry values from local or remote computer.
+        Read Registry values from local or remote computer.
 
     .DESCRIPTION
-    The function allows to list and read registry keys and values from local or remote computer(s).
+        The function allows to list and read registry keys and values from local or remote computer(s).
 
     .PARAMETER ComputerName
-    Optional. Name of a computer. If no name is sepcified, the command runs agains the local computer.
-    Multiple Names can be specified as comma separated strings.
+        Optional. Name of a computer. If no name is sepcified, the command runs agains the local computer.
+        Multiple Names can be specified as comma separated strings.
 
     .PARAMETER Path
-    Mandatory. Registry Path to query.
+        Mandatory. Registry Path to query.
 
     .PARAMETER ValueName
-    Optional. Name of a registry value to query. If ommitted, all values under a key will be returned.
+        Optional. Name of a registry value to query. If ommitted, all values under a key will be returned.
 
     .PARAMETER RegistryView
-    Optional. Specifies which registry view to target on a 64-bit operating system.
-    See https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registryview?view=net-6.0 for details
+        Optional. Specifies which registry view to target on a 64-bit operating system.
+        See https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registryview?view=net-6.0 for details
 
     .PARAMETER Recurse
-    Optional. Run query recursively (query sub keys).
+        Optional. Run query recursively (query sub keys).
+
+    .PARAMETER SkipConnectionTest
+        If specified, no attempt to ping the computer before trying to retrieve the update channel information is made.
 
     .EXAMPLE
-    Get-ALHRegistryItem -ComputerName Computer1 -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common" -Recurse -Verbose
-    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common" from Computer "Computer1"
+        Get-ALHRegistryItem -ComputerName Computer1 -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common" -Recurse -Verbose
+        Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common" from Computer "Computer1"
 
     .EXAMPLE
-    (Get-ADComputer -SearchBase "OU=myOU,DC=myDomain,DC=tld" -Filter *).Name | Get-ALHRegistryItem -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" -ValueName "enableautomaticupdates"
-    Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" from Computer "Computer1".
+        (Get-ADComputer -SearchBase "OU=myOU,DC=myDomain,DC=tld" -Filter *).Name | Get-ALHRegistryItem -Path "HKLM:\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" -ValueName "enableautomaticupdates"
+        Get all registry subkeys and values recursively under "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate" from Computer "Computer1".
 
     .INPUTS
-    String
+        System.String
 
     .OUTPUTS
-    Nothing
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHRegistryItem.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHRegistryItem.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding()]
     param
     (
-        [parameter(ValueFromPipeline)]
+        [parameter(ValueFromPipeline = $true)]
         [String[]]
         $ComputerName = $env:COMPUTERNAME,
 

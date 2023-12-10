@@ -58,61 +58,61 @@
 function Invoke-ALHWakeOnLan {
     <#
     .SYNOPSIS
-    Function to send wake on lan magic packet.
+        Function to send wake on lan magic packet.
 
     .DESCRIPTION
-    This function sends a magic packet (WoL / Wake-On-Lan) to wake up one ore multiple systems specified
-    by their MAC address.
+        This function sends a magic packet (WoL / Wake-On-Lan) to wake up one ore multiple systems specified
+        by their MAC address.
 
     .PARAMETER MacAddress
-    String. One or more strings specifying the target MAC address to wake up.
+        String. One or more strings specifying the target MAC address to wake up.
 
     .PARAMETER WolProxy
-    String. IP address or hostname of a system that acts as Wake-On-Lan proxy and forwards the
-    magic packet. Used in scenarios where you want to wake a host in a different subnet.
-    Can not be combined with parameter Wait.
+        String. IP address or hostname of a system that acts as Wake-On-Lan proxy and forwards the
+        magic packet. Used in scenarios where you want to wake a host in a different subnet.
+        Can not be combined with parameter Wait.
 
     .PARAMETER Wait
-    Switch. If specified, the function checks if the system comes up and waits for about 40 seconds per system.
-    Can not be combined with parameter WolProxy.
+        Switch. If specified, the function checks if the system comes up and waits for about 40 seconds per system.
+        Can not be combined with parameter WolProxy.
 
     .EXAMPLE
-    Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55"
+        Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55"
 
-    Send magic packet to wake up host with MAC address '00:11:22:33:44:55'
-
-    .EXAMPLE
-    Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -Wait -Verbose
-
-    Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and wait until it is up or timeout is reached.
+        Send magic packet to wake up host with MAC address '00:11:22:33:44:55'
 
     .EXAMPLE
-    Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -WolProxy 10.255.255.255
+        Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -Wait -Verbose
 
-    Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and use WolProxy 10.255.255.255.
-
-    .EXAMPLE
-    Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB'
-
-    Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB'
+        Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and wait until it is up or timeout is reached.
 
     .EXAMPLE
-    Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB' -UseWolPort7
+        Invoke-ALHWakeOnLan -MacAddress "00:11:22:33:44:55" -WolProxy 10.255.255.255
 
-    Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB' using UDP port 7 instead of port 9.
+        Send magic packet to wake up host with MAC address '00:11:22:33:44:55' and use WolProxy 10.255.255.255.
+
+    .EXAMPLE
+        Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB'
+
+        Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB'
+
+    .EXAMPLE
+        Invoke-ALHWakeOnLan -MacAddress '00:11:22:33:44:55', '66:77:88:99:AA:BB' -UseWolPort7
+
+        Send magic packet to wake up hosts with MAC address '00:11:22:33:44:55' and '66:77:88:99:AA:BB' using UDP port 7 instead of port 9.
 
     .INPUTS
-    String
+        System.String
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHWakeOnLan.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHWakeOnLan.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = "default")]

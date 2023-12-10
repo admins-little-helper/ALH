@@ -31,9 +31,12 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Get-ALHDSDomainController
 * Get-ALHDSObject
 * Get-ALHGroupPolicyFailureEvent
+* Get-ALHHolidayDE
 * Get-ALHLoggedOnUser
 * Get-ALHOffice365IPAndUrl
 * Get-ALHOffice365SkuId
+* Get-ALHOffice365UpdateChannel
+* Get-ALHOffice365UpdateStatus
 * Get-ALHRegistryItem
 * Get-ALHSavedCredential
 * Get-ALHScheduledTaskInfo
@@ -58,7 +61,7 @@ Project page: <https://github.com/admins-little-helper/ALH>
 * Test-ALHIsOnBattery
 * Test-ALHIsRebootPending
 * Test-ALHIsUpn
-* Update-ALHSysinternalsSuite'
+* Update-ALHSysinternalsSuite
 
 ## Release notes
 

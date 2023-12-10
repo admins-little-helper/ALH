@@ -56,45 +56,45 @@ Function to query Active Directory using ADSI DirectorySearch and therefore no d
 function Get-ALHDSObject {
     <#
     .SYNOPSIS
-    Function to query Active Directory using ADSI DirectorySearch and therefore no dependency to the ActiveDirectory PowerShell module.
+        Query Active Directory using ADSI DirectorySearch and therefore no dependency to the ActiveDirectory PowerShell module.
 
     .DESCRIPTION
-    The function 'Get-ALHDSObject' allows to query Active Directory withtout any dependency to the ActiveDirectory PowerShell module.
-    For more information about the Directory Searcher refer to https://docs.microsoft.com/en-us/dotnet/api/system.directoryservices.directorysearcher?view=dotnet-plat-ext-6.0.
+        The function 'Get-ALHDSObject' queries Active Directory withtout any dependency to the ActiveDirectory PowerShell module.
+        For more information about the Directory Searcher refer to https://docs.microsoft.com/en-us/dotnet/api/system.directoryservices.directorysearcher?view=dotnet-plat-ext-6.0.
 
     .PARAMETER LDAPFilter
-    LDAP filter syntax to use for the query.
-    If omitted the default filter of '(&(objectClass=*))' is used.
+        LDAP filter syntax to use for the query.
+        If omitted the default filter of '(&(objectClass=*))' is used.
 
     .PARAMETER SearchBase
-    Specifies an Active Directory path to search.
-    If omitted the Active Directory root will be used. Can not be used together with parameter -DomainName.
+        Specifies an Active Directory path to search.
+        If omitted the Active Directory root will be used. Can not be used together with parameter -DomainName.
 
     .PARAMETER DomainName
-    FQDN of the value to query.
-    If omitted the domain of the machine is used. Cannot be used togethe with parameter -SearchBase.
+        FQDN of the value to query.
+        If omitted the domain of the machine is used. Cannot be used togethe with parameter -SearchBase.
 
     .PARAMETER Server
-    Specify the name or fqdn of a server (Domain Controller) to run the query against.
-    If omitted a Domain Controller will be automatically detected based on OS default mechanism.
+        Specify the name or fqdn of a server (Domain Controller) to run the query against.
+        If omitted a Domain Controller will be automatically detected based on OS default mechanism.
 
     .PARAMETER Credential
-    Credential object used to connect to Active Directory.
-    If omitted the connection atempt is made in the current user's context.
+        Credential object used to connect to Active Directory.
+        If omitted the connection atempt is made in the current user's context.
 
     .PARAMETER SizeLimit
-    Specifying the maximum number of results in a query.
-    If omitted this default's to 10000.
+        Specifying the maximum number of results in a query.
+        If omitted this default's to 10000.
 
     .EXAMPLE
-    $Result = Get-ALHDSObject -Server "dc.domain.tld" -SearchBase "DC=domain,DC=tld" -Verbose
-    $Result | Select-Object -Property Name, Parent, objectClass, objectCategory | Format-Table -AutoSize
+        $Result = Get-ALHDSObject -Server "dc.domain.tld" -SearchBase "DC=domain,DC=tld" -Verbose
+        $Result | Select-Object -Property Name, Parent, objectClass, objectCategory | Format-Table -AutoSize
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
     Author:     Dieter Koch

@@ -51,84 +51,85 @@ https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-s
 function Get-ALHOffice365IPAndUrl {
     <#
     .SYNOPSIS
-    Retrieves IPs and URLs used by Microsoft 365 services.
+        Retrieves IPs and URLs used by Microsoft 365 services.
 
     .DESCRIPTION
-    The 'Get-ALHOffice365IPAndUrl' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
-    It allows to filter the output for example to only URLs, not IPs or only for certain services like Exchange. The data retrieved is stored
-    in a local cache file to limit the number of queries against the webservice.
+        The 'Get-ALHOffice365IPAndUrl' function retrieves IPs and URLs used by the Microsoft 365 services by the Microsoft REST API.
+        It allows to filter the output for example to only URLs, not IPs or only for certain services like Exchange. The data retrieved is stored
+        in a local cache file to limit the number of queries against the webservice.
 
     .PARAMETER Instance
-    Specifies the Office 365 Instance name. Choose from one of the valid values: 'Worldwide', 'USGovDoD', 'USGovGCCHigh', 'China', 'Germany'.
-    Defaults to 'Worldwide'
+        Specifies the Office 365 Instance name. Choose from one of the valid values: 'Worldwide', 'USGovDoD', 'USGovGCCHigh', 'China', 'Germany'.
+        Defaults to 'Worldwide'
 
     .PARAMETER ServiceArea
-    Specifies the Office 365 service area. Choose from one of the valid values: 'All', 'Common', 'Exchange', 'SharePoint', 'Skype'.
-    Defaults to 'All'
+        Specifies the Office 365 service area. Choose from one of the valid values: 'All', 'Common', 'Exchange', 'SharePoint', 'Skype'.
+        Defaults to 'All'
 
     .PARAMETER Category
-    Specifies the Office 365 connectivity category for a service endpoint set. Choose from one of the valid values: 'All', 'Optimize', 'Allow', 'Default'.
-    Defaults to 'All'
+        Specifies the Office 365 connectivity category for a service endpoint set. Choose from one of the valid values: 'All', 'Optimize', 'Allow', 'Default'.
+        Defaults to 'All'
 
     .PARAMETER Required
-    Specify $true to retrieve only endpoint sets marked required. Specify $false for optional endpoint sets.
-    If ommited, all endpoint sets are retrieved.
+        Specify $true to retrieve only endpoint sets marked required. Specify $false for optional endpoint sets.
+        If ommited, all endpoint sets are retrieved.
 
     .PARAMETER ExpressRoute
-    Specify $true to retrieve only endpoint sets routed over ExpressRoute.
-    Specify $false to retrieve only endpoint sets NOT routed over ExpressRoute
-    If ommited, all endpoint sets are retrieved.
+        Specify $true to retrieve only endpoint sets routed over ExpressRoute.
+        Specify $false to retrieve only endpoint sets NOT routed over ExpressRoute
+        If ommited, all endpoint sets are retrieved.
 
     .PARAMETER TenantName
-    A Office 365 tenant name. The web service takes the provided name and inserts it in parts of URLs that include the tenant name.
-    If no tenant name is provided, those parts of URLs have the wildcard character (*).
+        A Office 365 tenant name. The web service takes the provided name and inserts it in parts of URLs that include the tenant name.
+        If no tenant name is provided, those parts of URLs have the wildcard character (*).
 
     .PARAMETER OutputType
-    Specifies which endpoint sets should be returned by the function. Valid values are 'All', 'IPv4', 'IPv6', 'URLs'.
+        Specifies which endpoint sets should be returned by the function. Valid values are 'All', 'IPv4', 'IPv6', 'URLs'.
 
     .PARAMETER OutputPath
-    Specifies the folder path to the local cache file. The function will create at least two files.
-    One file contains the client id required for the webservice and the version number of the last retrieved IP and URL list.
-    This allows to take data from the offlien file instead of querying the webservice, in case no update is available there.
-    If ommited, these files are stored in user's temp directory ($env:TEMP).
+        Specifies the folder path to the local cache file. The function will create at least two files.
+        One file contains the client id required for the webservice and the version number of the last retrieved IP and URL list.
+        This allows to take data from the offlien file instead of querying the webservice, in case no update is available there.
+        If ommited, these files are stored in user's temp directory ($env:TEMP).
 
     .PARAMETER Force
-    If specified, data is always retrieved from the web service instead of a local cache file.
+        If specified, data is always retrieved from the web service instead of a local cache file.
 
     .EXAMPLE
-    Get-ALHOffice365IPAndUrl
+        Get-ALHOffice365IPAndUrl
 
-    Retrieve all endpoint sets for all service areas and all categories in the 'Worldwide' Instance
-
-    .EXAMPLE
-    Get-ALHOffice365IPAndUrl -ServiceArea Exchange
-
-    Retrieve all endpoint sets for Exchange and all categories in the 'Worldwide' Instance
+        Retrieve all endpoint sets for all service areas and all categories in the 'Worldwide' Instance
 
     .EXAMPLE
-    Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required
+        Get-ALHOffice365IPAndUrl -ServiceArea Exchange
 
-    Retrieve only required endpoint sets for SharePoint and all categories in the 'Worldwide' Instance
+        Retrieve all endpoint sets for Exchange and all categories in the 'Worldwide' Instance
 
     .EXAMPLE
-    Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required -OutputType IPv4 -Force
+        Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required
 
-    Retrieve only IPv4 endpoint sets for Skype and all categories in the 'USGovDoD' Instance and ignore any local cache file (if exist)
+        Retrieve only required endpoint sets for SharePoint and all categories in the 'Worldwide' Instance
+
+    .EXAMPLE
+        Get-ALHOffice365IPAndUrl -ServiceArea SharePoint -Required -OutputType IPv4 -Force
+
+        Retrieve only IPv4 endpoint sets for Skype and all categories in the 'USGovDoD' Instance and ignore any local cache file (if exist)
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPAndUrl.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365IPAndUrl.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding()]
     param (
         [ValidateNotNullOrEmpty()]

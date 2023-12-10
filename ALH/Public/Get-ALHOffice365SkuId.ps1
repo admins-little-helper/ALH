@@ -41,56 +41,57 @@
 function Get-ALHOffice365SkuId {
     <#
     .SYNOPSIS
-    Function to download and export the current list of Office 365 SKU Ids from the official Microsoft Download page.
+        Function to download and export the current list of Office 365 SKU Ids from the official Microsoft Download page.
 
     .DESCRIPTION
-    The 'Get-ALHOffice365SkuId' function downloads and exports the current list of Office 365 SKU Ids from the official Microsoft Download page.
-    The function either returns an an array of PSCustomObjects containing all Office 365 SKU Ids, or exports the list
-    to either a json or CSV file on a given path.
+        The 'Get-ALHOffice365SkuId' function downloads and exports the current list of Office 365 SKU Ids from the official Microsoft Download page.
+        The function either returns an an array of PSCustomObjects containing all Office 365 SKU Ids, or exports the list
+        to either a json or CSV file on a given path.
 
     .PARAMETER OutFile
-    The file path to either a CSV or JSON file to which the results are exported.
+        The file path to either a CSV or JSON file to which the results are exported.
 
     .PARAMETER Force
-    Only has effect if parameter -OutFile is specified. Forces file overwrite if a the specified file already exists.
+        Only has effect if parameter -OutFile is specified. Forces file overwrite if a the specified file already exists.
 
     .PARAMETER Force
-    Only has effect if parameter -OutFile is specified. If specified, the result will be saved to the specified filename and return to the console.
+        Only has effect if parameter -OutFile is specified. If specified, the result will be saved to the specified filename and return to the console.
 
     .EXAMPLE
-    Get-ALHOffice365SkuId
+        Get-ALHOffice365SkuId
 
-    Gets a list of Office365 SKU Ids.
-
-    .EXAMPLE
-    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.csv'
-
-    Gets a list of Office365 SKU Ids and save the result to a CSV file.
+        Gets a list of Office365 SKU Ids.
 
     .EXAMPLE
-    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -PassThru
+        Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.csv'
 
-    Gets a list of Office365 SKU Ids and save the result to a JSON file and also shows it on the console.
+        Gets a list of Office365 SKU Ids and save the result to a CSV file.
 
     .EXAMPLE
-    Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -Force -PassThrough
+        Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -PassThru
 
-    Get a list of Office365 SKU Ids and save the result to a JSON file, overwrite if it already exists and also shows the results on the console.
+        Gets a list of Office365 SKU Ids and save the result to a JSON file and also shows it on the console.
+
+    .EXAMPLE
+        Get-ALHOffice365SkuId -OutFile 'C:\Temp\Office365SkuIds.json' -Force -PassThrough
+
+        Get a list of Office365 SKU Ids and save the result to a JSON file, overwrite if it already exists and also shows the results on the console.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365SkuId.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365SkuId.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding(DefaultParameterSetName = "default")]
     param (
         [Parameter(ParameterSetName = 'OutFile')]

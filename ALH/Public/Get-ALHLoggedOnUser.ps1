@@ -42,51 +42,51 @@ Contains function to check for any logged on users (either interactivly on the c
 function Get-ALHLoggedOnUser {
     <#
     .SYNOPSIS
-    Returns all users currently logged on to local or or remote computer
+        Returns all users currently logged on to local or or remote computer
 
     .DESCRIPTION
-    Returns all users currently logged on to local or or remote computer
+        Returns all users currently logged on to local or or remote computer
 
     .PARAMETER ComputerName
-    One or more computernames
+        One or more computernames
 
     .EXAMPLE
-    Get-ALHLoggedOnUser
+        Get-ALHLoggedOnUser
 
-    ComputerName   : MYCOMPUTER
-	ComputerStatus : Online
-	Username       : user1
-	SessionName    : rdp-tcp#17
-	ID             : 2
-	State          : Active
-	IdleTime       : .
-	LogonTime      : 02.12.2022 07:26:00
+        ComputerName   : MYCOMPUTER
+        ComputerStatus : Online
+        Username       : user1
+        SessionName    : rdp-tcp#17
+        ID             : 2
+        State          : Active
+        IdleTime       : .
+        LogonTime      : 02.12.2022 07:26:00
 
-    Shows the users logged into the local system
+        Shows the users logged into the local system
 
     .EXAMPLE
-    Get-ALHLoggedOnUser -Computer server1,server2,server3 | Format-Table -AutoSize
+        Get-ALHLoggedOnUser -Computer server1,server2,server3 | Format-Table -AutoSize
 
-	ComputerName   ComputerStatus Username SessionName ID State  IdleTime LogonTime
-	------------   -------------- -------- ----------- -- -----  -------- ---------
-	SERVER1        Online         userA    rdp-tcp#17  2  Active .        02.12.2022 07:26:00
-	SERVER2        Online         userB    console     2  Active .        02.12.2022 07:28:00
-	SERVER3        Online         userC    rdp-tcp#18  2  Active .        02.12.2022 08:42:00
+        ComputerName   ComputerStatus Username SessionName ID State  IdleTime LogonTime
+        ------------   -------------- -------- ----------- -- -----  -------- ---------
+        SERVER1        Online         userA    rdp-tcp#17  2  Active .        02.12.2022 07:26:00
+        SERVER2        Online         userB    console     2  Active .        02.12.2022 07:28:00
+        SERVER3        Online         userC    rdp-tcp#18  2  Active .        02.12.2022 08:42:00
 
-    Shows the users logged into server1, server2, and server3
+        Shows the users logged into server1, server2, and server3
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHLoggedOnUser.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHLoggedOnUser.txt
     #>
 
     [OutputType([PSCustomObject])]

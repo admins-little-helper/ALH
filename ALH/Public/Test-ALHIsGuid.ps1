@@ -45,29 +45,29 @@ https://github.com/admins-little-helper/ALH
 function Test-ALHIsGuid {
     <#
     .SYNOPSIS
-    Validates a given input string and checks if it is a valid GUID.
+        Validates a given input string and checks if it is a valid GUID.
 
     .DESCRIPTION
-    Validates a given input string and checks if it is a valid GUID.
+        Validates a given input string and checks if it is a valid GUID.
 
     .PARAMETER InputObject
-    String value to test.
+        String value to test.
 
     .EXAMPLE
-    Test-Guid -InputObject "3363e9e1-00d8-45a1-9c0c-b93ee03f8c13"
+        Test-Guid -InputObject "3363e9e1-00d8-45a1-9c0c-b93ee03f8c13"
 
     .INPUTS
-    System.String
+        System.String
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsGuid.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsGuid.txt
     #>
 
     [OutputType([bool])]
@@ -84,6 +84,7 @@ function Test-ALHIsGuid {
         }
     }
 }
+
 
 #region EndOfScript
 <#

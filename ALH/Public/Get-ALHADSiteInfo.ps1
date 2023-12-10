@@ -45,26 +45,26 @@ function Get-ALHADSiteInfo {
 
     <#
     .SYNOPSIS
-    Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
 
     .DESCRIPTION
-    Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Sites for the domain the user running the cmdlet is member in.
 
     .EXAMPLE
-    Get-ALHADDSSiteInfo
+        Get-ALHADDSSiteInfo
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADSiteInfo.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADSiteInfo.txt
     #>
 
     [CmdletBinding()]

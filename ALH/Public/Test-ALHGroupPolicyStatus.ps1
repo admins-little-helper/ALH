@@ -45,45 +45,55 @@ Cleaned up code
 function Test-ALHGroupPolicyStatus {
     <#
     .SYNOPSIS
-    Function to test if there have been events logged in the last 24 hours which indicate issues in applying computer group policy.
+        Function to test if there have been events logged in the last 24 hours which indicate issues in applying computer group policy.
 
     .DESCRIPTION
-    Function queries event log for certain events indicating issues in applying computer group policy settings. The function
-    by default returns either true or false, but it can also return the events found in the eventlog (use parameter ReturnDetail).
+        Function queries event log for certain events indicating issues in applying computer group policy settings. The function
+        by default returns either true or false, but it can also return the events found in the eventlog (use parameter ReturnDetail).
 
     .PARAMETER MachinePolicy
-    Repair computer group policy.
+        Test computer group policy.
 
     .PARAMETER ComputerName
-    Allows to specify remote computer name. By default it will run against the local computer.
+        Allows to specify remote computer name. By default it will run against the local computer.
 
     .PARAMETER Credential
-    Specify credentials with necessary permissions to query the system event log on the given computer.
+        Specify credentials with necessary permissions to query the system event log on the given computer.
 
     .EXAMPLE
-    Test-ALHGroupPolicyStatus
-    Run check for computer group policy.
+        Test-ALHGroupPolicyStatus
+
+        Run check for computer group policy.
 
     .EXAMPLE
-    Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
-    Run check for computer group policy on remote computer named "MyOtherSystem".
+        Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem
+
+        Run check for computer group policy on remote computer named "MyOtherSystem".
 
     .EXAMPLE
-    Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
-    Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
+        Test-ALHGroupPolicyStatus -ComputerName MyOtherSystem -Credential $(Get-Credential)
+
+        Run check for computer group policy on remote computer named "MyOtherSystem" and specifying credentials.
+
+    .INPUTS
+        System.String
+
+    .OUTPUTS
+        Nothing
 
     .NOTES
-    Author:     Dieter Kochs
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Kochs
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHGroupPolicyStatus.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHGroupPolicyStatus.txt
     #>
 
     [CmdletBinding()]
     param(
+        [Parameter(ValueFromPipeline = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]
+        [string[]]
         $ComputerName = "$env:COMPUTERNAME",
 
         [switch]
@@ -95,42 +105,48 @@ function Test-ALHGroupPolicyStatus {
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
 
-    try {
-        $Domain = (Get-CimInstance Win32_ComputerSystem).Domain
-        $Context = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext("Domain", $Domain)
-        $DC = [System.DirectoryServices.ActiveDirectory.DomainController]::FindOne($Context)
-    }
-    catch {
-        Write-Error "No domain controller found."
+    begin {
+        try {
+            $Domain = (Get-CimInstance Win32_ComputerSystem).Domain
+            $Context = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext("Domain", $Domain)
+            $DC = [System.DirectoryServices.ActiveDirectory.DomainController]::FindOne($Context)
+        }
+        catch {
+            Write-Error "No domain controller found."
+        }
+
+        if ($PSVersionTable.PSVersion -ge [System.Version]"6.0") {
+            Write-Verbose -Message "Running PowerShell 6.0 or newer - need to import Windows PowerShell cmdlets."
+            Import-Module Microsoft.PowerShell.Management -UseWindowsPowerShell
+        }
+
+        if ($null -eq $DC -and (Test-ComputerSecureChannel)) {
+            throw "No DC found or no secure channel established (maybe system is offline)."
+        }
     }
 
-    if ($PSVersionTable.PSVersion -ge [System.Version]"6.0") {
-        Write-Verbose -Message "Running PowerShell 6.0 or newer - need to import Windows PowerShell cmdlets."
-        Import-Module Microsoft.PowerShell.Management -UseWindowsPowerShell
-    }
+    process {
+        foreach ($Computer in $ComputerName) {
+            $EventsFound = Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName $Computer -Credential $Credential
 
-    if ($null -ne $DC -and (Test-ComputerSecureChannel)) {
-        $EventsFound = Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName $ComputerName -Credential $Credential
-
-        if (($EventsFound | Measure-Object).Count -gt 0) {
-            if ($ReturnDetails.IsPresent) {
-                $ReturnValue = $EventsFound
+            if (($EventsFound | Measure-Object).Count -gt 0) {
+                if ($ReturnDetails.IsPresent) {
+                    $ReturnValue = $EventsFound
+                }
+                else {
+                    $ReturnValue = $true
+                }
             }
             else {
-                $ReturnValue = $true
+                $ReturnValue = $false
             }
         }
-        else {
-            $ReturnValue = $false
-        }
-    }
-    else {
-        Write-Verbose -Message "No DC found or no secure channel established (maybe system is offline)"
-    }
 
-    Write-Verbose -Message "Done"
-    $ReturnValue
+        Write-Verbose -Message "[$Computer]: Done"
+        $ReturnValue
+    }
 }
+
 
 #region EndOfScript
 <#

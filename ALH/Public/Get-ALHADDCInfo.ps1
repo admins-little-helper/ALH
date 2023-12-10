@@ -25,7 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-1..00
+1.0.0
 Initial release
 
 #>
@@ -41,26 +41,26 @@ Initial release
 function Get-ALHADDCInfo {
     <#
     .SYNOPSIS
-    Returns a sorted list of all AD Domain Controllers for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Domain Controllers for the domain the user running the cmdlet is member in.
 
     .DESCRIPTION
-    Returns a sorted list of all AD Domain Controllers for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Domain Controllers for the domain the user running the cmdlet is member in.
 
     .EXAMPLE
-    Get-ALHADDCInfo
+        Get-ALHADDCInfo
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDCInfo.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADDCInfo.txt
     #>
 
     [CmdletBinding()]

@@ -46,34 +46,34 @@ https://github.com/admins-little-helper/ALH
 function Get-ALHADLapsPwd {
     <#
     .SYNOPSIS
-    Retrieves the LAPS Password for a computer account from Active Directory.
+        Retrieves the LAPS Password for a computer account from Active Directory.
 
     .DESCRIPTION
-    The function 'Get-ALHADLapsPwd' retrieves the LAPS Password for a computer account from Active Directory.
-    This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
-    'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
+        The function 'Get-ALHADLapsPwd' retrieves the LAPS Password for a computer account from Active Directory.
+        This functions is a proxy function for the 'Get-ADComputer' cmdlet. It supports the same parameters as the
+        'Get-ADComputer' cmdlet. For more information check out the help for that cmdlet.
 
     .EXAMPLE
-    Get-ALHADLapsPwd -Identity MyComputer
+        Get-ALHADLapsPwd -Identity MyComputer
 
     .EXAMPLE
-    Get-ALHADLapsPwd -Identity MyComputer1, MyComputer2
+        Get-ALHADLapsPwd -Identity MyComputer1, MyComputer2
 
     .EXAMPLE
-    MyComputer1, MyComputer2 | Get-ALHADLapsPwd
+        MyComputer1, MyComputer2 | Get-ALHADLapsPwd
 
     .INPUTS
-    System.String
+        System.String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLapsPwd.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADLapsPwd.txt
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'Filter')]

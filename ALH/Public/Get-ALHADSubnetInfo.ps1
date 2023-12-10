@@ -25,7 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-1.0
+1.0.0
 - Initial release
 
 1.1.0
@@ -44,26 +44,26 @@ Contains function to get a sorted list of all AD Subnets for the domain the user
 function Get-ALHADSubnetInfo {
     <#
     .SYNOPSIS
-    Returns a sorted list of all AD Subnets for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Subnets for the domain the user running the cmdlet is member in.
 
     .DESCRIPTION
-    Returns a sorted list of all AD Subnets for the domain the user running the cmdlet is member in.
+        Returns a sorted list of all AD Subnets for the domain the user running the cmdlet is member in.
 
     .EXAMPLE
-    Get-ALHADDSSubnetInfo
+        Get-ALHADDSSubnetInfo
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADSubnetInfo.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADSubnetInfo.txt
     #>
 
     [CmdletBinding()]

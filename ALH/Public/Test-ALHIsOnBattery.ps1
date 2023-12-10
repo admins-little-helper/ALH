@@ -52,45 +52,45 @@
 Function Test-ALHIsOnBattery {
     <#
     .SYNOPSIS
-    Checks if a computer is running on battery.
+        Checks if a computer is running on battery.
 
     .DESCRIPTION
-    Checks if a computer is running on battery.
+        Checks if a computer is running on battery.
 
     .PARAMETER ComputerName
-    The name of the computer to check. Defaults to local computer.
+        The name of the computer to check. Defaults to local computer.
 
     .EXAMPLE
-    Test-ALHIsOnBattery
+        Test-ALHIsOnBattery
 
-    ComputerName   IsOnBattery ComputerOnline TestStatus          Error
-	------------   ----------- -------------- ----------          -----
-	MYCOMPUTER                           True NO_BATTERY_DETECTED None
+        ComputerName   IsOnBattery ComputerOnline TestStatus          Error
+        ------------   ----------- -------------- ----------          -----
+        MYCOMPUTER                           True NO_BATTERY_DETECTED None
 
-    Check if local computer is running on battery.
+        Check if local computer is running on battery.
 
     .EXAMPLE
-    Test-ALHIsOnBattery -ComputerName "Computer1","Computer2"
+        Test-ALHIsOnBattery -ComputerName "Computer1","Computer2"
 
-    ComputerName   IsOnBattery ComputerOnline TestStatus Error
-	------------   ----------- -------------- ---------- -----
-	COMPUTER1             True           True SUCCESS    None
-	COMPUTER2            False           True SUCCESS    None
+        ComputerName   IsOnBattery ComputerOnline TestStatus Error
+        ------------   ----------- -------------- ---------- -----
+        COMPUTER1             True           True SUCCESS    None
+        COMPUTER2            False           True SUCCESS    None
 
-    Check if computer1 and computer2 is running on battery.
+        Check if computer1 and computer2 is running on battery.
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsOnBattery.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsOnBattery.txt
     #>
 
     [OutputType([PSCustomObject])]
@@ -173,6 +173,7 @@ Function Test-ALHIsOnBattery {
         }
     }
 }
+
 
 #region EndOfScript
 <#

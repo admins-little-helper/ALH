@@ -28,8 +28,6 @@
     1.0.0
     - Initial release
 
-    1.1.0
-    - Added parameter 'UpdateChannel'
 #>
 
 
@@ -44,36 +42,37 @@
 function Get-ALHOffice365UpdateStatus {
     <#
     .SYNOPSIS
-    Retrieves the M365 Apps for Enterprise update information.
+        Retrieves the M365 Apps for Enterprise update information.
 
     .DESCRIPTION
-    Retrieves the M365 Apps for Enterprise update information.
+        Retrieves the M365 Apps for Enterprise update information.
 
     .PARAMETER UpdateChannel
-    The name of the update channel to retrieve. If none is specified, all channels are returned.
+        The name of the update channel to retrieve. If none is specified, all channels are returned.
 
     .EXAMPLE
-    Get-ALHOffice365UpdateStatus
-    Returns information about all update channels.
+        Get-ALHOffice365UpdateStatus
+        Returns information about all update channels.
 
     .EXAMPLE
-    Get-ALHOffice365UpdateStatus -UpdateChannel MonthylEnterprise
-    Returns information about the MonthlyEnterprise update channel.
+        Get-ALHOffice365UpdateStatus -UpdateChannel MonthylEnterprise
+        Returns information about the MonthlyEnterprise update channel.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365UpdateStatus.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHOffice365UpdateStatus.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding()]
     param (
         [ValidateSet("MonthlyEnterprise", "Current", "CurrentPreview", "SemiAnnualEnterprise", "SemiAnnualEnterprisePreview", "Beta")]
@@ -113,16 +112,16 @@ function Get-ALHOffice365UpdateStatus {
     $M365AppsUpdateStatusUrl = "https://mrodevicemgr.officeapps.live.com/mrodevicemgrsvc/api/v2/C2RReleaseData"
     $M365AppsUpdateStatus = Invoke-RestMethod -Method Get -Uri $M365AppsUpdateStatusUrl
 
-    foreach ($object in $M365AppsUpdateStatus) {
-        $object.PSObject.TypeNames.Insert(0, "ALHM365AppsUpdateStatus")
-        $object | Add-Member -Name "Channel" -MemberType NoteProperty -Value $ChannelIdMapping."$($object.FFN)"
+    foreach ($Item in $M365AppsUpdateStatus) {
+        $Item.PSObject.TypeNames.Insert(0, "ALHM365AppsUpdateStatus")
+        $Item | Add-Member -Name "Channel" -MemberType NoteProperty -Value $ChannelIdMapping."$($Item.FFN)"
 
         if ([string]::IsNullOrEmpty($UpdateChannel)) {
-            $object
+            $Item
         }
         else {
-            if ($UpdateChannel -eq $object.Channel) {
-                $object
+            if ($UpdateChannel -eq $Item.Channel) {
+                $Item
             }
         }
     }

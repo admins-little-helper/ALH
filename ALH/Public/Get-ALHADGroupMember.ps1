@@ -49,7 +49,7 @@
 <#
 
 .DESCRIPTION
-Contains a function to query all members of an AD group of a given objectClass.
+Contains a function to retrieve all members of an AD group that are of a given objectClass.
 
 #>
 
@@ -57,57 +57,60 @@ Contains a function to query all members of an AD group of a given objectClass.
 function Get-ALHADGroupMember {
     <#
     .SYNOPSIS
-    Queries all members of an AD group of a given objectClass.
+        Retrieves all members of an AD group that are of a given objectClass.
 
     .DESCRIPTION
-    Queries all members of an AD group of a given objectClass.
+        The 'Get-ALHADGroupMember' function retrieves all members of an AD group of a given objectClass.
 
     .PARAMETER Identity
-    The samAccountName of the group to query.
+        The samAccountName of the group to query.
 
     .PARAMETER Recurse
-    If specified, the query runs recursivly if the given group has any other groups as member.
+        If specified, the query runs recursivly if the given group has any other groups as member.
 
     .PARAMETER ObjectClass
-    The name of the objectClass to query. Defaults to 'User'.
+        The name of the objectClass to query. Defaults to 'User'.
 
     .EXAMPLE
-    $members = Get-ALHADGroupMember -Identity "myGroup"
-    $members
+        $members = Get-ALHADGroupMember -Identity "myGroup"
+        $members
 
     .EXAMPLE
-    $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse
-    $members
+        $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse
+        $members
 
     .EXAMPLE
-    $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse -ObjectClass User, Group, Compuer
-    $members
+        $members = Get-ALHADGroupMember -Identity "myGroup" -Recurse -ObjectClass User, Group, Compuer
+        $members
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADGroupMember.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADGroupMember.txt
     #>
 
     param
     (
-        [parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [ValidateNotNull()]
-        [String]$Identity,
+        [String]
+        $Identity,
 
         [ValidateNotNull()]
-        [switch]$Recurse,
+        [switch]
+        $Recurse,
 
         [ValidateSet("User", "Group", "Computer")]
-        [String[]]$ObjectClass = "User"
+        [String[]]
+        $ObjectClass = "User"
     )
 
     $RequiredModules = "ActiveDirectory"

@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.0
+.VERSION 1.1.0
 
 .GUID 29c961ad-ed17-4bd5-8ded-985a3ce68d5f
 
@@ -45,42 +45,42 @@ Made script accept values for paramter ComputerName from pipeline.
 function Get-ALHGroupPolicyFailureEvent {
     <#
     .SYNOPSIS
-    Function to query system eventlog for event id 1096 which indicates problems in applying computer group policy.
+        Function to query system eventlog for event id 1096 which indicates problems in applying computer group policy.
 
     .DESCRIPTION
-    The function 'Get-ALHGroupPolicyFailureEvent' queries the system eventlog for event id 1096 which indicates problems in applying computer group policy.
-    The function can query one or multiple computers for one, multiple or any user in a given timeframe.
+        The function 'Get-ALHGroupPolicyFailureEvent' queries the system eventlog for event id 1096 which indicates problems in applying computer group policy.
+        The function can query one or multiple computers for one, multiple or any user in a given timeframe.
 
     .PARAMETER StartTime
-    The datetime to start searching from. If ommited, it's set for the last two hours.
+        The datetime to start searching from. If ommited, it's set for the last two hours.
 
     .PARAMETER ComputerName
-    Optional. One or more computernames to search for. If ommited, the script tries to get the domain controller
-    with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
+        Optional. One or more computernames to search for. If ommited, the script tries to get the domain controller
+        with the PDC emulator role for the current domain or the domain specified with the -DomainName parameter.
 
     .PARAMETER Credential
-    Optional. Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
+        Optional. Credentials used to query the event log. If ommited, the credentials of the user running the script are used.
 
     .EXAMPLE
-    Get-ALHGroupPolicyFailureEvent
-    This will run the query on the local computer and show the results.
+        Get-ALHGroupPolicyFailureEvent
+        This will run the query on the local computer and show the results.
 
     .EXAMPLE
-    Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName COMPUTER01
-    This will run the query on computer 'COMPUTER01' and searching all events in the last 24 hours.
+        Get-ALHGroupPolicyFailureEvent -StartTime (Get-Date).AddHours(-24) -ComputerName COMPUTER01
+        This will run the query on computer 'COMPUTER01' and searching all events in the last 24 hours.
 
     .INPUTS
-    System.String for parameter 'ComputerName'
+        System.String for parameter 'ComputerName'
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHGroupPolicyFailureEvent.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHGroupPolicyFailureEvent.txt
     #>
     [OutputType([hashtable])]
     [CmdletBinding()]

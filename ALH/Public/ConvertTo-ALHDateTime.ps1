@@ -49,70 +49,69 @@ function ConvertTo-ALHDateTime {
 
     <#
     .SYNOPSIS
-    Converts miliseconds since 1970 or 1601 or ticks since 1601 to a DateTime value.
+        Converts miliseconds since 1970 or 1601 or ticks since 1601 to a DateTime value.
 
     .DESCRIPTION
-    Converts miliseconds since 1970 or 1601 or ticks since 1601 to a DateTime value (by defaults in UTC time).
-    The function returns $null
+        Converts miliseconds since 1970 or 1601 or ticks since 1601 to a DateTime value (by defaults in UTC time).
+        The function returns $null
 
     .PARAMETER DateTimeValue
-    Miliseconds since 01.01.1700 00:00:00 or miliseconds since 01.01.1601 00:00:00 or ADDateTime value.
+        Miliseconds since 01.01.1700 00:00:00 or miliseconds since 01.01.1601 00:00:00 or ADDateTime value.
 
     .PARAMETER AsLocalTime
-    If specified, the resulting DateTime value will be interpreted in local time zone, instead of UTC.
+        If specified, the resulting DateTime value will be interpreted in local time zone, instead of UTC.
 
     .EXAMPLE
-    ConvertTo-ALHDateTime -DateTimeValue 13270022798437
+        ConvertTo-ALHDateTime -DateTimeValue 13270022798437
 
-    DateTimeBase1970    DateTimeBase1601    DateTimeBaseAD
-    ----------------    ----------------    --------------
-    06.07.2390 03:26:38 06.07.2021 03:26:38 16.01.1601 08:36:42
+        DateTimeBase1970    DateTimeBase1601    DateTimeBaseAD
+        ----------------    ----------------    --------------
+        06.07.2390 03:26:38 06.07.2021 03:26:38 16.01.1601 08:36:42
 
-    Convert a int64 value representing an miliseconds since 01.01.1601 to date/time in UTC format.
-
-    .EXAMPLE
-    ConvertTo-ALHDateTime -DateTimeValue 13270022798437
-
-    DateTimeBase1970    DateTimeBase1601    DateTimeBaseAD
-    ----------------    ----------------    --------------
-    06.07.2390 03:26:38 06.07.2021 03:26:38 16.01.1601 08:36:42
-
-    Convert a int64 value representing an miliseconds since 01.01.1601 to date/time in UTC format.
-
+        Convert a int64 value representing an miliseconds since 01.01.1601 to date/time in UTC format.
 
     .EXAMPLE
-    (Get-ADUser -Filter * -Property lastLogonTimeStamp).lastLogonTimeStamp | ConvertTo-ALHDateTime
+        ConvertTo-ALHDateTime -DateTimeValue 13270022798437
 
-    DateTimeBase1970 DateTimeBase1601 DateTimeBaseAD
-    ---------------- ---------------- --------------
-                                      04.11.2022 09:43:10
-                                      04.11.2022 09:43:10
-                                      23.02.2020 17:59:40
-                                      23.02.2020 17:59:40
-                                      23.11.2015 05:57:05
-                                      09.11.2022 11:14:48
+        DateTimeBase1970    DateTimeBase1601    DateTimeBaseAD
+        ----------------    ----------------    --------------
+        06.07.2390 03:26:38 06.07.2021 03:26:38 16.01.1601 08:36:42
 
-    This example shows how to retrieve the lastLogonTimeStamp for all users in Active Directory and get the DateTime value
-    of for it.
+        Convert a int64 value representing an miliseconds since 01.01.1601 to date/time in UTC format.
+
+    .EXAMPLE
+        (Get-ADUser -Filter * -Property lastLogonTimeStamp).lastLogonTimeStamp | ConvertTo-ALHDateTime
+
+        DateTimeBase1970 DateTimeBase1601 DateTimeBaseAD
+        ---------------- ---------------- --------------
+                                          04.11.2022 09:43:10
+                                          04.11.2022 09:43:10
+                                          23.02.2020 17:59:40
+                                          23.02.2020 17:59:40
+                                          23.11.2015 05:57:05
+                                          09.11.2022 11:14:48
+
+        This example shows how to retrieve the lastLogonTimeStamp for all users in Active Directory and get the DateTime value
+        of for it.
 
     .INPUTS
-    System.Int64
+        System.Int64
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/ConvertTo-ALHDateTime.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/ConvertTo-ALHDateTime.txt
     #>
 
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [double[]][AllowNull()]
         $DateTimeValue,
 

@@ -41,58 +41,58 @@ Contains a function to rotate file names by appending a number or date.
 function Invoke-ALHFileRotate {
     <#
     .SYNOPSIS
-    A PowerShell function to rotate file names by appending a number or date.
+        A PowerShell function to rotate file names by appending a number or date.
 
     .DESCRIPTION
-    This function can be used for log rotation. It searches for a given filename (exact match!) in a given path or multiple paths.
-    Path recursion is also supported. If the file is found, it will be renamed based on a given naming schema.
-    This can be either appending a number up to a given threshold. Or the file creation date, file creation date and time or the
-    file last write date or file last write date and time.
+        This function can be used for log rotation. It searches for a given filename (exact match!) in a given path or multiple paths.
+        Path recursion is also supported. If the file is found, it will be renamed based on a given naming schema.
+        This can be either appending a number up to a given threshold. Or the file creation date, file creation date and time or the
+        file last write date or file last write date and time.
 
     .PARAMETER Path
-    One or multiple valid file paths. Each path will be searched for the file specified for 'FileName' parameter.
+        One or multiple valid file paths. Each path will be searched for the file specified for 'FileName' parameter.
 
     .PARAMETER FileName
-    A filename to serach for in the given paths.
+        A filename to serach for in the given paths.
 
 	.PARAMETER Threshold
-    Default value is 3. The number of files to keep in case the 'Number' naming schema was selected with the 'NamingSchema' parameter.
+        Default value is 3. The number of files to keep in case the 'Number' naming schema was selected with the 'NamingSchema' parameter.
 
 	.PARAMETER NamingSchema
-    Default value is 'Number'. One of the following values is possible:
-    'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'
+        Default value is 'Number'. One of the following values is possible:
+        'Number', 'CreationDate', 'CreationDateTime', 'LastWriteDate', 'LastWriteDateTime'
 
 	.EXAMPLE
-    Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Threshold 9 -Verbose
+        Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Threshold 9 -Verbose
 
-    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_x.log'
-    where 'x' is the number. At maximum 9 versions of the file will be kept. If more exist alreay, the file with the highest number will be deleted.
+        Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_x.log'
+        where 'x' is the number. At maximum 9 versions of the file will be kept. If more exist alreay, the file with the highest number will be deleted.
 
 	.EXAMPLE
-    Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Recurse -Verbose
+        Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema Number -Recurse -Verbose
 
-    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC' and all subfolders ('Recurse'). If found, files will be renamed to 'logfile_x.log'
-    where 'x' is the number. At maximum 3 versions (default value for 'Threshold') of the file will be kept.
-    If more exist alreay, the file with the highest number will be deleted.
+        Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC' and all subfolders ('Recurse'). If found, files will be renamed to 'logfile_x.log'
+        where 'x' is the number. At maximum 3 versions (default value for 'Threshold') of the file will be kept.
+        If more exist alreay, the file with the highest number will be deleted.
 
     .EXAMPLE
-    Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema LastWriteDateTime -Verbose
+        Invoke-ALHFileRotate -Path C:\temp\testCCC\ -FileName logfile.log -NamingSchema LastWriteDateTime -Verbose
 
-    Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_yyyyMMdd-HHmmss.log'
-    where 'yyyyMMdd-HHmmss' is the file's last modified date. If a file with that name already exists, it will be deleted.
+        Search for a file with name 'logfile.log' in path 'C:\Temp\testCCC'. If found, files will be renamed to 'logfile_yyyyMMdd-HHmmss.log'
+        where 'yyyyMMdd-HHmmss' is the file's last modified date. If a file with that name already exists, it will be deleted.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHFileRotate.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Invoke-ALHFileRotate.txt
     #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]

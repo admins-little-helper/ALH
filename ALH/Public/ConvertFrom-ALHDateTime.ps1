@@ -51,46 +51,46 @@ https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccoun
 function ConvertFrom-ALHDateTime {
     <#
     .SYNOPSIS
-    Converts a local date/time to miliseconds since 1970 or milliseconds since 1601 or ticks since 1601.
+        Converts a local date/time to miliseconds since 1970 or milliseconds since 1601 or ticks since 1601.
 
     .DESCRIPTION
-    Converts a local date/time to miliseconds since 1970 or milliseconds since 1601 or ticks since 1601.
+        Converts a local date/time to miliseconds since 1970 or milliseconds since 1601 or ticks since 1601.
 
     .PARAMETER DateTime
-    Date to convert. Defaults to current date/time.
+        Date to convert. Defaults to current date/time.
 
     .EXAMPLE
-    ConvertFrom-ALHDateTime
+        ConvertFrom-ALHDateTime
 
-    DateTime            MillisecondsSince1970 MillisecondsSince1601     TicksSince1601
-    --------            --------------------- ---------------------     --------------
-    11.11.2022 21:14:49         1668201289484        13312674889484 133126748894840000
+        DateTime            MillisecondsSince1970 MillisecondsSince1601     TicksSince1601
+        --------            --------------------- ---------------------     --------------
+        11.11.2022 21:14:49         1668201289484        13312674889484 133126748894840000
 
-    This example shows how to convert the current date/time to MillisecondsSince1970, MillisecondsSince1601 and TicksSince1601.
+        This example shows how to convert the current date/time to MillisecondsSince1970, MillisecondsSince1601 and TicksSince1601.
 
     .EXAMPLE
-    ConvertFrom-ALHDateTime -DateTime "11.11.2011 11:11:11"
+        ConvertFrom-ALHDateTime -DateTime "11.11.2011 11:11:11"
 
-    DateTime            MillisecondsSince1970 MillisecondsSince1601     TicksSince1601
-    --------            --------------------- ---------------------     --------------
-    11.11.2011 11:11:00         1321009860000        12965483460000 129654834600000000
+        DateTime            MillisecondsSince1970 MillisecondsSince1601     TicksSince1601
+        --------            --------------------- ---------------------     --------------
+        11.11.2011 11:11:00         1321009860000        12965483460000 129654834600000000
 
-    This example shows how to convert a date as string to MillisecondsSince1970, MillisecondsSince1601 and TicksSince1601.
-    Note that in this example PowerShell automatically casts the String value to a DateTime value. Use this carefully to make sure the
-    date/time format matches your local date time format.
+        This example shows how to convert a date as string to MillisecondsSince1970, MillisecondsSince1601 and TicksSince1601.
+        Note that in this example PowerShell automatically casts the String value to a DateTime value. Use this carefully to make sure the
+        date/time format matches your local date time format.
 
     .INPUTS
-    System.DateTime
+        System.DateTime
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/ConvertFrom-ALHDateTime.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/ConvertFrom-ALHDateTime.txt
     #>
 
     [cmdletbinding()]

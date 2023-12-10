@@ -45,47 +45,48 @@ https://github.com/admins-little-helper/ALH
 function Get-ALHADCircularNestedGroup {
     <#
     .SYNOPSIS
-    Find circular nested groups in Active Directory.
+        Find circular nested groups in Active Directory.
 
     .DESCRIPTION
-    The 'Get-ALHADCircularNestedGroup' function searches for instances of circular nested groups in Active Directory.
+        The 'Get-ALHADCircularNestedGroup' function searches for instances of circular nested groups in Active Directory.
 
-    Sometimes it happens that circular nested groups get created accidentally.
-    For example GroupA has GroupB as member. GroupB has GroupC as member. And GroupC has GroupA as member.
-    This function helps to identify these conflicts.
+        Sometimes it happens that circular nested groups get created accidentally.
+        For example GroupA has GroupB as member. GroupB has GroupC as member. And GroupC has GroupA as member.
+        This function helps to identify these conflicts.
 
     .PARAMETER SearchBase
-    One ore more names of organizational unites to search in recursively for nested groups.
-    If not specified, the entire domain will be searched.
+        One ore more names of organizational unites to search in recursively for nested groups.
+        If not specified, the entire domain will be searched.
 
     .EXAMPLE
-    Get-ALHADCircularNestedGroup -SearchBase 'OU=Groups,DC=contoso,DC=com' -Verbose
+        Get-ALHADCircularNestedGroup -SearchBase 'OU=Groups,DC=contoso,DC=com' -Verbose
 
-    Find all circular groups in two different organizational units and show verbose messages.
+        Find all circular groups in two different organizational units and show verbose messages.
 
     .EXAMPLE
-    Get-ALHADCircularNestedGroup
+        Get-ALHADCircularNestedGroup
 
-    Find all circular groups in the domain.
+        Find all circular groups in the domain.
 
     .INPUTS
-    System.String for parameter 'SearchBase'
+        System.String for parameter 'SearchBase'
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADCircularNestedGroup.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADCircularNestedGroup.txt
     #>
 
     [CmdLetBinding()]
     param (
-        [Parameter(ValueFromPipeline)]
-        [String[]]$SearchBase
+        [Parameter(ValueFromPipeline = $true)]
+        [String[]]
+        $SearchBase
     )
 
     begin {

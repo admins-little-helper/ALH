@@ -48,50 +48,51 @@
 function Get-ALHADComputerLogonTime {
     <#
     .SYNOPSIS
-    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controller in the current AD domain for one ore more computer objects.
+        Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controller in the current AD domain for one ore more computer objects.
 
     .DESCRIPTION
-    Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controller in the current AD domain for one ore more computer objects.
+        Queries 'lastLogon' and 'lastLogonTimestamp' attributes from multiple Domain Controller in the current AD domain for one ore more computer objects.
 
     .PARAMETER ComputerName
-    One ore more computer names to query information for. Separate list with commas.
-    If no value is provied, the local computer will be used.
+        One ore more computer names to query information for. Separate list with commas.
+        If no value is provied, the local computer will be used.
 
     .PARAMETER DomainController
-    One ore more Domain Controller names to query information for. Separate list with commas.
-    If no value is provied, all DCs in the current domain are queried.
+        One ore more Domain Controller names to query information for. Separate list with commas.
+        If no value is provied, all DCs in the current domain are queried.
 
     .EXAMPLE
-    Get-ALHADComputerLogonTime -ComputerName MyComputer
+        Get-ALHADComputerLogonTime -ComputerName MyComputer
 
     .EXAMPLE
-    Get-ALHADComputerLogonTime -ComputerName MyComputer1, MyComputer2
+        Get-ALHADComputerLogonTime -ComputerName MyComputer1, MyComputer2
 
     .EXAMPLE
-    Get-ALHADComputerLogonTime -ComputerName MyComputer1, MyComputer2 -DomainController adds1,adds2
+        Get-ALHADComputerLogonTime -ComputerName MyComputer1, MyComputer2 -DomainController adds1,adds2
 
     .EXAMPLE
-    (Get-ADComputer -Filter {name -like "a*"}).Name | Get-ALHADComputerLogonTime -DomainController $(Get-ALHADDSDomainController -All)
+        (Get-ADComputer -Filter {name -like "a*"}).Name | Get-ALHADComputerLogonTime -DomainController $(Get-ALHADDSDomainController -All)
 
-    Get lastlogontime for all computers in AD where name starts with 'a', from all domain controller in the current domain.
+        Get lastlogontime for all computers in AD where name starts with 'a', from all domain controller in the current domain.
 
     .INPUTS
-    String or array of string
+        System.String
 
     .OUTPUTS
-    PSCustomObject
+        PSCustomObject
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADComputerLogonTime.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHADComputerLogonTime.txt
     #>
 
+    [OutputType([PSCustomObject])]
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more computer names')]
+        [Parameter(ValueFromPipeline = $true, HelpMessage = 'Enter one or more computer names')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $ComputerName = $env:COMPUTERNAME,

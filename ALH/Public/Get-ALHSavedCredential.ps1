@@ -52,40 +52,40 @@ Redesign and code cleanup.
 function Get-ALHSavedCredential {
     <#
     .SYNOPSIS
-    Retrieve saved credentials (username and secure string password) from a text file.
+        Retrieve saved credentials (username and secure string password) from a text file.
 
     .DESCRIPTION
-    Retrieve saved credentials (username and secure string password) from files.
+        Retrieve saved credentials (username and secure string password) from files.
 
     .PARAMETER Path
-    Path to search in for credential files.
+        Path to search in for credential files.
 
     .PARAMETER FileNamePrefix
-    Filename prefix to use for credential files.
+        Filename prefix to use for credential files.
 
     .PARAMETER AsJson
-    If specified, the output will be saved in a json file, instead of a text file.
+        If specified, the output will be saved in a json file, instead of a text file.
 
     .EXAMPLE
-    Get-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredForApp1"
-    Get credentials for App1 from text files (one for username, another for the password).
+        Get-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredForApp1"
+        Get credentials for App1 from text files (one for username, another for the password).
 
     .EXAMPLE
-    Get-ALHSavedCredential -FilePath C:\Admin\Credentials\MyCredentials.json
-    Get credentials from a JSON file.
+        Get-ALHSavedCredential -FilePath C:\Admin\Credentials\MyCredentials.json
+        Get credentials from a JSON file.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    PSCredential
+        PSCredential
 
     .NOTES
-    Author: Dieter Koch
-    Email: diko@admins-little-helper.de
+        Author: Dieter Koch
+        Email: diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHSavedCredential.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Get-ALHSavedCredential.txt
     #>
 
     [OutputType([PSCredential])]

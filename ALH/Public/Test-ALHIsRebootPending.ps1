@@ -46,40 +46,41 @@
 function Test-ALHIsRebootPending {
     <#
     .SYNOPSIS
-    Check if a computer has a reboot pending.
+        Check if a computer has a reboot pending.
 
     .DESCRIPTION
-    Check if a computer has a reboot pending.
+        Check if a computer has a reboot pending.
 
     .EXAMPLE
-    Test-ALHHasPendingReboot
+        Test-ALHHasPendingReboot
 
-    Check if there is a reboot pending. Returns $true or $false
-
-    .EXAMPLE
-    Test-ALHIsRebootPending-ShowDetails
-
-    Check if there is a reboot pending. Return details about checks and why there is a pending reboot
+        Check if there is a reboot pending. Returns $true or $false
 
     .EXAMPLE
-    Test-ALHIsRebootPending-Verbose
+        Test-ALHIsRebootPending-ShowDetails
 
-    Check if there is a reboot pending. Show verbose output.
+        Check if there is a reboot pending. Return details about checks and why there is a pending reboot
+
+    .EXAMPLE
+        Test-ALHIsRebootPending-Verbose
+
+        Check if there is a reboot pending. Show verbose output.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    System.Boolean
+        System.Boolean
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsRebootPending.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Test-ALHIsRebootPending.txt
     #>
 
+    [OutputType([Bool])]
     [CmdletBinding()]
     param(
         [parameter(ValueFromPipeline)]
@@ -313,6 +314,7 @@ function Test-ALHIsRebootPending {
         }
     }
 }
+
 
 #region EndOfScript
 <#

@@ -70,99 +70,104 @@ Contains function to clean up old files of a given filename pattern.
 function Remove-ALHOldFile {
     <#
     .SYNOPSIS
-    A PowerShell function to remove old files in a given folder.
+        A PowerShell function to remove old files in a given folder.
 
     .DESCRIPTION
-    A PowerShell function to remove old files of a given filename pattern in a given folder.
-    It's also possible to specify either start and end date/time or a timespan to limit the search results to
-    files within that time range (based on LastWriteTime of the file).
-    This is can be used for example to clean up old logfiles.
+        A PowerShell function to remove old files of a given filename pattern in a given folder.
+        It's also possible to specify either start and end date/time or a timespan to limit the search results to
+        files within that time range (based on LastWriteTime of the file).
+        This is can be used for example to clean up old logfiles.
 
     .PARAMETER Path
-    One or more folder paths to search in. The file search is executed for each individual folder.
+        One or more folder paths to search in. The file search is executed for each individual folder.
 
     .PARAMETER FileNamePattern
-    One or more filter strings used to search for filename. Accepts * and ? for wildcards (same as Get-ChildItem).
+        One or more filter strings used to search for filename. Accepts * and ? for wildcards (same as Get-ChildItem).
 
     .PARAMETER NumOfFilesToKeep
-    The number of (newest) files to keep. If ommited, all files will be kept.
-    All older (or newer in case '-KeepOldest' is specified) files within the defined scope (=matching FileNamePattern and time range)
-    will be deleted.
+        The number of (newest) files to keep. If ommited, all files will be kept.
+        All older (or newer in case '-KeepOldest' is specified) files within the defined scope (=matching FileNamePattern and time range)
+        will be deleted.
 
     .PARAMETER Recurse
-    If specified, the specified path(s) are processed recursively. The file search still is done for each individual folder.
+        If specified, the specified path(s) are processed recursively. The file search still is done for each individual folder.
 
     .PARAMETER KeepOldest
-    If specified, the function will keep the oldest number of files defined by 'NumOfFilesToKeep', instead of the newest.
+        If specified, the function will keep the oldest number of files defined by 'NumOfFilesToKeep', instead of the newest.
 
     .PARAMETER IncludeHiddenAndSystemFiles
-    If specified, the file search will include hidden and system files (equal to 'Get-ChildItem -Force')
+        If specified, the file search will include hidden and system files (equal to 'Get-ChildItem -Force')
 
     .PARAMETER TimeSpan
-    If specified, the file search will only cover files in the given time range calculated from current date/time backwards.
+        If specified, the file search will only cover files in the given time range calculated from current date/time backwards.
 
     .PARAMETER Start
-    If specified, the file search will only include files with LastWriteTime newer than Start.
-    If ommited, the Start will be set to earliest possible date/time (-Year 1 -Month 1 -Day 1 -Hour 0 -Minute 0 -Second 0)
+        If specified, the file search will only include files with LastWriteTime newer than Start.
+        If ommited, the Start will be set to earliest possible date/time (-Year 1 -Month 1 -Day 1 -Hour 0 -Minute 0 -Second 0)
 
     .PARAMETER End
-    If specified, the file search will only include files with LastWriteTime older than End.
-    If ommitted, the current date/time will be used instead.
+        If specified, the file search will only include files with LastWriteTime older than End.
+        If ommitted, the current date/time will be used instead.
 
     .PARAMETER RemoveAllOlderThanStart
-    If specified, *ALL* files matching the filter string(s), and older than the specified Start date/time will be deleted.
+        If specified, *ALL* files matching the filter string(s), and older than the specified Start date/time will be deleted.
 
     .PARAMETER RemoveAllNewerThanEnd
-    If specified, *ALL* files matching the filter string(s), and newer than the specified End date/time will be deleted.
+        If specified, *ALL* files matching the filter string(s), and newer than the specified End date/time will be deleted.
 
     .EXAMPLE
-    # Delete files in directory C:\MyScript with pattern "ReportFile*". Keep the newest 14 files and delete all older.
-    Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -Verbose
+        Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -Verbose
+
+        Delete files in directory C:\MyScript with pattern "ReportFile*". Keep the newest 14 files and delete all older.
 
     .EXAMPLE
-    # Delete files in directory C:\MyScript with pattern "ReportFile*". Keep only the newest 3 files last modified within the last 14 days and delete all older.
-    Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Verbose
+        Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Verbose
+
+        Delete files in directory C:\MyScript with pattern "ReportFile*". Keep only the newest 3 files last modified within the last 14 days and delete all older.
 
     .EXAMPLE
-    # Delete files in directory C:\MyScript and all subdirectories with pattern "ReportFile*". Keep only the newest 3 files last modified within the last 14 days and delete all older.
-    Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Recurse -Verbose
+        Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Recurse -Verbose
+
+        Delete files in directory C:\MyScript and all subdirectories with pattern "ReportFile*". Keep only the newest 3 files last modified within the last 14 days and delete all older.
 
     .EXAMPLE
-    # Delete files in directory C:\MyScript with pattern "ReportFile*". Keep the newest 2 files modified between 21 and 14 days ago and delete all older file in the same time range.
-    Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -Start (Get-Date).AddDays(-21) End (Get-Date).AddDays(-14) -Verbose
+        Remove-ALHOldFile -Path "C:\MyScript" -FileNamePattern "ReportFile*" -NumOfFilesToKeep 14 -Start (Get-Date).AddDays(-21) End (Get-Date).AddDays(-14) -Verbose
+
+        Delete files in directory C:\MyScript with pattern "ReportFile*". Keep the newest 2 files modified between 21 and 14 days ago and delete all older file in the same time range.
 
     .EXAMPLE
-    # Delete files in directory C:\MyScript and C:\MyOtherScript with pattern "LogFile*.txt". Keep only the newest 3 files last modified within the last 14 days and delete all older.
-    Remove-ALHOldFile -Path "C:\MyScript","C:\MyOtherScript" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Verbose
+        Remove-ALHOldFile -Path "C:\MyScript","C:\MyOtherScript" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 14 -TimeSpan (New-TimeSpan -Days 14) -RemoveAllOlderThanStart -Verbose
+
+        Delete files in directory C:\MyScript and C:\MyOtherScript with pattern "LogFile*.txt". Keep only the newest 3 files last modified within the last 14 days and delete all older.
 
     .EXAMPLE
-    # Keep newest 2 "Logfile*.txt" files for each day within the last 14 days in folder C:\MyScripts\Log
+        14..1 | ForEach-Object {
+            Remove-ALHOldFile -Path "C:\MyScript\Log" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 2 -Start (Get-Date).AddDays($_ *-1) -End (Get-Date).AddDays(($_ - 1) *-1) -Verbose
+        }
 
-    14..1 | ForEach-Object {
-        Remove-ALHOldFile -Path "C:\MyScript\Log" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 2 -Start (Get-Date).AddDays($_ *-1) -End (Get-Date).AddDays(($_ - 1) *-1) -Verbose
-    }
+        # Then remove all files older than 14 days
+        Remove-ALHOldFile -Path "C:\MyScript\Log" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 0 -End (Get-Date).AddDays(-14) -Verbose
 
-    # Then remove all files older than 14 days
-    Remove-ALHOldFile -Path "C:\MyScript\Log" -FileNamePattern "LogFile*.txt" -NumOfFilesToKeep 0 -End (Get-Date).AddDays(-14) -Verbose
+        Keep newest 2 "Logfile*.txt" files for each day within the last 14 days in folder C:\MyScripts\Log
 
     .INPUTS
-    Nothing
+        System.String
 
     .OUTPUTS
-    Nothing
+        Nothing
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Remove-ALHOldFile.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Remove-ALHOldFile.txt
     #>
 
     [CmdletBinding(SupportsShouldProcess = $true, DefaultParametersetName = "default")]
     param(
         [ValidateNotNullOrEmpty()]
-        [Parameter(ValueFromPipeline, HelpMessage = 'Enter one or more path names', Position = 0)]
+        [Parameter(ValueFromPipeline = $true, HelpMessage = 'Enter one or more path names', Position = 0)]
         [string[]]
         $Path,
 

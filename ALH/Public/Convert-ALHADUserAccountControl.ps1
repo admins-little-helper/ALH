@@ -52,58 +52,58 @@ https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccoun
 function Convert-ALHADUserAccountControl {
     <#
     .SYNOPSIS
-    Converts an integer value to UserAccountControl flags.
+        Converts an integer value to UserAccountControl flags.
 
     .DESCRIPTION
-    The function 'Convert-ALHADUserAccountControl' converts an integer value to UserAccountControl flags.
-    This allows to take the raw value form the 'UserAccountControl' and/or 'msDS-User-Account-Control-Computed' property
-    of an Active Directory object and get a describtive name for the flags set.
+        The function 'Convert-ALHADUserAccountControl' converts an integer value to UserAccountControl flags.
+        This allows to take the raw value form the 'UserAccountControl' and/or 'msDS-User-Account-Control-Computed' property
+        of an Active Directory object and get a describtive name for the flags set.
 
     .PARAMETER UserAccountControl
-    Integer value of the 'UserAccountControl' attribute of an Active Directory object.
+        Integer value of the 'UserAccountControl' attribute of an Active Directory object.
 
     .PARAMETER msDSUserAccountControlComputed
-    Integer value of the 'msDS-User-Account-Control-Computed' attribute of an Active Directory object.
+        Integer value of the 'msDS-User-Account-Control-Computed' attribute of an Active Directory object.
 
     .EXAMPLE
-    Convert-ALHADUserAccountControl -UserAccountControl 514
+        Convert-ALHADUserAccountControl -UserAccountControl 514
 
-    ACCOUNTDISABLE
-    NORMAL_ACCOUNT
+        ACCOUNTDISABLE
+        NORMAL_ACCOUNT
 
-    Returns the flags for value 514.
+        Returns the flags for value 514.
 
     .EXAMPLE
-    Convert-ALHADUserAccountControl -UserAccountControl 514 -msDSUserAccountControlComputed 8388624
+        Convert-ALHADUserAccountControl -UserAccountControl 514 -msDSUserAccountControlComputed 8388624
 
-    ACCOUNTDISABLE
-    LOCKOUT
-    NORMAL_ACCOUNT
-    PASSWORD_EXPIRED
+        ACCOUNTDISABLE
+        LOCKOUT
+        NORMAL_ACCOUNT
+        PASSWORD_EXPIRED
 
-    Returns the flags for UserAccountControl value of 514 and ms-sDSUserAccountControlComputed value of 8388624.
+        Returns the flags for UserAccountControl value of 514 and ms-sDSUserAccountControlComputed value of 8388624.
 
     .INPUTS
-    System.Int32
+        System.Int32
 
     .OUTPUTS
-    System.String
+        System.String
 
     .NOTES
-    Author:     Dieter Koch
-    Email:      diko@admins-little-helper.de
+        Author:     Dieter Koch
+        Email:      diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Convert-ALHADUserAccountControl.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Convert-ALHADUserAccountControl.txt
     #>
 
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
         [int]
         $UserAccountControl,
 
-        [Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 1)]
         [int]
         $msDSUserAccountControlComputed
     )

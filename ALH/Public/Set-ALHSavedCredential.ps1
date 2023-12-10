@@ -54,86 +54,86 @@ Contains a function to store credentials in as secure string in a text file.
 function Set-ALHSavedCredential {
     <#
     .SYNOPSIS
-    Saves credentials (username and password as secure string) in a text file.
+        Saves credentials (username and password as secure string) in a text file.
 
     .DESCRIPTION
-    Saves credentials (username and password as secure string) in a text file.
+        Saves credentials (username and password as secure string) in a text file.
 
     .PARAMETER Path
-    Folder in wich the credential files are stored.
+        Folder in wich the credential files are stored.
 
     .PARAMETER FileNamePrefix
-    Filename prefix to use for credential files.
+        Filename prefix to use for credential files.
 
     .PARAMETER Credential
-    PSCredential object with username and password.
+        PSCredential object with username and password.
 
     .PARAMETER Identity
-    Username for credentials.
+        Username for credentials.
 
     .PARAMETER Secret
-    SecureString representing the password.
+        SecureString representing the password.
 
     .PARAMETER Force
-    If specified, existing files will be overwritten.
+        If specified, existing files will be overwritten.
 
     .PARAMETER AsJson
-    If specified, the output will be saved in a json file, instead of a text file.
+        If specified, the output will be saved in a json file, instead of a text file.
 
     .EXAMPLE
-    Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName"
+        Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName"
 
-    Save credentials for App1. The script will prompt for the password and hide typed characters.
-
-    .EXAMPLE
-    Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName" -AsJson
-
-    Save credentials for App1 in a single JSON file. The script will prompt for the password and hide typed characters.
+        Save credentials for App1. The script will prompt for the password and hide typed characters.
 
     .EXAMPLE
-    Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Credential (Get-Credential) -AsJson
+        Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Identity "MyUserName" -AsJson
 
-    Save credentials for App1 in a single JSON file. Username and password will be requested.
+        Save credentials for App1 in a single JSON file. The script will prompt for the password and hide typed characters.
+
+    .EXAMPLE
+        Set-ALHSavedCredential -Path C:\Admin\Credentials -FileNamePrefix "CredsForApp1" -Credential (Get-Credential) -AsJson
+
+        Save credentials for App1 in a single JSON file. Username and password will be requested.
 
     .INPUTS
-    Nothing
+        Nothing
 
     .OUTPUTS
-    Object
+        PSCredential
 
     .NOTES
-    Author: Dieter Koch
-    Email: diko@admins-little-helper.de
+        Author: Dieter Koch
+        Email: diko@admins-little-helper.de
 
     .LINK
-    https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHSavedCredential.txt
+        https://github.com/admins-little-helper/ALH/blob/main/Help/Set-ALHSavedCredential.txt
     #>
 
     [OutputType([PSCredential])]
     [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "default")]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [ValidateNotNull()]
         [System.IO.FileInfo]
         $Path,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [ValidateNotNull()]
         [String]
         $FileNamePrefix,
 
-        [Parameter(Mandatory, ParameterSetName = "PSCredential")]
+        [Parameter(Mandatory = $true, ParameterSetName = "PSCredential")]
         [ValidateNotNull()]
         [PSCredential]
         $Credential,
 
-        [Parameter(Mandatory, ParameterSetName = "IdentitySecret")]
+        [Parameter(Mandatory = $true, ParameterSetName = "IdentitySecret")]
         [ValidateNotNull()]
         [String]
         $Identity,
 
-        [Parameter(Mandatory, ParameterSetName = "IdentitySecret")]
+        [Parameter(Mandatory = $true, ParameterSetName = "IdentitySecret")]
         [ValidateNotNull()]
         [SecureString]
         $Secret,
