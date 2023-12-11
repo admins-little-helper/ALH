@@ -17,6 +17,10 @@
                         <Alignment>left</Alignment>
                     </TableColumnHeader>
                     <TableColumnHeader>
+                        <Label>EffectivePrio</Label>
+                        <Alignment>left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
                         <Label>ConfiguredChannels</Label>
                         <Alignment>left</Alignment>
                     </TableColumnHeader>
@@ -29,6 +33,9 @@
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>EffectiveChannel</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>EffectivePrio</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
                                 <PropertyName>ConfiguredChannels</PropertyName>

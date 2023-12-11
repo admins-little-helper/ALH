@@ -109,6 +109,13 @@ function Get-ALHOffice365UpdateChannel {
     begin {
         # Define the Channel Ids and their corrosponding names.
         $ChannelIdMapping = @{
+            "Current"                              = "Current"
+            "FirstReleaseCurrent"                  = "CurrentPreview"
+            "MonthlyEnterprise"                    = "MonthlyEnterprise"
+            "Deferred"                             = "SemiAnnualEnterprise"
+            "FirstReleaseDeferred"                 = "SemiAnnualEnterprisePreview"
+            "InsiderFast"                          = "Beta"
+
             "55336b82-a18d-4dd6-b5f6-9e5095c314a6" = "MonthlyEnterprise"
             "492350f6-3a01-4f97-b9c0-c7c6ddf67d60" = "Current"
             "64256afe-f5d9-4f86-8936-8840a6a4f5be" = "CurrentPreview"
@@ -173,8 +180,9 @@ function Get-ALHOffice365UpdateChannel {
                 # Create an object of type PSCustomObject that's used to carry the information we want to return.
                 $UpdateInfo = [PSCustomObject]@{
                     Computer           = $Computer
-                    ConfiguredChannels = $null
+                    ConfiguredChannels = @()
                     EffectiveChannel   = $null
+                    EffectivePrio      = $null
                 }
 
                 # Check if the specififed computer is online.
@@ -229,6 +237,7 @@ function Get-ALHOffice365UpdateChannel {
                 # Calculate the effective channel.
                 Write-Verbose -Message "[$Computer]: If multiple channels are configued, the one with the lowest priority value wins."
                 $UpdateInfo.EffectiveChannel = ($UpdateInfo.ConfiguredChannels | Sort-Object -Property Prio | Select-Object -First 1).Channel
+                $UpdateInfo.EffectivePrio = ($UpdateInfo.ConfiguredChannels | Sort-Object -Property Prio | Select-Object -First 1).Prio
 
                 # Define custom type name for the PSCustomObject to make sure the custom format is applied.
                 $UpdateInfo.PSObject.TypeNames.Insert(0, "ALHM365AppsUpdateChannel")
