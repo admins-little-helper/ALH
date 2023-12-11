@@ -2,10 +2,6 @@
 
 [README.md](./README.md)
 
-## Version 2.4.1 (2023-12-11)
-
-* Get-ALHOffice365UpdateChannel: Fixed issue with channel names.
-
 ## Version 2.4.0 (2023-12-10)
 
 * Get-ALHADOUPermission: Reworked code.
