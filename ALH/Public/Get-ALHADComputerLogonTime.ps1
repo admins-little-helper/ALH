@@ -190,8 +190,8 @@ function Get-ALHADComputerLogonTime {
                         }
                         $ComputerInfo = Get-ADComputer @GetADComputerParams
 
-                        if ($null -eq $UserInfo) {
-                            Write-Warning -Message "No user with samAccountName [$user] was found in Active Directory!"
+                        if ($null -eq $ComputerInfo) {
+                            Write-Warning -Message "No computer with name [$computer] was found in Active Directory!"
                         }
                         else {
                             $ALHComputerInfo = [PSCustomObject]@{
