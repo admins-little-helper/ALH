@@ -198,9 +198,9 @@ function Get-ALHADComputerLogonTime {
                                 Name               = $ComputerInfo.Name
                                 lastLogon          = [datetime]::FromFileTime($ComputerInfo.lastLogon)
                                 lastLogonTimestamp = [datetime]::FromFileTime($ComputerInfo.lastLogonTimestamp)
-                                DC                 = $DC.Name
-                                DCExists           = $DC.Exists
-                                DCAvailable        = $DC.Available
+                                DCName             = $DC.Name
+                                DCDoesExist        = $DC.Exists
+                                DCIsOnline         = $DC.Available
                             }
 
                             # Add custom type name to PSObject, so that the custom format can be applied.
