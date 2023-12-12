@@ -182,33 +182,38 @@ function Get-ALHADComputerLogonTime {
                     Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j)
                     $j++
 
-                    $ComputerInfo = $null
-
                     if ($DC.Available) {
-                        $ComputerInfo = Get-ADComputer -Server $DC.Name -Filter { Name -eq $computer } -Properties lastLogon, lastLogonTimestamp
-                        $ComputerInfo = $ComputerInfo | Select-Object -Property Name,
-                        @{Name = 'lastLogon'; Expression = { [datetime]::FromFileTime($_.lastLogon) } },
-                        @{Name = 'lastLogonTimestamp'; Expression = { [datetime]::FromFileTime($_.lastLogonTimestamp) } },
-                        @{Name = 'DC'; Expression = { $DC.Name } },
-                        @{Name = 'DCExists'; Expression = { $DC.Exists } },
-                        @{Name = 'DCAvailable'; Expression = { $DC.Available } }
-                    }
-                    else {
-                        $ComputerInfo = [PSCustomObject]@{
-                            Name               = $computer
-                            lastLogon          = ''
-                            lastLogonTimestamp = ''
-                            DC                 = $DC.Name
-                            DCExists           = $DC.Exists
-                            DCAvailable        = $DC.Available
+                        $GetADComputerParams = @{
+                            Server     = $DC.Name
+                            Filter     = { Name -eq $computer }
+                            Properties = @("lastLogon", "lastLogonTimestamp")
+                        }
+                        $ComputerInfo = Get-ADComputer @GetADComputerParams
+
+                        if ($null -eq $UserInfo) {
+                            Write-Warning -Message "No user with samAccountName [$user] was found in Active Directory!"
+                        }
+                        else {
+                            $ALHComputerInfo = [PSCustomObject]@{
+                                Name               = $ComputerInfo.Name
+                                lastLogon          = [datetime]::FromFileTime($ComputerInfo.lastLogon)
+                                lastLogonTimestamp = [datetime]::FromFileTime($ComputerInfo.lastLogonTimestamp)
+                                DC                 = $DC.Name
+                                DCExists           = $DC.Exists
+                                DCAvailable        = $DC.Available
+                            }
+
+                            # Add custom type name to PSObject, so that the custom format can be applied.
+                            $ALHComputerInfo.PSObject.TypeNames.Insert(0, "ALHADComputerInfo")
+
+                            # Return the custom object.
+                            $ALHComputerInfo
                         }
                     }
                 }
                 catch {
                     Write-Error $_
                 }
-
-                $ComputerInfo
             }
         }
     }

@@ -187,39 +187,40 @@ function Get-ALHADUserLogonTime {
                     Write-Progress -Id 1 -Activity "Querying information from DC $($DC.Name)" -Status "$j out of $DCCount done" -PercentComplete $([int] 100 / $DCCount * $j)
                     $j++
 
-                    $ALHUserInfo = [PSCustomObject]@{
-                        Name               = $user
-                        mail               = $null
-                        lastLogon          = $null
-                        lastLogonTimestamp = $null
-                        DCName             = $DC.Name
-                        DCDoesExist        = $DC.Exists
-                        DCIsOnline         = $DC.Available
-                    }
-
                     if ($DC.Available) {
                         $GetADUserParams = @{
                             Server     = $DC.Name
                             Filter     = { samAccountName -eq $user }
-                            Properties = @("mail", "lastLogon", "lastLogonTimestamp")
+                            Properties = @("userPrincipalName", "mail", "lastLogon", "lastLogonTimestamp")
                         }
                         $UserInfo = Get-ADUser @GetADUserParams
 
-                        $ALHUserInfo.Name = $UserInfo.Name
-                        $ALHUserInfo.Mail = $UserInfo.Mail
-                        $ALHUserInfo.lastLogon = [datetime]::FromFileTime($UserInfo.lastLogon)
-                        $ALHUserInfo.lastLogonTimestamp = [datetime]::FromFileTime($UserInfo.lastLogonTimestamp)
-                        $ALHUserInfo.DCName = $DC.Name
-                        $ALHUserInfo.DCDoesExist = $DC.Exists
-                        $ALHUserInfo.DCIsOnline = $DC.Available
+                        if ($null -eq $UserInfo) {
+                            Write-Warning -Message "No user with samAccountName [$user] was found in Active Directory!"
+                        }
+                        else {
+                            $ALHUserInfo = [PSCustomObject]@{
+                                Name               = $UserInfo.Name
+                                UserPrincipalName  = $UserINfo.userPrincipalName
+                                Mail               = $UserInfo.mail
+                                lastLogon          = [datetime]::FromFileTime($UserInfo.lastLogon)
+                                lastLogonTimestamp = [datetime]::FromFileTime($UserInfo.lastLogonTimestamp)
+                                DCName             = $DC.Name
+                                DCDoesExist        = $DC.Exists
+                                DCIsOnline         = $DC.Available
+                            }
+
+                            # Add custom type name to PSObject, so that the custom format can be applied.
+                            $ALHUserInfo.PSObject.TypeNames.Insert(0, "ALHADUserInfo")
+
+                            # Return the custom object.
+                            $ALHUserInfo
+                        }
                     }
                 }
                 catch {
                     Write-Error $_
                 }
-
-                $ALHUserInfo.PSObject.TypeNames.Insert(0, "ALHADUserInfo")
-                $ALHUserInfo
             }
         }
     }

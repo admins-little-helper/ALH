@@ -2,6 +2,11 @@
 
 [README.md](./README.md)
 
+## Version 2.4.2 (2023-12-12)
+
+* Get-ALHADComputerLogonTime: Added custom format for nicer output.
+* Get-ALHADUserLogonTime: Fixed issue in case the specified user identity was not found in Active Directory.
+
 ## Version 2.4.1 (2023-12-11)
 
 * Get-ALHOffice365UpdateChannel: Fixed issue with channel names.
